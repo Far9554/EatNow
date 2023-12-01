@@ -13,6 +13,11 @@ namespace EatNow.Controllers
             _logger = logger;
         }
 
+        public IActionResult Login()
+        {
+            return View();
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -22,6 +27,8 @@ namespace EatNow.Controllers
         {
             return View();
         }
+
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
