@@ -8,15 +8,33 @@ namespace EatNow.Controllers
     public class HomeController : Controller
     {
         private readonly RestauranteDAL restauranteDAL;
+        private readonly ClienteDAL clienteDAL;
 
         public HomeController()
         {
             restauranteDAL = new RestauranteDAL(Conexion.CadenaBBDD);
+            clienteDAL = new ClienteDAL(Conexion.CadenaBBDD);
         }
 
         public IActionResult Login()
         {
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult GetCliente(Cliente cliente)
+        {
+            Console.WriteLine(cliente);
+            cliente = clienteDAL.GetClientByEmailPassword(cliente.CorreoElectronico, cliente.Password);
+
+            if (cliente == null)
+            {
+                TempData["ErrorLoginClientMessage"] = "Tu correo electrónico y/o contrseña son incorrectos";
+                return RedirectToAction("login");
+            }
+            else
+                return RedirectToAction("index");
         }
 
         public IActionResult Index()

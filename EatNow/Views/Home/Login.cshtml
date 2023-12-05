@@ -1,31 +1,42 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
+@model Cliente
 @{
 }
 
 <link rel="stylesheet" type="text/css" href="~/css/login.css">
 
 <div>
+    @if (TempData["ErrorLoginClientMessage"] != null)
+    {
+        <div class="row">
+            <div class="alert danger alert-dismissible fade show" role="alert" style="padding: 1rem 1rem !important; margin-bottom: 1rem!important">
+                <span>@TempData["ErrorLoginClientMessage"]</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            </div>
+        </div>
+    }
     <!-- LOGIN | CLIENTE - TRABAJADOR -->
     <div id="cont1" class="cont row">
-      <div class="form sign-in">
-        <h2>Iniciar Sesion Como Cliente</h2>
-        <label>
-          <span>Correo Electronico</span>
-          <input type="email" name="email">
-        </label>
-        <label>
-          <span>Contraseña</span>
-          <input type="password" name="password">
-        </label>
-        <button class="submit" type="button">Iniciar Sesion</button>
-        <p class="forgot-pass">Has olvidado tu contraseña?</p>
-        <p class="Question">No tienes cuenta?</p>
-        <button class="submit btn-Register" type="button">Registrarse</button>
-        
-      </div>
-  
+        <form asp-action="GetCliente" asp-controller="home" method="post" asp-antiforgery="true">
+            <div class="form sign-in">
+                <h2>Iniciar Sesion Como Cliente</h2>
+                <label>
+                    <span>Correo Electronico</span>
+                    <input asp-for="CorreoElectronico" type="email" name="CorreoElectronico">
+                </label>
+                <label>
+                    <span>Contraseña</span>
+                    <input asp-for="Password" type="password" name="password">
+                </label>
+                <button class="submit" type="submit">Iniciar Sesion</button>
+                <p class="forgot-pass">Has olvidado tu contraseña?</p>
+                <p class="Question">No tienes cuenta?</p>
+                <button class="submit btn-Register" type="button">Registrarse</button>
+            </div>
+        </form>
+
       <div class="sub-cont">
         <div class="img">
           <div class="img-text m-up">
@@ -41,7 +52,7 @@
             <span class="m-in">Cliente</span>
           </div>
         </div>
-        
+
         <div class="form sign-up">
           <h2>Iniciar Sesion Como Trabajador</h2>
           <label>
@@ -57,52 +68,49 @@
       </div>
     </div>
     <br>
-    
+
     <!-- REGISTRARSE -->
     <div id="cont2" class="cont hidden row">
-      <div style="padding-top: 20px !important;">
-        <h2>Registrarse</h2>
-        <label>
-          <span>Nombre</span>
-          <input type="text">
-        </label>
-        <label>
-          <span>Correo Electronico</span>
-          <input type="email">
-        </label>
-        <label>
-            <span>Telefono</span>
-            <input type="tel">
-        </label>
-        <label>
-          <span>Contraseña</span>
-          <input type="password">
-        </label>
-        <button type="button" class="submit register">Registrarse</button>
-        <p class="Question">Tienes cuenta?</p>
-        <button class="submit register btn-Login" type="button">Iniciar Session</button>
-      </div>
+        <div style="padding-top: 20px !important;">
+            <h2>Registrarse</h2>
+            <label>
+                <span>Nombre</span>
+                <input type="text">
+            </label>
+            <label>
+                <span>Correo Electronico</span>
+                <input type="email">
+            </label>
+            <label>
+                <span>Telefono</span>
+                <input type="tel">
+            </label>
+            <label>
+                <span>Contraseña</span>
+                <input type="password">
+            </label>
+            <button type="button" class="submit register">Registrarse</button>
+            <p class="Question">Tienes cuenta?</p>
+            <button class="submit register btn-Login" type="button">Iniciar Session</button>
+        </div>
     </div>
-  </div>
-  
+</div>
+
 <script>
-  document.querySelector('.img-btn').addEventListener('click', function()
-    {
-      document.querySelector('#cont1').classList.toggle('s-signup')
+    document.querySelector('.img-btn').addEventListener('click', function () {
+        document.querySelector('#cont1').classList.toggle('s-signup')
     }
-  );
+    );
 
-  document.querySelector('.btn-Register').addEventListener('click', function()
-    {
-      document.querySelector('#cont1').classList.toggle('hidden')
-      document.querySelector('#cont2').classList.toggle('hidden')
+    document.querySelector('.btn-Register').addEventListener('click', function () {
+        document.querySelector('#cont1').classList.toggle('hidden')
+        document.querySelector('#cont2').classList.toggle('hidden')
     }
-  );
+    );
 
-  document.querySelector('.btn-Login').addEventListener('click', function()
-    {
-      document.querySelector('#cont1').classList.toggle('hidden')
-      document.querySelector('#cont2').classList.toggle('hidden')
+    document.querySelector('.btn-Login').addEventListener('click', function () {
+        document.querySelector('#cont1').classList.toggle('hidden')
+        document.querySelector('#cont2').classList.toggle('hidden')
     }
-  );
+    );
 </script>

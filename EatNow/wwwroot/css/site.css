@@ -46,7 +46,7 @@ button {
 .btn.info { background-color: #252a39; }
 .btn.success { background-color: #7a9a51; }
 .btn.warning { background-color: #f88a19; }
-.btn.danger { background-color: #f44336; }
+.btn.danger, .alert.danger { background-color: #f44336; color: #F7F9F7; }
 /*--Texto--*/
 p.primary, label.primary { color: #e66854; }
 p.info, label.info { color: #252a39; }
