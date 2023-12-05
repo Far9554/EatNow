@@ -73,25 +73,27 @@
     <div id="cont2" class="cont hidden row">
         <div style="padding-top: 20px !important;">
             <h2>Registrarse</h2>
-            <label>
-                <span>Nombre</span>
-                <input type="text">
-            </label>
-            <label>
-                <span>Correo Electronico</span>
-                <input type="email">
-            </label>
-            <label>
-                <span>Telefono</span>
-                <input type="tel">
-            </label>
-            <label>
-                <span>Contraseña</span>
-                <input type="password">
-            </label>
-            <button type="button" class="submit register">Registrarse</button>
-            <p class="Question">Tienes cuenta?</p>
-            <button class="submit register btn-Login" type="button">Iniciar Session</button>
+            <form asp-action="Register" asp-controller="home" method="post" asp-antiforgery="true">
+                <label>
+                    <span>Nombre</span>
+                    <input asp-for="Nombre" type="text" name="Nombre">
+                </label>
+                <label>
+                    <span>Correo Electronico</span>
+                    <input asp-for="CorreoElectronico" type="email" name="CorreoElectronico">
+                </label>
+                <label>
+                    <span>Telefono</span>
+                    <input asp-for="Telefono" type="tel" name="Telefono">
+                </label>
+                <label>
+                    <span>Contraseña</span>
+                    <input asp-for="Password" type="password" name="Password">
+                </label>
+                <button type="submit" class="submit register">Registrarse</button>
+                <p class="Question">Tienes cuenta?</p>
+                <button class="submit register btn-Login" type="button">Iniciar Sesion</button>
+            </form>
         </div>
     </div>
 </div>

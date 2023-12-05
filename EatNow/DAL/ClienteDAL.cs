@@ -24,7 +24,7 @@ namespace EatNow.DAL
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Email", email);
-                    command.Parameters.AddWithValue("password", password);
+                    command.Parameters.AddWithValue("@Password", password);
 
                     connection.Open();
                     using (SqlDataReader reader = command.ExecuteReader())
@@ -37,7 +37,7 @@ namespace EatNow.DAL
                                 CorreoElectronico = reader["CorreoElectronico"].ToString(),
                                 Password = reader["Password"].ToString(),
                                 Nombre = reader["Nombre"].ToString(),
-                                Apellidos = reader["Apellidos"].ToString(),
+                                Apellidos = (reader["Apellidos"] != DBNull.Value) ? reader["Apellidos"].ToString() : null,
                                 Telefono = reader["Telefono"].ToString(),
                                 URLFoto = (reader["URLFoto"] != DBNull.Value) ? reader["URLFoto"].ToString() : null
                             };
@@ -47,6 +47,26 @@ namespace EatNow.DAL
             }
 
             return cliente;
+        }
+
+        public void InsertClient(Cliente cliente)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string query = "INSERT INTO Cliente (CorreoElectronico, Password, Nombre, Telefono) " +
+                               "VALUES (@CorreoElectronico, @Password, @Nombre, @Telefono)";
+                               
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@CorreoElectronico", cliente.CorreoElectronico);
+                    command.Parameters.AddWithValue("@Password", cliente.Password);
+                    command.Parameters.AddWithValue("@Nombre", cliente.Nombre);
+                    command.Parameters.AddWithValue("@Telefono", cliente.Telefono);
+
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
         }
     }
 }

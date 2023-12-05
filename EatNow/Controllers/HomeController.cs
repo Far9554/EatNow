@@ -25,7 +25,6 @@ namespace EatNow.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult GetCliente(Cliente cliente)
         {
-            Console.WriteLine(cliente);
             cliente = clienteDAL.GetClientByEmailPassword(cliente.CorreoElectronico, cliente.Password);
 
             if (cliente == null)
@@ -35,6 +34,14 @@ namespace EatNow.Controllers
             }
             else
                 return RedirectToAction("index");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Register(Cliente cliente)
+        {
+            clienteDAL.InsertClient(cliente);
+            return RedirectToAction("login");
         }
 
         public IActionResult Index()
