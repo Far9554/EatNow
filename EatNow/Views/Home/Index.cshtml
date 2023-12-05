@@ -1,9 +1,13 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+@model List<Restaurante>
 
 <h1>Lista Restaurantes</h1>
 
-
-
-
+<ul>
+    @foreach (Restaurante restaurante in Model)
+    {
+        <li>@restaurante.Nombre , @restaurante.Direccion , @restaurante.Telefono</li>
+    }
+</ul>

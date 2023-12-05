@@ -1,4 +1,5 @@
-﻿using EatNow.Models;
+﻿using EatNow.DAL;
+using EatNow.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -6,11 +7,11 @@ namespace EatNow.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly RestauranteDAL restauranteDAL;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController()
         {
-            _logger = logger;
+            restauranteDAL = new RestauranteDAL(Conexion.CadenaBBDD);
         }
 
         public IActionResult Login()
@@ -20,7 +21,10 @@ namespace EatNow.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            List<Restaurante> listRestaurants = new List<Restaurante>();
+            listRestaurants = restauranteDAL.GetAllRestaurants();
+
+            return View(listRestaurants);
         }
 
         public IActionResult Privacy()
