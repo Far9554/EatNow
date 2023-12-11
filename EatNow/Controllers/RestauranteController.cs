@@ -45,7 +45,17 @@ namespace EatNow.Controllers
             }
         }
 
-        public IActionResult mapaRestaurante()
+        public IActionResult MapaRestaurante()
+        {
+            return View();
+        }
+
+        public IActionResult ListReservasRestaurante()
+        {
+            return View();
+        }
+
+        public IActionResult ConfirmacionReserva()
         {
             return View();
         }
