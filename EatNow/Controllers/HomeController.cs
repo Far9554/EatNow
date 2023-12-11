@@ -20,6 +20,14 @@ namespace EatNow.Controllers
 
         public IActionResult Login()
         {
+            // Si ha iniciado sesión le redirigimos a la pantalla de lista de restaurantes
+            /*if (Request.Cookies["IdCliente"] != null)
+                return RedirectToAction("index");
+            // Si ha iniciado sesión como empleado le redirigimos a la vista principal de empleado
+            else if (Request.Cookies["IdEmpleado"] != null)
+                // TODO: Cambiar la ruta a la que se dirige
+                return RedirectToAction("ListReservasRestaurante", "Restaurante");
+            else*/
             return View();
         }
 
@@ -36,8 +44,12 @@ namespace EatNow.Controllers
             }
             else
             {
-                // Guardamos el objeto cliente en el ViewBag
-                ViewBag.Cliente = cliente;
+                // Guardamos una cookie con el IdCliente
+                CookieOptions options = new CookieOptions();
+                options.Expires = DateTime.Now.AddDays(1);
+
+                Response.Cookies.Append("IdCliente", cliente.IdCliente.ToString());
+
                 return RedirectToAction("index");
             }
         }
@@ -70,10 +82,14 @@ namespace EatNow.Controllers
             }
             else
             {
-                // Guardamos el objeto empleado en el ViewBag
-                ViewBag.Empleado = empleado;
+                // Guardamos una cookie con el IdEmpleado
+                CookieOptions options = new CookieOptions();
+                options.Expires = DateTime.Now.AddDays(1);
+
+                Response.Cookies.Append("IdEmpleado", empleado.IdEmpleado.ToString());
+
                 // TODO: Cambiar la ruta a la que se dirige
-                return RedirectToAction("index");
+                return RedirectToAction("ListReservasRestaurante", "Restaurante");
             }
         }
 
