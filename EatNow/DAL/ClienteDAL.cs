@@ -68,5 +68,67 @@ namespace EatNow.DAL
                 }
             }
         }
+
+        public Cliente GetClientById(int idCliente)
+        {
+            Cliente cliente = null;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string query = "SELECT IdCliente, CorreoElectronico, Password, Nombre, Apellidos, Telefono, URLFoto " +
+                               "FROM Cliente WHERE IdCliente = @IdCliente";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@IdCliente", idCliente);
+
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            cliente = new Cliente
+                            {
+                                IdCliente = int.Parse(reader["IdCliente"].ToString()),
+                                CorreoElectronico = reader["CorreoElectronico"].ToString(),
+                                Password = reader["Password"].ToString(),
+                                Nombre = reader["Nombre"].ToString(),
+                                Apellidos = (reader["Apellidos"] != DBNull.Value) ? reader["Apellidos"].ToString() : null,
+                                Telefono = reader["Telefono"].ToString(),
+                                URLFoto = (reader["URLFoto"] != DBNull.Value) ? reader["URLFoto"].ToString() : null
+                            };
+                        }
+                    }
+                }
+            }
+
+            return cliente;
+        }
+
+        public int UpdateClient(Cliente cliente)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string query = "UPDATE Cliente " + 
+                               "SET CorreoElectronico = @Email, Password = @Password, Nombre = @Nombre, " + 
+                               "Apellidos = @Apellidos, Telefono = @Telefono, URLFoto = @URLFoto " +
+                               "WHERE IdCliente = @IdCliente";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@IdCliente", cliente.IdCliente);
+                    command.Parameters.AddWithValue("@Email", cliente.CorreoElectronico);
+                    command.Parameters.AddWithValue("@Password", cliente.Password);
+                    command.Parameters.AddWithValue("@Nombre", cliente.Nombre);
+                    command.Parameters.AddWithValue("@Apellidos", cliente.Apellidos);
+                    command.Parameters.AddWithValue("@Telefono", cliente.Telefono);
+                    command.Parameters.AddWithValue("@URLFoto", cliente.URLFoto);
+
+                    connection.Open();
+
+                    return command.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }
