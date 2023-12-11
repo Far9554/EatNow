@@ -33,14 +33,25 @@ namespace EatNow.Controllers
                 return RedirectToAction("login");
             }
             else
+            {
+                // Guardamos el objeto cliente en el ViewBag
+                ViewBag.Cliente = cliente;
                 return RedirectToAction("index");
+            }
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Register(Cliente cliente)
         {
-            clienteDAL.InsertClient(cliente);
+            int affectedRows = clienteDAL.InsertClient(cliente);
+
+            // Si devuelve -1 ha habido un error
+            if (affectedRows == -1)
+                TempData["ErrorCreatingClient"] = "Ha habido un error al crear tu cuenta, vuelve a intentarlo";
+            else if (affectedRows == 1)
+                TempData["ClientCreatedMessage"] = "Cuenta creada correctamente!";
+                
             return RedirectToAction("login");
         }
 
@@ -56,8 +67,6 @@ namespace EatNow.Controllers
         {
             return View();
         }
-
-
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

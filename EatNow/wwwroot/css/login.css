@@ -329,7 +329,7 @@ button {
     transform: translate3d(0, 0, 0);
 }
 
-div.alert.danger > button[aria-label="Close"] {
+div.alert.danger > button[aria-label="Close"], div.alert.success > button[aria-label="Close"] {
     padding: 1.25rem 1rem !important;
     width: 1em !important;
     height: 1em !important;

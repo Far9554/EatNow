@@ -8,15 +8,33 @@
 <link rel="stylesheet" type="text/css" href="~/css/login.css">
 
 <div>
-    @if (TempData["ErrorLoginClientMessage"] != null)
+    @if (TempData["ErrorLoginClientMessage"] != null || TempData["ErrorCreatingClient"] != null)
     {
         <div class="row">
             <div class="alert danger alert-dismissible fade show" role="alert" style="padding: 1rem 1rem !important; margin-bottom: 1rem!important">
-                <span>@TempData["ErrorLoginClientMessage"]</span>
+                @if (TempData["ErrorLoginClientMessage"] != null)
+                {
+                    <span>@TempData["ErrorLoginClientMessage"]</span>
+                }
+                else if (TempData["ErrorCreatingClient"] != null)
+                {
+                    <span>@TempData["ErrorCreatingClient"]</span>
+                }
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
             </div>
         </div>
     }
+
+    @if (TempData["ClientCreatedMessage"] != null)
+    {
+        <div class="row">
+            <div class="alert success alert-dismissible fade show" role="alert" style="padding: 1rem 1rem !important; margin-bottom: 1rem!important">
+                <span style="color: white;">@TempData["ClientCreatedMessage"]</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            </div>
+        </div>
+    }
+
     <!-- LOGIN | CLIENTE - TRABAJADOR -->
     <div id="cont1" class="cont row">
         <form asp-action="GetCliente" asp-controller="home" method="post" asp-antiforgery="true">

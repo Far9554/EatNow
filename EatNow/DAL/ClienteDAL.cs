@@ -49,7 +49,7 @@ namespace EatNow.DAL
             return cliente;
         }
 
-        public void InsertClient(Cliente cliente)
+        public int InsertClient(Cliente cliente)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -64,7 +64,7 @@ namespace EatNow.DAL
                     command.Parameters.AddWithValue("@Telefono", cliente.Telefono);
 
                     connection.Open();
-                    command.ExecuteNonQuery();
+                    return command.ExecuteNonQuery();
                 }
             }
         }
