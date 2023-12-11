@@ -53,3 +53,27 @@ p.info, label.info { color: #252a39; }
 p.success, label.success { color: #7a9a51; }
 p.warning, label.warning { color: #f88a19; }
 p.danger, label.danger { color: #f44336; }
+
+/* width */
+::-webkit-scrollbar {
+    width: 15px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #F7F9F7;
+    -webkit-box-shadow: inset 0 0 6px #25293A;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #EC992E;
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #BD4760;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+}

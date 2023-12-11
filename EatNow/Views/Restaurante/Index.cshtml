@@ -1,0 +1,57 @@
+﻿@{
+    ViewData["Title"] = "Informacion Restaurante Restaurante";
+}
+@model Restaurante
+
+<link rel="stylesheet" type="text/css" href="~/css/infoRestaurante.css">
+
+<div id="main-container">
+    <div id="info">
+        <div id="portada">
+            <h1>@Model.Nombre</h1>
+            <img src="../img/waitress-serving-customer-at-the-coffee-shop-photo.jpg">
+        </div>
+        <div id="cont-info">
+            <div class="horario">
+                <button class="past">8:00</button>
+                <button class="past">8:30</button>
+                <button class="past">9:00</button>
+                <button class="past">9:30</button>
+                <button class="clean">10:00</button>
+                <button class="clean">10:30</button>
+                <button class="clean">11:00</button>
+                <button class="clean">11:30</button>
+                <button class="mid">12:00</button>
+                <button class="mid">12:30</button>
+                <button class="full">13:00</button>
+                <button class="full">13:30</button>
+                <button class="mid">14:00</button>
+                <button class="mid">14:30</button>
+                <button class="clean">15:00</button>
+                <button class="clean">15:30</button>
+            </div>
+            <div class="block">
+                <p>@Model.Direccion</p>
+                <p>(@Model.Telefono) <a href="@Model.Web">@Model.Web</a></p>
+                <p class="desc">@Model.Descripcion</p>
+            </div>
+        </div>
+    </div>
+    <div id="cont-menu">
+        <div id="menu">
+            <label class="plato"><img src="../img/noImage.png"></label>
+            <label class="plato"><img src="../img/noImage.png"></label>
+            <label class="plato"><img src="../img/noImage.png"></label>
+            <label class="plato"><img src="../img/noImage.png"></label>
+            <label class="plato"><img src="../img/noImage.png"></label>
+            <label class="plato"><img src="../img/noImage.png"></label>
+            <label class="plato"><img src="../img/noImage.png"></label>
+            <label class="plato"><img src="../img/noImage.png"></label>
+        </div>
+        <form asp-area="" asp-controller="restaurante" asp-action="mapaRestaurante">
+            <div id="reserva">
+                <button class="btn submit" type="submit">RESERVA YA!</button>
+            </div>
+        </form>
+    </div>
+</div>

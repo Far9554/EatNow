@@ -44,7 +44,7 @@
     <div class="container">
         @foreach (Restaurante restaurante in Model)
         {
-            <form asp-action="GetRestaurante" asp-controller="restaurante" method="post" asp-antiforgery="true">
+            <form asp-action="Index" asp-controller="restaurante" method="post" asp-antiforgery="true">
                 <div class="restaurante">
                     <div class="cont-img">
                         <img src="../img/waitress-serving-customer-at-the-coffee-shop-photo.jpg">
@@ -58,6 +58,7 @@
                             <div class="horario">
                                 <label>@restaurante.HoraApertura</label>
                                 <label>@restaurante.HoraCierre</label>
+                                <input type="number" name="IdRestaurante" style="visibility: hidden;" value="@restaurante.IdRestaurante">
                             </div>
                         </div>
                         <div class="reservar">
@@ -69,12 +70,5 @@
         }
     </div>
 </div>
-
-<ul>
-    @foreach (Restaurante restaurante in Model)
-    {
-        <li>@restaurante.Nombre , @restaurante.Direccion , @restaurante.Telefono</li>
-    }
-</ul>
 
 <script src="~/js/mainPage.js" asp-append-version="true"></script>

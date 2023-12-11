@@ -2,6 +2,7 @@
 using EatNow.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace EatNow.Controllers
 {
@@ -22,17 +23,11 @@ namespace EatNow.Controllers
             return View();
         }
 
-        // GET: RestauranteController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult GetRestaurante(Restaurante restaurante)
+        public IActionResult Index(int idRestaurante)
         {
-            restaurante = restauranteDAL.GetRestaurantById(restaurante.IdRestaurante);
+            Restaurante restaurante = restauranteDAL.GetRestaurantById(idRestaurante);
 
             if (restaurante == null)
             {
@@ -40,7 +35,7 @@ namespace EatNow.Controllers
                 listRestaurants = restauranteDAL.GetAllRestaurants();
 
                 TempData["ErrorLoginClientMessage"] = "El restaurante no existe";
-                return View(listRestaurants);
+                return RedirectToAction("Home/Index");
             }
             else
             {
@@ -50,25 +45,9 @@ namespace EatNow.Controllers
             }
         }
 
-        // GET: RestauranteController/Delete/5
-        public ActionResult Delete(int id)
+        public IActionResult mapaRestaurante()
         {
             return View();
-        }
-
-        // POST: RestauranteController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
         }
     }
 }
