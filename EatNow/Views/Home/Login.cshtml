@@ -8,13 +8,13 @@
 <link rel="stylesheet" type="text/css" href="~/css/login.css">
 
 <div>
-    @if (TempData["ErrorLoginClientMessage"] != null || TempData["ErrorCreatingClient"] != null)
+    @if (TempData["ErrorLoginMessage"] != null || TempData["ErrorCreatingClient"] != null)
     {
         <div class="row">
             <div class="alert danger alert-dismissible fade show" role="alert" style="padding: 1rem 1rem !important; margin-bottom: 1rem!important">
-                @if (TempData["ErrorLoginClientMessage"] != null)
+                @if (TempData["ErrorLoginMessage"] != null)
                 {
-                    <span>@TempData["ErrorLoginClientMessage"]</span>
+                    <span>@TempData["ErrorLoginMessage"]</span>
                 }
                 else if (TempData["ErrorCreatingClient"] != null)
                 {
@@ -72,16 +72,18 @@
         </div>
 
         <div class="form sign-up">
-          <h2>Iniciar Sesion Como Trabajador</h2>
-          <label>
-            <span>Correo Electronico</span>
-            <input type="email" name="email">
-          </label>
-          <label>
-            <span>Contraseña</span>
-            <input type="password" name="password">
-          </label>
-          <button class="submit" type="button">Iniciar Sesion</button>
+            <form asp-action="GetEmpleado" asp-controller="home" method="post" asp-antiforgery="true">
+                <h2>Iniciar Sesion Como Trabajador</h2>
+                <label>
+                    <span>Correo Electronico</span>
+                    <input type="email" name="email">
+                </label>
+                <label>
+                    <span>Contraseña</span>
+                    <input type="password" name="password">
+                </label>
+                <button class="submit" type="submit">Iniciar Sesion</button>
+            </form>
         </div>
       </div>
     </div>

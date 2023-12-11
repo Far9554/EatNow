@@ -9,11 +9,13 @@ namespace EatNow.Controllers
     {
         private readonly RestauranteDAL restauranteDAL;
         private readonly ClienteDAL clienteDAL;
+        private readonly EmpleadoDAL empleadoDAL;
 
         public HomeController()
         {
             restauranteDAL = new RestauranteDAL(Conexion.CadenaBBDD);
             clienteDAL = new ClienteDAL(Conexion.CadenaBBDD);
+            empleadoDAL = new EmpleadoDAL(Conexion.CadenaBBDD);
         }
 
         public IActionResult Login()
@@ -29,7 +31,7 @@ namespace EatNow.Controllers
 
             if (cliente == null)
             {
-                TempData["ErrorLoginClientMessage"] = "Tu correo electrónico y/o contrseña son incorrectos";
+                TempData["ErrorLoginMessage"] = "Tu correo electrónico y/o contrseña son incorrectos";
                 return RedirectToAction("login");
             }
             else
@@ -53,6 +55,26 @@ namespace EatNow.Controllers
                 TempData["ClientCreatedMessage"] = "Cuenta creada correctamente!";
                 
             return RedirectToAction("login");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult GetEmpleado(string email, string password)
+        {
+            Empleado empleado = empleadoDAL.GetEmployeeByEmailPassword(email, password);
+            
+            if (empleado == null)
+            {
+                TempData["ErrorLoginMessage"] = "Tu correo electrónico y/o contrseña son incorrectos";
+                return RedirectToAction("login");
+            }
+            else
+            {
+                // Guardamos el objeto empleado en el ViewBag
+                ViewBag.Empleado = empleado;
+                // TODO: Cambiar la ruta a la que se dirige
+                return RedirectToAction("index");
+            }
         }
 
         public IActionResult Index()
