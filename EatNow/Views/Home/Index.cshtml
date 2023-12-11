@@ -26,7 +26,7 @@
                         <input type="text" placeholder="Nombre Restaurante" />
                     </label>
                 </div>
-                <button class="btn info">Buscar</button>
+                <button class="btn info" type="submit">Buscar</button>
             </form>
         </div>
         <div class="filter-container container">
@@ -44,7 +44,7 @@
     <div class="container">
         @foreach (Restaurante restaurante in Model)
         {
-            <form asp-action="GetRestaurante" asp-controller="home" method="post" asp-antiforgery="true">
+            <form asp-action="GetRestaurante" asp-controller="restaurante" method="post" asp-antiforgery="true">
                 <div class="restaurante">
                     <div class="cont-img">
                         <img src="../img/waitress-serving-customer-at-the-coffee-shop-photo.jpg">
@@ -61,7 +61,7 @@
                             </div>
                         </div>
                         <div class="reservar">
-                            <button class="btn submit" type="button">Reservar</button>
+                            <button class="btn submit" type="submit">Reservar</button>
                         </div>
                     </div>
                 </div>
