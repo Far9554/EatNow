@@ -19,5 +19,20 @@ namespace EatNow.Controllers
             
             return View(cliente);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult UpdateClient(Cliente cliente)
+        {
+            cliente.IdCliente = int.Parse(Request.Cookies["IdCliente"]);
+            int affectedRows = clienteDAL.UpdateClient(cliente);
+
+            if (affectedRows != -1)
+                TempData["ClientUpdatedMessage"] = "Datos actualizados correctamente!";
+            else
+                TempData["ErrorUpdatingMessage"] = "Ha habido un error al actualizar los datos";
+
+            return RedirectToAction("InfoUsuario");
+        }
     }
 }

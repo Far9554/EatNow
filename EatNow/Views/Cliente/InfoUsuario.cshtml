@@ -3,27 +3,52 @@
 *@
 @model Cliente
 
+@if (TempData["ClientUpdatedMessage"] != null)
+{
+    <div class="row">
+        <div class="alert success alert-dismissible fade show" role="alert" style="padding: 1rem 1rem !important; margin-bottom: 1rem!important">
+            <span style="color: white;">@TempData["ClientUpdatedMessage"]</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+        </div>
+    </div>
+}
+
+@if (TempData["ErrorUpdatingMessage"] != null)
+{
+    <div class="row">
+        <div class="alert danger alert-dismissible fade show" role="alert" style="padding: 1rem 1rem !important; margin-bottom: 1rem!important">
+            <span>@TempData["ErrorUpdatingMessage"]</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+        </div>
+    </div>
+}
+
 <h1>INFORMACION CLIENTE</h1>
 
-<form asp-action="UpdateClient" asp-controller="" method="post" asp-antiforgery="true">
-    <label>
+<form asp-action="UpdateClient" asp-controller="cliente" method="post" asp-antiforgery="true">
+    <div>
         <span>Correo Electronico</span>
         <input asp-for="CorreoElectronico" type="email" name="CorreoElectronico" value=@Model.CorreoElectronico>
-    </label>
-    <label>
+    </div>
+    <div>
+        <span>Password</span>
+        <input asp-for="Password" type="password" name="Password" value=@Model.Password />
+    </div>
+    <div>
         <span>Nombre</span>
         <input asp-for="Nombre" type="text" name="Nombre" value=@Model.Nombre>
-    </label>
-    <label>
+    </div>
+    <div>
         <span>Apellidos</span>
         <input asp-for="Apellidos" type="text" name="Apellidos" value=@Model.Apellidos>
-    </label>
-    <label>
+    </div>
+    <div>
         <span>Telefono</span>
         <input asp-for="Telefono" type="text" name="Telefono" value=@Model.Telefono>
-    </label>
-    <label>
+    </div>
+    <div>
         <span>URLFoto</span>
         <input asp-for="URLFoto" type="text" name="URLFoto" value=@Model.URLFoto>
-    </label>
+    </div>
+    <button class="submit" type="submit">Guardar</button>
 </form>

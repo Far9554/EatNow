@@ -16,5 +16,7 @@ namespace EatNow.Models
 
         [Required]
         public int RIdRestaurante { get; set; }
+
+        public string URLImagen { get; set; }
     }
 }

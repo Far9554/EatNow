@@ -86,5 +86,32 @@ namespace EatNow.DAL
 
             return restaurant;
         }
+
+        public int UpdateRestaurant(Restaurante restaurant)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string query = "UPDATE Restaurante " +
+                               "SET Nombre = @Nombre, Direccion = @Direccion, Telefono = @Telefono, " +
+                               "Web = @Web, Descripcion = @Descripcion, HoraApertura = @HoraApertura, HoraCierre = @HoraCierre " +
+                               "WHERE IdRestaurante = @IdRestaurante";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@IdRestaurante", restaurant.IdRestaurante);
+                    command.Parameters.AddWithValue("@Nombre", restaurant.Nombre);
+                    command.Parameters.AddWithValue("@Direccion", restaurant.Direccion);
+                    command.Parameters.AddWithValue("@Telefono", restaurant.Telefono);
+                    command.Parameters.AddWithValue("@Web", (restaurant.Web == null) ? DBNull.Value : restaurant.Web);
+                    command.Parameters.AddWithValue("@Descripcion", (restaurant.Descripcion == null) ? DBNull.Value : restaurant.Descripcion);
+                    command.Parameters.AddWithValue("@HoraApertura", restaurant.HoraApertura);
+                    command.Parameters.AddWithValue("@HoraCierre", restaurant.HoraCierre);
+
+                    connection.Open();
+
+                    return command.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }
