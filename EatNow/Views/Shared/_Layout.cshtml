@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - EatNow</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/EatNow.styles.css" asp-append-version="true" />
@@ -20,14 +21,6 @@
 
 
         <style>
-        body {
-            width: 100%;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-
-            background: -webkit-linear-gradient(left, #EC992E, #E76954);
-        }
 
         .header {
             background-color: #252a39;
@@ -83,41 +76,10 @@
             transition: all 0.3s;
         }
 
-            .header #btn-iniciar-sesion:hover {
+        .header #btn-iniciar-sesion:hover {
                 transform: scale(1.05);
                 background: -webkit-linear-gradient(left, #EC992E, #E76954);
-            }
-
-        /* DESCOMENTAR SOLO SI HAY MAS OPCIONES EN LA NAVBAR
-        .header .nav-links {
-            list-style: none;
         }
-
-        .header .nav-links li {
-            display: inline-block;
-            padding: 0 30px;
-        }
-
-        .header .nav-links li a.active {
-            text-decoration-line: underline;
-            text-decoration-style: double;
-
-        }
-
-        .header .nav-links li:hover {
-            transform: scale(1.2);
-            transition: all 0.3s;
-        }
-
-        .header .nav-links li a {
-            color: #f88a19;
-            text-decoration: none;
-        }
-
-        .header .nav-links li a:hover {
-            color: #f88a19;
-        }
-*/
         .header .perfil {
             width: 50px;
             height: 50px;
@@ -155,20 +117,26 @@
                     </tr>
                 </table> 
             </div>
-            @if (1 + 2 == 2)
+
+
+            @if (ViewBag.IdCliente != null )
             {
                 <img class="perfil" src="perfil.png" alt="" data-bs-toggle="popover" data-bs-placement="bottom"
-                     data-bs-custom-class="custom-popover" data-bs-html="true" data-bs-content='
+                data-bs-custom-class="custom-popover" data-bs-html="true" data-bs-content='
                 <a href="#link1" class="text-decoration-none text-black"><i class="fa-solid fa-utensils"></i> &nbsp Historial reservas</a><br>
-                <a href="#link2" class="text-decoration-none text-black"><i class="fa-solid fa-user-pen"></i> &nbsp Editar perfil</a><br>
+                <a href="#link2" class="text-decoration-none text-black"><i class="fa-solid fa-user-pen"></i> &nbsp Ver/Editar perfil</a><br>
                 <a href="#link3" class="text-decoration-none text-black"><i class="fa-solid fa-right-from-bracket"></i> &nbsp Cerrar cesion</a><br>'/>
             }
             else
             {
-                <button id="btn-iniciar-sesion">Iniciar sesion</button>
+                <form asp-action="Login" asp-controller="Home" method="post" asp-antiforgery="true">
+                    <button id="btn-iniciar-sesion">Iniciar sesion</button>
+                </form>
+                
             }
 
         </nav>
+        </header>
 
     <div class="container">
         <main role="main" class="pb-3">

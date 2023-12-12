@@ -7,7 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Update="Views\Reservas\ListReservas.cshtml">
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Views\Cliente\ListReservasUsuario.cshtml">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
