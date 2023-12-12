@@ -3,6 +3,8 @@
 *@
 @model Cliente
 
+<link rel="stylesheet" type="text/css" href="~/css/infoPerfil.css">
+
 @if (TempData["ClientUpdatedMessage"] != null)
 {
     <div class="row">
@@ -23,32 +25,76 @@
     </div>
 }
 
-<h1>INFORMACION CLIENTE</h1>
+<div id="main-container">
+    <!-- INFORMACION DEL USUARIO -->
+    <div id="informacion-user" class="Selected">
+        <div id="cont-img">
+            <img src="@Model.URLFoto">
+        </div>
+        <div id="info-cont">
+            <div id="info">
+                <div style="width: 40%;">
+                    <div class="inf"><label>Nombre:</label></div>
+                    <div class="inf"><label>Apellido:</label></div>
+                    <div class="inf"><label>Telefono:</label></div>
+                    <div class="inf"><label>Correo Electronico:</label></div>
+                </div>
+                <div style="width: 60%;">
+                    <div class="inf"><label>@Model.Nombre</label></div>
+                    <div class="inf"><label>@Model.Apellidos</label></div>
+                    <div class="inf"><label>@Model.Telefono</label></div>
+                    <div class="inf"><label>@Model.CorreoElectronico</label></div>
+                </div>
+            </div>
 
-<form asp-action="UpdateClient" asp-controller="cliente" method="post" asp-antiforgery="true">
-    <div>
-        <span>Correo Electronico</span>
-        <input asp-for="CorreoElectronico" type="email" name="CorreoElectronico" value=@Model.CorreoElectronico>
+            <button onclick="ToogleEditUser()" class="btn info"> <i class="fa fa-solid fa-pencil"></i>Editar</button>
+        </div>
     </div>
-    <div>
-        <span>Password</span>
-        <input asp-for="Password" type="password" name="Password" value=@Model.Password />
+    <!-- FORMULARIO INFORMACION DEL USUARIO -->
+    <div id="editar-user">
+        <form style="margin: 15px;" asp-action="UpdateClient" asp-controller="cliente" method="post" asp-antiforgery="true">
+            <div id="titulo">
+                <span>Formulario perfil usuario</span>
+            </div>
+            <div class="input-box">
+                <input asp-for="Nombre" type="text" name="Nombre" value=@Model.Nombre>
+                <span>Nombre</span>
+            </div>
+            <div class="input-box">
+                <input asp-for="Apellidos" type="text" name="Apellidos" value=@Model.Apellidos>
+                <span>Apellido</span>
+            </div>
+            <div class="input-box">
+                <input asp-for="Telefono" type="text" name="Telefono" value=@Model.Telefono>
+                <span>Telefono</span>
+            </div>
+            <div class="input-box">
+                <input asp-for="CorreoElectronico" type="email" name="CorreoElectronico" value=@Model.CorreoElectronico>
+                <span>Correo electronico</span>
+            </div>
+            <div class="input-box">
+                <input asp-for="URLFoto" type="text" name="URLFoto" value=@Model.URLFoto>
+                <span>URL Foto Perfil</span>
+            </div>
+            <div class="input-box">
+                <input asp-for="Password" type="password" name="Password" value=@Model.Password>
+                <span>Contraseña</span>
+            </div>
+
+            <div style="display: flex; margin-top: 10px;">
+                <button onclick="ToogleEditUser()" type="reset" class="btn danger">CANCELAR</button>
+                <button type="submit" class="btn success">GUARDAR</button>
+            </div>
+        </form>
     </div>
-    <div>
-        <span>Nombre</span>
-        <input asp-for="Nombre" type="text" name="Nombre" value=@Model.Nombre>
-    </div>
-    <div>
-        <span>Apellidos</span>
-        <input asp-for="Apellidos" type="text" name="Apellidos" value=@Model.Apellidos>
-    </div>
-    <div>
-        <span>Telefono</span>
-        <input asp-for="Telefono" type="text" name="Telefono" value=@Model.Telefono>
-    </div>
-    <div>
-        <span>URLFoto</span>
-        <input asp-for="URLFoto" type="text" name="URLFoto" value=@Model.URLFoto>
-    </div>
-    <button class="submit" type="submit">Guardar</button>
-</form>
+</div>
+
+<script>
+    let InfoUser = document.getElementById("informacion-user");
+    let EditUser = document.getElementById("editar-user");
+
+    function ToogleEditUser() {
+        InfoUser.classList.toggle("Selected");
+        EditUser.classList.toggle("Selected");
+    }
+</script>
