@@ -51,7 +51,8 @@ namespace EatNow.Controllers
                 Response.Cookies.Append("IdCliente", cliente.IdCliente.ToString());
                 ViewBag.IdCliente = cliente.IdCliente;
 
-                return RedirectToAction("index");
+                //return RedirectToAction("index");
+                return Redirect("Index");
             }
         }
 
@@ -98,6 +99,9 @@ namespace EatNow.Controllers
         {
             List<Restaurante> listRestaurants = new List<Restaurante>();
             listRestaurants = restauranteDAL.GetAllRestaurants();
+
+            if (Request.Cookies["IdCliente"] != null)
+                ViewBag.IdCliente = Request.Cookies["IdCliente"];
 
             return View(listRestaurants);
         }
