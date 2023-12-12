@@ -120,9 +120,9 @@ namespace EatNow.DAL
                     command.Parameters.AddWithValue("@Email", cliente.CorreoElectronico);
                     command.Parameters.AddWithValue("@Password", cliente.Password);
                     command.Parameters.AddWithValue("@Nombre", cliente.Nombre);
-                    command.Parameters.AddWithValue("@Apellidos", cliente.Apellidos);
+                    command.Parameters.AddWithValue("@Apellidos", (cliente.Apellidos == null) ? DBNull.Value : cliente.Apellidos);
                     command.Parameters.AddWithValue("@Telefono", cliente.Telefono);
-                    command.Parameters.AddWithValue("@URLFoto", cliente.URLFoto);
+                    command.Parameters.AddWithValue("@URLFoto", (cliente.URLFoto == null) ? DBNull.Value : cliente.URLFoto);
 
                     connection.Open();
 
