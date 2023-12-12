@@ -29,17 +29,20 @@
                 <button class="btn info" type="submit">Buscar</button>
             </form>
         </div>
-        <div class="filter-container container">
-            <h2>Ultimas Reservas</h2>
-            <div class="last-reservas">
-                <div class="reserva"><button class="btn">Nombre Restaurante</button></div>
-                <div class="reserva"><button class="btn">Nombre Restaurante</button></div>
-                <div class="reserva"><button class="btn">Nombre Restaurante</button></div>
-                <div class="reserva"><button class="btn">Nombre Restaurante</button></div>
-                <div class="reserva"><button class="btn">Nombre Restaurante</button></div>
-                <div class="reserva"><button class="btn">Nombre Restaurante</button></div>
+        @if (ViewBag.IdCliente != null)
+        {
+            <div class="filter-container container">
+                <h2>Ultimas Reservas</h2>
+                <div class="last-reservas">
+                    <div class="reserva"><button class="btn">Nombre Restaurante</button></div>
+                    <div class="reserva"><button class="btn">Nombre Restaurante</button></div>
+                    <div class="reserva"><button class="btn">Nombre Restaurante</button></div>
+                    <div class="reserva"><button class="btn">Nombre Restaurante</button></div>
+                    <div class="reserva"><button class="btn">Nombre Restaurante</button></div>
+                    <div class="reserva"><button class="btn">Nombre Restaurante</button></div>
+                </div>
             </div>
-        </div>
+        }
     </div>
     <div class="container">
         @foreach (Restaurante restaurante in Model)

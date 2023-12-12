@@ -20,6 +20,9 @@ namespace EatNow.Controllers
         // GET: RestauranteController
         public IActionResult Index()
         {
+            if (Request.Cookies["IdCliente"] != null)
+                ViewBag.IdCliente = Request.Cookies["IdCliente"];
+
             return View();
         }
 
@@ -35,7 +38,7 @@ namespace EatNow.Controllers
                 listRestaurants = restauranteDAL.GetAllRestaurants();
 
                 TempData["ErrorLoginClientMessage"] = "El restaurante no existe";
-                return RedirectToAction("Home/Index");
+                return RedirectToAction("Index", "Home");
             }
             else
             {

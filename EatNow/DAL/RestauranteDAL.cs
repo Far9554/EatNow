@@ -36,7 +36,7 @@ namespace EatNow.DAL
                                 Direccion = reader["Direccion"].ToString(),
                                 Telefono = reader["Telefono"].ToString(),
                                 Web = (reader["Web"] != DBNull.Value) ? reader["Web"].ToString() : null,
-                                Descripcion = (reader["Descripcion"] != DBNull.Value) ? reader["Web"].ToString() : null,
+                                Descripcion = (reader["Descripcion"] != DBNull.Value) ? reader["Descripcion"].ToString() : null,
                                 HoraApertura = reader["HoraApertura"].ToString(),
                                 HoraCierre = reader["HoraCierre"].ToString()
                             };

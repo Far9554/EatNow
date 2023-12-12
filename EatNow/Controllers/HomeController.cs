@@ -49,6 +49,7 @@ namespace EatNow.Controllers
                 options.Expires = DateTime.Now.AddDays(1);
 
                 Response.Cookies.Append("IdCliente", cliente.IdCliente.ToString());
+                ViewBag.IdCliente = cliente.IdCliente;
 
                 return RedirectToAction("index");
             }

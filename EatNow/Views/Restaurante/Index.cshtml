@@ -50,7 +50,14 @@
         </div>
         <form asp-area="" asp-controller="restaurante" asp-action="mapaRestaurante">
             <div id="reserva">
-                <button class="btn submit" type="submit">RESERVA YA!</button>
+                @if (ViewBag.IdCliente != null)
+                {
+                    <button class="btn submit" type="submit">RESERVA YA!</button>
+                }
+                else
+                {
+                    <button class="btn submit" type="button">Inicia Session Para Reservar</button>
+                }
             </div>
         </form>
     </div>
