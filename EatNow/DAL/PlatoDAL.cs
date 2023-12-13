@@ -1,5 +1,6 @@
 ﻿using EatNow.Models;
 using System.Data.SqlClient;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace EatNow.DAL
 {
@@ -60,6 +61,22 @@ namespace EatNow.DAL
                     command.Parameters.AddWithValue("@Precio", plato.Precio);
                     command.Parameters.AddWithValue("@RIdRestaurante", plato.RIdRestaurante);
                     command.Parameters.AddWithValue("@URLImagen", (plato.URLImagen == null) ? DBNull.Value : plato.URLImagen);
+
+                    connection.Open();
+                    return command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public int DeleteDish(int idPlato)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string query = "DELETE FROM Plato WHERE IdPlato = @IdPlato";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@IdPlato", idPlato);
 
                     connection.Open();
                     return command.ExecuteNonQuery();
