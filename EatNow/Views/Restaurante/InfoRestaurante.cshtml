@@ -12,22 +12,34 @@
             <img src="../img/noImage.png">
         </div>
         <div id="info-cont">
-            <div id="info">
-                <div style="width: 30%;">
-                    <div class="inf2"><label>Nombre:</label></div>
-                    <div class="inf2"><label>Direccion:</label></div>
-                    <div class="inf2"><label>Telefono:</label></div>
-                    <div class="inf2"><label>Web:</label></div>
-                    <div class="inf2"><label>Hora Apertura:</label></div>
-                    <div class="inf2"><label>Hora Cierre:</label></div>
+            <div id="info2">
+                <div style="display: flex; width: 100%;">
+                    <div style="width: 40%;" class="inf2"><label>Nombre:</label></div>
+                    <div style="width: 60%;" class="inf2"><label>@Model.Nombre</label></div>
                 </div>
-                <div style="width: 70%;">
-                    <div class="inf2"><label>@Model.Nombre</label></div>
-                    <div class="inf2"><label>@Model.Direccion</label></div>
-                    <div class="inf2"><label>@Model.Telefono</label></div>
-                    <div class="inf2"><label>@Model.Web</label></div>
-                    <div class="inf2"><label>@Model.HoraApertura</label></div>
-                    <div class="inf2"><label>@Model.HoraCierre</label></div>
+                <div style="display: flex; width: 100%;">
+                    <div style="width: 40%;" class="inf2"><label>Direccion:</label></div>
+                    <div style="width: 60%;" class="inf2"><label>@Model.Direccion</label></div>
+                </div>
+                <div style="display: flex; width: 100%;">
+                    <div style="width: 40%;" class="inf2"><label>Telefono:</label></div>
+                    <div style="width: 60%;" class="inf2"><label>@Model.Telefono</label></div>
+                </div>
+                <div style="display: flex; width: 100%;">
+                    <div style="width: 40%;" class="inf2"><label>Web:</label></div>
+                    <div style="width: 60%;" class="inf2"><label>@Model.Web</label></div>
+                </div>
+                <div style="display: flex; width: 100%;">
+                    <div style="width: 40%;" class="inf2"><label>Descripcion:</label></div>
+                    <div style="width: 60%;" class="inf2"><label>@Model.Descripcion</label></div>
+                </div>
+                <div style="display: flex; width: 100%;">
+                    <div style="width: 40%;" class="inf2"><label>Hora Apertura:</label></div>
+                    <div style="width: 60%;" class="inf2"><label>@Model.HoraApertura</label></div>
+                </div>
+                <div style="display: flex; width: 100%;">
+                    <div style="width: 40%;" class="inf2"><label>Hora Cierre:</label></div>
+                    <div style="width: 60%;" class="inf2"><label>@Model.HoraCierre</label></div>
                 </div>
             </div>
 
@@ -40,6 +52,7 @@
             <div id="titulo">
                 <span>Editar Informacion Restaurante</span>
             </div>
+            <input asp-for="IdRestaurante" type="text" name="IdRestaurante" value=@Model.IdRestaurante style="display:none">
             <div class="input-box">
                 <input asp-for="Nombre" type="text" name="Nombre" value=@Model.Nombre>
                 <span>Nombre</span>
@@ -57,6 +70,10 @@
                 <span>Web</span>
             </div>
             <div class="input-box">
+                <input asp-for="Descripcion" type="text" name="Descripcion" value=@Model.Descripcion>
+                <span>Descripcion</span>
+            </div>
+            <div class="input-box">
                 <input type="time" asp-for="HoraApertura" name="HoraApertura" value=@Model.HoraApertura>
                 <span>Hora Apertura</span>
             </div>
@@ -70,26 +87,27 @@
                 <button type="submit" class="btn success">GUARDAR</button>
             </div>
         </form>
-        <form style="margin: 15px;" asp-action="AddFotoRestaurante" asp-controller="restaurante" method="post" asp-antiforgery="true">
+        <div style="margin: 15px;">
             <div id="titulo">
                 <span>Fotos Restaurante</span>
             </div>
             <div id="galeria">
-                <div class="foto">
+                <form class="foto" asp-action="EliminarFotoRestaurante" asp-controller="restaurante" method="post" asp-antiforgery="true">
                     <img src="../img/noImage.png">
                     <div>
-                        <button type="button" class="btn danger"><i class="fa fa-solid fa-trash"></i></button>
+                        <input type="text" name="IdImage" style="display:none">
+                        <button type="submit" class="btn danger"><i class="fa fa-solid fa-trash"></i></button>
                     </div>
-                </div>
+                </form>
             </div>
-            <div id="añadirimagen">
+            <form id="añadirimagen" asp-action="AddFotoRestaurante" asp-controller="restaurante" method="post" asp-antiforgery="true">
                 <div class="input-box">
-                    <input type="text">
+                    <input type="text" name="UrlImage">
                     <span>URL Imagen</span>
                     <button type="submit" class="btn success">+</button>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 </div>
 
