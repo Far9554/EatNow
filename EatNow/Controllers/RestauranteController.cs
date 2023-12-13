@@ -11,12 +11,14 @@ namespace EatNow.Controllers
         private readonly RestauranteDAL restauranteDAL;
         private readonly ClienteDAL clienteDAL;
         private readonly EmpleadoDAL empleadoDAL;
+        private readonly ImagenRestauranteDAL imagenRestauranteDAL;
 
         public RestauranteController()
         {
             restauranteDAL = new RestauranteDAL(Conexion.CadenaBBDD);
             clienteDAL = new ClienteDAL(Conexion.CadenaBBDD);
             empleadoDAL = new EmpleadoDAL(Conexion.CadenaBBDD);
+            imagenRestauranteDAL = new ImagenRestauranteDAL(Conexion.CadenaBBDD);
         }
 
         // GET: RestauranteController
@@ -80,6 +82,9 @@ namespace EatNow.Controllers
             Empleado empleado = empleadoDAL.GetEmployeeById(idEmpleado);
             Restaurante restaurante = restauranteDAL.GetRestaurantById(empleado.RIdRestaurante);
 
+            List<Imagen> images = imagenRestauranteDAL.GetAllRestaurantImages(restaurante.IdRestaurante);
+            ViewBag.Images = images;
+
             return View(restaurante);
         }
 
@@ -94,6 +99,22 @@ namespace EatNow.Controllers
             else
                 TempData["ErrorUpdatingMessage"] = "Ha habido un error al actualizar los datos";
 
+            return RedirectToAction("InfoRestaurante");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddFotoRestaurante(string idRestaurante, string urlImage)
+        {
+            Imagen image = new Imagen { RIdRestaurante = int.Parse(idRestaurante), URL = urlImage };
+            int affectedRows = imagenRestauranteDAL.InsertRestaurantImage(image);
+            return RedirectToAction("InfoRestaurante");
+        }
+
+        public IActionResult EliminarFotoRestaurante(string idImage)
+        {
+
+            int affectedRows = imagenRestauranteDAL.DeleteImageFromRestaurant(int.Parse(idImage));
             return RedirectToAction("InfoRestaurante");
         }
     }
