@@ -92,17 +92,21 @@
                 <span>Fotos Restaurante</span>
             </div>
             <div id="galeria">
-                <form class="foto" asp-action="EliminarFotoRestaurante" asp-controller="restaurante" method="post" asp-antiforgery="true">
-                    <img src="../img/noImage.png">
-                    <div>
-                        <input type="text" name="IdImage" style="display:none">
-                        <button type="submit" class="btn danger"><i class="fa fa-solid fa-trash"></i></button>
-                    </div>
-                </form>
+                @foreach (Imagen image in ViewBag.Images)
+                {
+                    <form class="foto" asp-action="EliminarFotoRestaurante" asp-controller="restaurante" method="post" asp-antiforgery="true">
+                        <img src="@image.URL">
+                        <div>
+                            <input type="text" name="idImage" style="display:none" value="@image.IdImagen">
+                            <button type="submit" class="btn danger"><i class="fa fa-solid fa-trash"></i></button>
+                        </div>
+                    </form>
+                }
             </div>
             <form id="añadirimagen" asp-action="AddFotoRestaurante" asp-controller="restaurante" method="post" asp-antiforgery="true">
                 <div class="input-box">
-                    <input type="text" name="UrlImage">
+                    <input type="text" name="idRestaurante" value=@Model.IdRestaurante style="display:none">
+                    <input type="text" name="urlImage">
                     <span>URL Imagen</span>
                     <button type="submit" class="btn success">+</button>
                 </div>
