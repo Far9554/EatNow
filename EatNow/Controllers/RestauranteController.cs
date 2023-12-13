@@ -10,11 +10,13 @@ namespace EatNow.Controllers
     {
         private readonly RestauranteDAL restauranteDAL;
         private readonly ClienteDAL clienteDAL;
+        private readonly EmpleadoDAL empleadoDAL;
 
         public RestauranteController()
         {
             restauranteDAL = new RestauranteDAL(Conexion.CadenaBBDD);
             clienteDAL = new ClienteDAL(Conexion.CadenaBBDD);
+            empleadoDAL = new EmpleadoDAL(Conexion.CadenaBBDD);
         }
 
         // GET: RestauranteController
@@ -42,8 +44,9 @@ namespace EatNow.Controllers
             }
             else
             {
-                // Guardamos el objeto cliente en el ViewBag
-                ViewBag.Restaurante = restaurante;
+                if (Request.Cookies["IdCliente"] != null)
+                    ViewBag.IdCliente = Request.Cookies["IdCliente"];
+
                 return View(restaurante);
             }
         }
@@ -61,6 +64,29 @@ namespace EatNow.Controllers
         public IActionResult ConfirmacionReserva()
         {
             return View();
+        }
+
+        public IActionResult InfoRestaurante()
+        {
+            int idEmpleado = int.Parse(Request.Cookies["IdEmpleado"]);
+            Empleado empleado = empleadoDAL.GetEmployeeById(idEmpleado);
+            Restaurante restaurante = restauranteDAL.GetRestaurantById(empleado.RIdRestaurante);
+
+            return View(restaurante);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult UpdateRestaurante(Restaurante restaurante)
+        {
+            int affectedRows = restauranteDAL.UpdateRestaurant(restaurante);
+
+            if (affectedRows != -1)
+                TempData["ClientUpdatedMessage"] = "Datos actualizados correctamente!";
+            else
+                TempData["ErrorUpdatingMessage"] = "Ha habido un error al actualizar los datos";
+
+            return RedirectToAction("InfoRestaurante");
         }
     }
 }

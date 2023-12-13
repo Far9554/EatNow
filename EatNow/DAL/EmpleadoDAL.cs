@@ -48,5 +48,41 @@ namespace EatNow.DAL
 
             return empleado;
         }
+
+        public Empleado GetEmployeeById(int idEmployee)
+        {
+            Empleado empleado = null;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string query = "SELECT IdEmpleado, DNI, Nombre, Apellidos, CorreoElectronico, Password, RIdRestaurante " +
+                               "FROM Empleado WHERE IdEmpleado = @idEmployee";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@idEmployee", idEmployee);
+
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            empleado = new Empleado
+                            {
+                                IdEmpleado = int.Parse(reader["IdEmpleado"].ToString()),
+                                DNI = reader["DNI"].ToString(),
+                                Nombre = reader["Nombre"].ToString(),
+                                Apellidos = reader["Apellidos"].ToString(),
+                                CorreoElectronico = reader["CorreoElectronico"].ToString(),
+                                Password = reader["Password"].ToString(),
+                                RIdRestaurante = int.Parse(reader["RIdRestaurante"].ToString())
+                            };
+                        }
+                    }
+                }
+            }
+
+            return empleado;
+        }
     }
 }
