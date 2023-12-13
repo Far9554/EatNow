@@ -114,7 +114,7 @@ namespace EatNow.DAL
             }
         }
 
-        public List<Restaurante> GetRestaurantsByFilter()
+        public List<Restaurante> GetRestaurantsByFilter(string time, string direccion, string nombre)
         {
             List<Restaurante> restaurants = new List<Restaurante>();
 
@@ -122,7 +122,12 @@ namespace EatNow.DAL
             {
                 string query = "SELECT IdRestaurante, Nombre, Direccion, Telefono, Web, Descripcion, " +
                                "CONVERT(VARCHAR(5), HoraApertura, 108) AS HoraApertura, " +
-                               "CONVERT(VARCHAR(5), HoraCierre, 108) AS HoraCierre FROM Restaurante";
+                               "CONVERT(VARCHAR(5), HoraCierre, 108) AS HoraCierre FROM Restaurante WHERE";
+
+                query += $" Nombre LIKE '{nombre}%' AND";
+                query += $" Direccion LIKE '%{direccion}%' AND";
+                query += $" HoraApertura >= '{time}'";
+
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {

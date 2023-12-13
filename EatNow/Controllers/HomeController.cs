@@ -106,6 +106,19 @@ namespace EatNow.Controllers
             return View(listRestaurants);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Index(string time, string date, string direccion, string nombre)
+        {
+            List<Restaurante> listRestaurants = new List<Restaurante>();
+            listRestaurants = restauranteDAL.GetRestaurantsByFilter(time, direccion, nombre);
+
+            if (Request.Cookies["IdCliente"] != null)
+                ViewBag.IdCliente = Request.Cookies["IdCliente"];
+
+            return View(listRestaurants);
+        }
+
         public IActionResult Privacy()
         {
             return View();

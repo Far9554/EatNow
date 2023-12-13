@@ -10,22 +10,22 @@
 <div style="display: flex;">
     <div class="options">
         <div class="filter-container container">
-            <form>
+            <form asp-action="Index" asp-controller="home" method="post" asp-antiforgery="true">
                 <h2>Filtrar Restaurantes</h2>
                 <div class="filter">
                     <label class="time">
-                        <input type="time">
+                        <input type="time" name="time">
                     </label>
                     <label class="time" style="margin-right: -2px;">
-                        <input type="date">
+                        <input type="date" name="date">
                     </label>
                     <label class="search">
                         <i class="fa fa-search"></i>
-                        <input type="text" placeholder="Localizacion" />
+                        <input type="text" placeholder="Direccion" name="direccion" />
                     </label>
                     <label class="search">
                         <i class="fa fa-search"></i>
-                        <input type="text" placeholder="Nombre Restaurante" />
+                        <input type="text" placeholder="Nombre Restaurante" name="nombre" />
                     </label>
                 </div>
                 <button class="btn info" type="submit">Buscar</button>
