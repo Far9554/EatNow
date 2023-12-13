@@ -63,6 +63,12 @@ namespace EatNow.Controllers
 
         public IActionResult MapaRestaurante()
         {
+            if (Request.Cookies["IdCliente"] != null)
+            {
+                ViewBag.IdCliente = Request.Cookies["IdCliente"];
+                ViewBag.ImageCliente = clienteDAL.GetClientImage(int.Parse(Request.Cookies["IdCliente"]));
+            }
+
             return View();
         }
 
@@ -73,6 +79,12 @@ namespace EatNow.Controllers
 
         public IActionResult ConfirmacionReserva()
         {
+            if (Request.Cookies["IdCliente"] != null)
+            {
+                ViewBag.IdCliente = Request.Cookies["IdCliente"];
+                ViewBag.ImageCliente = clienteDAL.GetClientImage(int.Parse(Request.Cookies["IdCliente"]));
+            }
+
             return View();
         }
 
