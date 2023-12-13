@@ -30,5 +30,8 @@ namespace EatNow.Models
 
         [Required]
         public string HoraCierre { get; set; }
+
+        // Aquí se guardará la URL de la primera imagen del restaurante (No existe este campo en la base de datos)
+        public string URLImagen { get; set; }
     }
 }

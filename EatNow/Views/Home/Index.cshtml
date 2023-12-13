@@ -52,7 +52,7 @@
             <form asp-action="Index" asp-controller="restaurante" method="post" asp-antiforgery="true">
                 <div class="restaurante">
                     <div class="cont-img">
-                        <img src="../img/waitress-serving-customer-at-the-coffee-shop-photo.jpg">
+                        <img src="@(restaurante.URLImagen != null ? restaurante.URLImagen : null)">
                     </div>
                     <div class="cont-info">
                         <div class="info">
