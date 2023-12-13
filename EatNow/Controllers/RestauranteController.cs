@@ -22,8 +22,12 @@ namespace EatNow.Controllers
         // GET: RestauranteController
         public IActionResult Index()
         {
+
             if (Request.Cookies["IdCliente"] != null)
+            {
                 ViewBag.IdCliente = Request.Cookies["IdCliente"];
+                ViewBag.ImageCliente = clienteDAL.GetClientImage(int.Parse(Request.Cookies["IdCliente"]));
+            }
 
             return View();
         }
@@ -44,8 +48,12 @@ namespace EatNow.Controllers
             }
             else
             {
+
                 if (Request.Cookies["IdCliente"] != null)
+                {
                     ViewBag.IdCliente = Request.Cookies["IdCliente"];
+                    ViewBag.ImageCliente = clienteDAL.GetClientImage(int.Parse(Request.Cookies["IdCliente"]));
+                }
 
                 return View(restaurante);
             }
