@@ -49,6 +49,9 @@ namespace EatNow.Controllers
                 if (Request.Cookies["IdCliente"] != null)
                     ViewBag.IdCliente = Request.Cookies["IdCliente"];
 
+                List<Imagen> images = imagenRestauranteDAL.GetAllRestaurantImages(restaurante.IdRestaurante);
+                ViewBag.Images = images;
+
                 return View(restaurante);
             }
         }

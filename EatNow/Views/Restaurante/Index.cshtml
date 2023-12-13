@@ -9,26 +9,35 @@
     <div id="info">
         <div id="portada">
             <h1>@Model.Nombre</h1>
-            <img src="../img/waitress-serving-customer-at-the-coffee-shop-photo.jpg">
+            <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel" style="height: 100%;">
+                <div class="carousel-inner">
+                    @foreach (Imagen image in ViewBag.Images)
+                    {
+                        <div class="carousel-item active">
+                            <img src="@image.URL" class="d-block w-100" alt="...">
+                        </div>
+                    }
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
         </div>
         <div id="cont-info">
             <div class="horario">
                 <button class="past">8:00</button>
-                <button class="past">8:30</button>
                 <button class="past">9:00</button>
-                <button class="past">9:30</button>
                 <button class="clean">10:00</button>
-                <button class="clean">10:30</button>
                 <button class="clean">11:00</button>
-                <button class="clean">11:30</button>
                 <button class="mid">12:00</button>
-                <button class="mid">12:30</button>
                 <button class="full">13:00</button>
-                <button class="full">13:30</button>
                 <button class="mid">14:00</button>
-                <button class="mid">14:30</button>
                 <button class="clean">15:00</button>
-                <button class="clean">15:30</button>
             </div>
             <div class="block">
                 <p>@Model.Direccion</p>
