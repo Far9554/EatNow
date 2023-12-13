@@ -130,5 +130,36 @@ namespace EatNow.DAL
                 }
             }
         }
+
+        public String GetClientImage(int idCliente)
+        {
+            Cliente cliente = null;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string query = "SELECT URLFoto " +
+                               "FROM Cliente WHERE IdCliente = @IdCliente";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@IdCliente", idCliente);
+
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            cliente = new Cliente
+                            {
+                                
+                                URLFoto = (reader["URLFoto"] != DBNull.Value) ? reader["URLFoto"].ToString() : null
+                            };
+                        }
+                    }
+                }
+            }
+
+            return cliente.URLFoto;
+        }
     }
 }

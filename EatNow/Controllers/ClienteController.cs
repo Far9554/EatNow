@@ -16,7 +16,13 @@ namespace EatNow.Controllers
         {
             int idCliente = int.Parse(Request.Cookies["IdCliente"]);
             Cliente cliente = clienteDAL.GetClientById(idCliente);
-            
+
+            if (Request.Cookies["IdCliente"] != null)
+            {
+                ViewBag.IdCliente = Request.Cookies["IdCliente"];
+                ViewBag.ImageCliente = clienteDAL.GetClientImage(int.Parse(Request.Cookies["IdCliente"]));
+            }
+
             return View(cliente);
         }
 

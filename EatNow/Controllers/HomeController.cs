@@ -102,9 +102,23 @@ namespace EatNow.Controllers
             listRestaurants = restauranteDAL.GetAllRestaurants();
 
             if (Request.Cookies["IdCliente"] != null)
+            {
                 ViewBag.IdCliente = Request.Cookies["IdCliente"];
+                ViewBag.ImageCliente = clienteDAL.GetClientImage(int.Parse(Request.Cookies["IdCliente"]));
+            }
+                
 
             return View(listRestaurants);
+        }
+
+        public IActionResult ReservasUsuario()
+        {
+            return Redirect("../cliente/ListReservasUsuario");
+        }
+
+        public IActionResult Perfil()
+        {
+            return Redirect("../cliente/InfoUsuario");
         }
 
         [HttpPost]

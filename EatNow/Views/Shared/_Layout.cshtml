@@ -161,10 +161,22 @@
             @if (ViewBag.IdCliente != null )
             {
                 <div class="dropdown">
-                    <img class="perfil" src="perfil.png" alt="">
+                    @if (ViewBag.ImageCliente != null)
+                    {
+                        <img class="perfil" src="@ViewBag.ImageCliente" alt="">
+                    }
+                    else
+                    {
+                        <img class="perfil" src="/images//noImage.jpg" alt="">
+                    }
+
                     <div class="menu">
-                        <button class="opciones"><i class="fa-solid fa-utensils"></i> Historial reservas</button><br>
-                        <button class="opciones"><i class="fa-solid fa-user-pen"></i> Ver/Editar perfil</button><br>
+                        <form asp-action="ReservasUsuario" asp-controller="Home" method="post" asp-antiforgery="true">
+                            <button class="opciones"><i class="fa-solid fa-utensils"></i> Historial reservas</button><br>
+                        </form>
+                        <form asp-action="Perfil" asp-controller="Home" method="post" asp-antiforgery="true">
+                            <button class="opciones"><i class="fa-solid fa-user-pen"></i> Ver/Editar perfil</button><br>
+                        </form>
                         <form asp-action="CerrarSesion" asp-controller="Home" method="post" asp-antiforgery="true">
                             <button class="opciones"><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</button><br>
                         </form>
