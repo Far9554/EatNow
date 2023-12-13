@@ -42,9 +42,14 @@
         .header .logo {
             cursor: pointer;
             transition: all 0.3s;
-            
-
+            display:inline;
         }
+
+            .header .logo button {
+                    background-color: transparent !important;
+                    border-radius: 0 !important;
+                    border:none;
+            }
 
         .header .logo:hover {
             cursor: pointer;
@@ -80,7 +85,42 @@
                 transform: scale(1.05);
                 background: -webkit-linear-gradient(left, #EC992E, #E76954);
         }
+        .header .dropdown{
+            
+            display:inline-block;
+            width:12%;
+
+            justify-content: center;
+            align-items:center;
+            text-align:center;
+        }
+
+        .header .menu{
+                display: none;
+                position:absolute;
+                width:100%;
+                background-color: #252a39;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                z-index: 1;
+        }
+
+        .header .menu .opciones{
+                    border: solid 2px #E76954;
+                    background-color: #252a39;
+                    border-radius: 0;
+                    width:100%;
+                    
+        }
+
+        .header .menu .opciones:hover {
+                    border: 2px solid #ffbc0e;
+        }
+
+        .header .dropdown:hover .menu {
+            display: block;
+        }
         .header .perfil {
+            position:center;
             width: 50px;
             height: 50px;
             border-radius: 50%;
@@ -106,26 +146,34 @@
         <nav class="header">
 
             <div class="logo">
-                <table>
-                    <tr>
-                        <td>
-                            <img src="EAT_NOW_LOGO.png" alt="Logo">
-                        </td>
-                        <td>
+                <form asp-action="Index" asp-controller="Home" method="post" asp-antiforgery="true">
+                <button>
+                            <img src="/images/EAT_NOW_LOGO.png" alt="Logo">                     
                             <b>EatNow</b>
-                        </td>
-                    </tr>
-                </table> 
+                </button>
+                </form>
             </div>
+
+
+
 
 
             @if (ViewBag.IdCliente != null )
             {
-                <img class="perfil" src="perfil.png" alt="" data-bs-toggle="popover" data-bs-placement="bottom"
-                data-bs-custom-class="custom-popover" data-bs-html="true" data-bs-content='
-                <a href="#link1" class="text-decoration-none text-black"><i class="fa-solid fa-utensils"></i> &nbsp Historial reservas</a><br>
-                <a href="#link2" class="text-decoration-none text-black"><i class="fa-solid fa-user-pen"></i> &nbsp Ver/Editar perfil</a><br>
-                <a href="#link3" class="text-decoration-none text-black"><i class="fa-solid fa-right-from-bracket"></i> &nbsp Cerrar cesion</a><br>'/>
+                <div class="dropdown">
+                    <img class="perfil" src="perfil.png" alt="">
+                    <div class="menu">
+                        <button class="opciones"><i class="fa-solid fa-utensils"></i> Historial reservas</button><br>
+                        <button class="opciones"><i class="fa-solid fa-user-pen"></i> Ver/Editar perfil</button><br>
+                        <form asp-action="CerrarSesion" asp-controller="Home" method="post" asp-antiforgery="true">
+                            <button class="opciones"><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</button><br>
+                        </form>
+                    </div>
+                </div>
+
+                
+                    
+             
             }
             else
             {
