@@ -1,6 +1,7 @@
 ﻿using EatNow.DAL;
 using EatNow.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Diagnostics;
 
 namespace EatNow.Controllers
@@ -104,6 +105,15 @@ namespace EatNow.Controllers
                 ViewBag.IdCliente = Request.Cookies["IdCliente"];
 
             return View(listRestaurants);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CerrarSesion()
+        {
+            Response.Cookies.Delete("IdCliente");
+
+            return Redirect("Index");
         }
 
         [HttpPost]
