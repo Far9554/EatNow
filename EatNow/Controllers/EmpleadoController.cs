@@ -49,11 +49,16 @@ namespace EatNow.Controllers
             return RedirectToAction("ListEmpleadosRestaurante");
         }
 
+        public IActionResult mapaRestauranteEmpleado()
+        {
+            return View();
+        }
+
         public IActionResult InfoUsuario()
         {
             if (Request.Cookies["IdEmpleado"] != null)
             {
-                ViewBag.IdCliente = Request.Cookies["IdEmpleado"];
+                ViewBag.IdEmpleado = Request.Cookies["IdEmpleado"];
             }
 
             return View();

@@ -25,6 +25,12 @@
             <p>Menu</p>
         </button>
     </form>
+    <form asp-action="mapaRestauranteEmpleado" asp-controller="Empleado" method="post" asp-antiforgery="true">
+        <button class="slot" style="color: #25293A !important;" type="submit">
+            <i class="fa fa-solid fa-chair fa-10x"></i>
+            <p>Mapa</p>
+        </button>
+    </form>
     <form asp-action="ListEmpleadosRestaurante" asp-controller="Empleado" method="post" asp-antiforgery="true">
         <button class="slot" style="color: #25293A !important;" type="submit">
             <i class="fa fa-solid fa-users fa-10x"></i>
