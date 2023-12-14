@@ -13,6 +13,8 @@ namespace EatNow.Controllers
             if (Request.Cookies["IdEmpleado"] != null)
             {
                 ViewBag.IdEmpleado = Request.Cookies["IdEmpleado"];
+                //Viewbag.ImageRestaurante= RestauranteDAL.GetRestaurantById(EmpleadoDAL.GetEmpleadoB)
+                ViewBag.IdEmpleado = Request.Cookies["IdEmpleado"];
             }
 
             return View();
@@ -20,11 +22,19 @@ namespace EatNow.Controllers
 
         public IActionResult ListaReservasRestaurante()
         {
+            if (Request.Cookies["IdEmpleado"] != null)
+            {
+                ViewBag.IdEmpleado = Request.Cookies["IdEmpleado"];
+            }
             return RedirectToAction("ListReservasRestaurante", "Restaurante");
         }
 
         public IActionResult DatosRestaurante()
         {
+            if (Request.Cookies["IdEmpleado"] != null)
+            {
+                ViewBag.IdEmpleado = Request.Cookies["IdEmpleado"];
+            }
             return RedirectToAction("InfoRestaurante", "Restaurante");
         }
 
