@@ -12,6 +12,7 @@ namespace EatNow.Controllers
         private readonly ClienteDAL clienteDAL;
         private readonly EmpleadoDAL empleadoDAL;
         private readonly ImagenRestauranteDAL imagenRestauranteDAL;
+        private readonly ReservaDAL reservaRestauranteDAL;
 
         public RestauranteController()
         {
@@ -19,6 +20,7 @@ namespace EatNow.Controllers
             clienteDAL = new ClienteDAL(Conexion.CadenaBBDD);
             empleadoDAL = new EmpleadoDAL(Conexion.CadenaBBDD);
             imagenRestauranteDAL = new ImagenRestauranteDAL(Conexion.CadenaBBDD);
+            reservaRestauranteDAL = new ReservaDAL(Conexion.CadenaBBDD);
         }
 
         // GET: RestauranteController
@@ -75,9 +77,24 @@ namespace EatNow.Controllers
             return View();
         }
 
-        public IActionResult ListReservasRestaurante()
+        public IActionResult ListReservasRestaurante(int id)
         {
-            return View();
+            List<Reserva> reservas = reservaRestauranteDAL.GetAllReservasRestauranteId(id);
+
+            if (reservas == null)
+            {
+                List<Reserva> listaReservas = new List<Reserva>();
+                listaReservas = reservaRestauranteDAL.GetAllReservasRestauranteId(id);
+
+                TempData["ErrorLoginClientMessage"] = "No tienes reservas";
+                return View(listaReservas);
+            }
+            else
+            {
+                // Guardamos el objeto cliente en el ViewBag
+                //ViewBag.ReservasRestauranteById = reservas;
+                return View(reservas);
+            }
         }
 
         public IActionResult ConfirmacionReserva()
