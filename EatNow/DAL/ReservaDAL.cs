@@ -21,12 +21,12 @@ namespace EatNow.DAL
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
 
-                string query = "SELECT Re.Nombre AS 'Restaurante', Cl.Nombre AS 'Nombre Cliente', Cl.Apellidos AS 'Apellido Cliente', R.Inicio, R.Fin, ER.Nombre AS 'Estado' FROM Reserva R " +
+                string query = "SELECT IdReserva, Re.Nombre AS 'Restaurante', Cl.Nombre AS 'Nombre Cliente', Cl.Apellidos AS 'Apellido Cliente', R.Inicio, R.Fin, RIdCliente, RIdEstadoReserva, RIdCasilla, ER.Nombre AS 'Estado' FROM Reserva R " +
                                "INNER JOIN Casilla C ON C.IdCasilla = R.RIdCasilla " +
                                "INNER JOIN Restaurante Re ON C.RIdRestaurante = Re.IdRestaurante " +
                                "INNER JOIN Cliente Cl ON Cl.IdCliente = R.RIdCliente " +
-                               "INNER JOIN EstadoReserva ER ON R.RIdEstadoReserva = ER.IdEstado " +
-                               "GROUP BY Re.Nombre, Cl.Nombre, Cl.Apellidos , R.Inicio, R.Fin, ER.Nombre ";
+                               "INNER JOIN EstadoReserva ER ON R.RIdEstadoReserva = ER.IdEstado";// +
+                               //"GROUP BY Re.Nombre, Cl.Nombre, Cl.Apellidos , R.Inicio, R.Fin, ER.Nombre ";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
