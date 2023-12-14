@@ -92,7 +92,7 @@ namespace EatNow.Controllers
                 Response.Cookies.Append("IdEmpleado", empleado.IdEmpleado.ToString());
 
                 // TODO: Cambiar la ruta a la que se dirige
-                return RedirectToAction("ListReservasRestaurante", "Restaurante");
+                return RedirectToAction("Index", "Empleado");
             }
         }
 
