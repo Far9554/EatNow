@@ -13,6 +13,7 @@ namespace EatNow.Controllers
         private readonly EmpleadoDAL empleadoDAL;
         private readonly ImagenRestauranteDAL imagenRestauranteDAL;
         private readonly ReservaDAL reservaRestauranteDAL;
+        private readonly PlatoDAL platoDAL;
 
         public RestauranteController()
         {
@@ -21,6 +22,7 @@ namespace EatNow.Controllers
             empleadoDAL = new EmpleadoDAL(Conexion.CadenaBBDD);
             imagenRestauranteDAL = new ImagenRestauranteDAL(Conexion.CadenaBBDD);
             reservaRestauranteDAL = new ReservaDAL(Conexion.CadenaBBDD);
+            platoDAL = new PlatoDAL(Conexion.CadenaBBDD);
         }
 
         // GET: RestauranteController
@@ -61,6 +63,9 @@ namespace EatNow.Controllers
 
                 List<Imagen> images = imagenRestauranteDAL.GetAllRestaurantImages(restaurante.IdRestaurante);
                 ViewBag.Images = images;
+
+                List<Plato> platos = platoDAL.GetAllDishesFromRestaurant(restaurante.IdRestaurante);
+                ViewBag.Platos = platos;
 
                 return View(restaurante);
             }
