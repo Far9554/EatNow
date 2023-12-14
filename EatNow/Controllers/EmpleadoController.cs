@@ -32,11 +32,19 @@ namespace EatNow.Controllers
 
         public IActionResult ListaReservasRestaurante()
         {
+            if (Request.Cookies["IdEmpleado"] != null)
+            {
+                ViewBag.IdEmpleado = Request.Cookies["IdEmpleado"];
+            }
             return RedirectToAction("ListReservasRestaurante", "Restaurante");
         }
 
         public IActionResult DatosRestaurante()
         {
+            if (Request.Cookies["IdEmpleado"] != null)
+            {
+                ViewBag.IdEmpleado = Request.Cookies["IdEmpleado"];
+            }
             return RedirectToAction("InfoRestaurante", "Restaurante");
         }
 

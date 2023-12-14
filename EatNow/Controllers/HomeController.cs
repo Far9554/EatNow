@@ -125,6 +125,7 @@ namespace EatNow.Controllers
         public IActionResult CerrarSesion()
         {
             Response.Cookies.Delete("IdCliente");
+            Response.Cookies.Delete("IdEmpleado");
 
             return Redirect("Index");
         }
