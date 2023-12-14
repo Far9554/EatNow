@@ -84,6 +84,10 @@ namespace EatNow.Controllers
 
         public IActionResult ListReservasRestaurante(int id)
         {
+            if (Request.Cookies["IdEmpleado"] != null)
+            {
+                ViewBag.IdEmpleado = Request.Cookies["IdEmpleado"];
+            }
             List<Reserva> reservas = reservaRestauranteDAL.GetAllReservasRestauranteId(id);
 
             if (reservas == null)
