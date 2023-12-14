@@ -1,0 +1,27 @@
+﻿@model List<Reserva>
+
+<link rel="stylesheet" type="text/css" href="~/css/mainPage.css">
+
+<div class="container">
+    @foreach (Reserva reserva in Model)
+    {
+        <div class="reserva m-5">
+            <div class="cont-img">
+                <img src="../img/waitress-serving-customer-at-the-coffee-shop-photo.jpg">
+            </div>
+            <div class="cont-info">
+                <h2>Tus Reservas</h2>
+                <div class="info">
+                    <h4>@reserva.NombreRestaurante</h4>
+                    <p>Inicio: @reserva.Inicio</p>
+                    <p>Fin: @reserva.Fin</p>
+                    <p>Mesa: @reserva.NumeroMesa</p>
+                    <p>Estado: @reserva.EstadoReservaNombre</p>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+
