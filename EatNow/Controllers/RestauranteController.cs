@@ -75,11 +75,6 @@ namespace EatNow.Controllers
             return View();
         }
 
-        public IActionResult ListReservasRestaurante()
-        {
-            return View();
-        }
-
         public IActionResult ConfirmacionReserva()
         {
             if (Request.Cookies["IdCliente"] != null)

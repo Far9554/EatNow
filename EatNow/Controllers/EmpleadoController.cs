@@ -1,4 +1,5 @@
 ﻿using EatNow.DAL;
+using EatNow.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,7 +12,7 @@ namespace EatNow.Controllers
         {
             if (Request.Cookies["IdEmpleado"] != null)
             {
-                ViewBag.IdCliente = Request.Cookies["IdEmpleado"];
+                ViewBag.IdEmpleado = Request.Cookies["IdEmpleado"];
             }
 
             return View();
@@ -25,6 +26,27 @@ namespace EatNow.Controllers
         public IActionResult DatosRestaurante()
         {
             return RedirectToAction("InfoRestaurante", "Restaurante");
+        }
+
+        public IActionResult ListEmpleadosRestaurante()
+        {
+            List<Empleado> empleados = new List<Empleado>();
+
+            return View(empleados);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddEmpleado()
+        {
+            return RedirectToAction("ListEmpleadosRestaurante");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EliminarEmpleado()
+        {
+            return RedirectToAction("ListEmpleadosRestaurante");
         }
 
         public IActionResult InfoUsuario()

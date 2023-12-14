@@ -106,7 +106,6 @@ namespace EatNow.Controllers
                 ViewBag.IdCliente = Request.Cookies["IdCliente"];
                 ViewBag.ImageCliente = clienteDAL.GetClientImage(int.Parse(Request.Cookies["IdCliente"]));
             }
-                
 
             return View(listRestaurants);
         }
