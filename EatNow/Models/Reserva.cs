@@ -11,7 +11,7 @@ namespace EatNow.Models
         public DateTime Inicio { get; set; }
 
         [Required]
-        public DateTime Fin {  get; set; }
+        public DateTime Fin { get; set; }
 
         [Required]
         public int RIdCliente { get; set; }
@@ -20,5 +20,14 @@ namespace EatNow.Models
 
         [Required]
         public int RIdCasilla { get; set; }
+        public int NumeroMesa { get; set; }
+
+        public string NombreCliente { get; set; }
+        public string ApellidoCliente { get; set; }
+
+        public string NombreRestaurante { get; set; }
+
+        public string EstadoReservaNombre { get; set; }
+
     }
 }
