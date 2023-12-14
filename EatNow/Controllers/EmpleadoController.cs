@@ -39,7 +39,10 @@ namespace EatNow.Controllers
         public IActionResult ListEmpleadosRestaurante()
         {
             List<Empleado> empleados = new List<Empleado>();
-
+            if (Request.Cookies["IdEmpleado"] != null)
+            {
+                ViewBag.IdEmpleado = Request.Cookies["IdEmpleado"];
+            }
             return View(empleados);
         }
 
@@ -47,6 +50,10 @@ namespace EatNow.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult AddEmpleado()
         {
+            if (Request.Cookies["IdEmpleado"] != null)
+            {
+                ViewBag.IdEmpleado = Request.Cookies["IdEmpleado"];
+            }
             return RedirectToAction("ListEmpleadosRestaurante");
         }
 
@@ -54,11 +61,19 @@ namespace EatNow.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult EliminarEmpleado()
         {
+            if (Request.Cookies["IdEmpleado"] != null)
+            {
+                ViewBag.IdEmpleado = Request.Cookies["IdEmpleado"];
+            }
             return RedirectToAction("ListEmpleadosRestaurante");
         }
 
         public IActionResult mapaRestauranteEmpleado()
         {
+            if (Request.Cookies["IdEmpleado"] != null)
+            {
+                ViewBag.IdEmpleado = Request.Cookies["IdEmpleado"];
+            }
             return View();
         }
 
