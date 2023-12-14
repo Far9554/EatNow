@@ -92,7 +92,7 @@ namespace EatNow.Controllers
                 Response.Cookies.Append("IdEmpleado", empleado.IdEmpleado.ToString());
 
                 // TODO: Cambiar la ruta a la que se dirige
-                return RedirectToAction("ListReservasRestaurante", "Restaurante");
+                return RedirectToAction("Index", "Empleado");
             }
         }
 
@@ -129,6 +129,19 @@ namespace EatNow.Controllers
             Response.Cookies.Delete("IdEmpleado");
 
             return Redirect("Index");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Index(string time, string date, string direccion, string nombre)
+        {
+            List<Restaurante> listRestaurants = new List<Restaurante>();
+            listRestaurants = restauranteDAL.GetRestaurantsByFilter(time, direccion, nombre);
+
+            if (Request.Cookies["IdCliente"] != null)
+                ViewBag.IdCliente = Request.Cookies["IdCliente"];
+
+            return View(listRestaurants);
         }
 
         public IActionResult Privacy()

@@ -10,22 +10,22 @@
 <div style="display: flex;">
     <div class="options">
         <div class="filter-container container">
-            <form>
+            <form asp-action="Index" asp-controller="home" method="post" asp-antiforgery="true">
                 <h2>Filtrar Restaurantes</h2>
                 <div class="filter">
                     <label class="time">
-                        <input type="time">
+                        <input type="time" name="time">
                     </label>
                     <label class="time" style="margin-right: -2px;">
-                        <input type="date">
+                        <input type="date" name="date">
                     </label>
                     <label class="search">
                         <i class="fa fa-search"></i>
-                        <input type="text" placeholder="Localizacion" />
+                        <input type="text" placeholder="Direccion" name="direccion" />
                     </label>
                     <label class="search">
                         <i class="fa fa-search"></i>
-                        <input type="text" placeholder="Nombre Restaurante" />
+                        <input type="text" placeholder="Nombre Restaurante" name="nombre" />
                     </label>
                 </div>
                 <button class="btn info" type="submit">Buscar</button>
@@ -52,13 +52,13 @@
             <form asp-action="Index" asp-controller="restaurante" method="post" asp-antiforgery="true">
                 <div class="restaurante">
                     <div class="cont-img">
-                        <img src="../img/waitress-serving-customer-at-the-coffee-shop-photo.jpg">
+                        <img src="@(restaurante.URLImagen != null ? restaurante.URLImagen : null)">
                     </div>
                     <div class="cont-info">
                         <div class="info">
                             <h2>@restaurante.Nombre</h2>
                             <p>@restaurante.Direccion</p>
-                            <p>(@restaurante.Telefono) <a href="www.google.com">@restaurante.Web</a></p>
+                            <p>(@restaurante.Telefono) <a href="@restaurante.Web">@restaurante.Web</a></p>
                             <p class="desc">@restaurante.Descripcion</p>
                             <div class="horario">
                                 <label>@restaurante.HoraApertura</label>
