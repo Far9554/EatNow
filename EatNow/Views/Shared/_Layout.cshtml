@@ -138,6 +138,10 @@
             width: 100%;
         }
 
+        #rest-name{
+           color: #f88a19;
+        }
+
         
     </style>
 </head>
@@ -148,12 +152,29 @@
             <div class="logo">
                 <form asp-action="Index" asp-controller="Home" method="post" asp-antiforgery="true">
                 <button>
-                            <img src="/images/EAT_NOW_LOGO.png" alt="Logo">                     
+                            <img src="/images/EAT_NOW_LOGO.png" alt="Logo">
+                        @if (ViewBag.IdEmpleado != null)
+                        {
+                            <b>EatNow/Employer</b>
+                        }
+                        else
+                        {
                             <b>EatNow</b>
+                        }
                 </button>
                 </form>
             </div>
 
+            @if (ViewBag.IdEmpleado != null)
+            {
+                <div id="rest-name">
+                    Nombre del restaurante
+                </div>
+            }
+            else
+            {
+                
+            }
 
 
 
@@ -182,10 +203,30 @@
                         </form>
                     </div>
                 </div>
+            }
 
-                
-                    
-             
+
+            else if (ViewBag.IdEmpleado != null)
+            {
+                <div class="dropdown">
+                    @if (ViewBag.Images != null)
+                    {
+                        <img class="perfil" src="@ViewBag.Images[0]" alt="">
+                    }
+                    else
+                    {
+                        <img class="perfil" src="/images//noImage.jpg" alt="">
+                    }
+
+                    <div class="menu">
+                        <form asp-action="Perfil" asp-controller="Home" method="post" asp-antiforgery="true">
+                            <button class="opciones"><i class="fa-solid fa-user-pen"></i> Ver/Editar perfil</button><br>
+                        </form>
+                        <form asp-action="CerrarSesion" asp-controller="Home" method="post" asp-antiforgery="true">
+                            <button class="opciones"><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</button><br>
+                        </form>
+                    </div>
+                </div>
             }
             else
             {

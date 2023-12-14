@@ -90,8 +90,14 @@ namespace EatNow.Controllers
 
         public IActionResult InfoRestaurante()
         {
-            int idEmpleado = int.Parse(Request.Cookies["IdEmpleado"]);
+            int idEmpleado = int.Parse(Request.Cookies["IdEmpleado"]);            
             Empleado empleado = empleadoDAL.GetEmployeeById(idEmpleado);
+
+            if (Request.Cookies["IdEmpleado"] != null)
+            {
+                ViewBag.IdEmpleado = Request.Cookies["IdEmpleado"];
+            }
+
             Restaurante restaurante = restauranteDAL.GetRestaurantById(empleado.RIdRestaurante);
 
             List<Imagen> images = imagenRestauranteDAL.GetAllRestaurantImages(restaurante.IdRestaurante);
