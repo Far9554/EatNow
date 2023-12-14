@@ -2,7 +2,6 @@
 using EatNow.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace EatNow.Controllers
 {
@@ -50,6 +49,11 @@ namespace EatNow.Controllers
 
         public IActionResult MenuRestaurante()
         {
+            if (Request.Cookies["IdEmpleado"] != null)
+            {
+                ViewBag.IdEmpleado = Request.Cookies["IdEmpleado"];
+            }
+
             int idEmpleado = int.Parse(Request.Cookies["IdEmpleado"]);
             Empleado empleado = empleadoDAL.GetEmployeeById(idEmpleado);
             Restaurante restaurante = restauranteDAL.GetRestaurantById(empleado.RIdRestaurante);
@@ -82,7 +86,6 @@ namespace EatNow.Controllers
 
         public IActionResult ListEmpleadosRestaurante()
         {
-            List<Empleado> empleados = new List<Empleado>();
             if (Request.Cookies["IdEmpleado"] != null)
             {
                 ViewBag.IdEmpleado = Request.Cookies["IdEmpleado"];
@@ -98,15 +101,13 @@ namespace EatNow.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult AddEmpleado()
+        [ValidateAntiForgeryToken]           
+        public IActionResult AddEmpleado(string idRestaurante, string dni, string nombre, string apellidos, string email, string password)
         {
             if (Request.Cookies["IdEmpleado"] != null)
             {
                 ViewBag.IdEmpleado = Request.Cookies["IdEmpleado"];
             }
-        public IActionResult AddEmpleado(string idRestaurante, string dni, string nombre, string apellidos, string email, string password)
-        {
             Empleado empleado = new Empleado
             {
                 IdEmpleado = int.Parse(idRestaurante),
