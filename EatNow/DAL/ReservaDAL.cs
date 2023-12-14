@@ -21,12 +21,12 @@ namespace EatNow.DAL
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
 
-                string query = "SELECT IdReserva, Re.Nombre AS 'Restaurante', Cl.Nombre AS 'Nombre Cliente', Cl.Apellidos AS 'Apellido Cliente', R.Inicio, R.Fin, RIdCliente, RIdEstadoReserva, RIdCasilla, ER.Nombre AS 'Estado' FROM Reserva R " +
-                               "INNER JOIN Casilla C ON C.IdCasilla = R.RIdCasilla " +
-                               "INNER JOIN Restaurante Re ON C.RIdRestaurante = Re.IdRestaurante " +
-                               "INNER JOIN Cliente Cl ON Cl.IdCliente = R.RIdCliente " +
-                               "INNER JOIN EstadoReserva ER ON R.RIdEstadoReserva = ER.IdEstado";// +
-                               //"GROUP BY Re.Nombre, Cl.Nombre, Cl.Apellidos , R.Inicio, R.Fin, ER.Nombre ";
+                string query =  "SELECT IdReserva, Re.Nombre AS 'Restaurante', C.NumeroMesa AS 'NumeroMesa', Cl.Nombre AS 'Nombre Cliente', Cl.Apellidos AS 'Apellido Cliente', R.Inicio, R.Fin, RIdCliente, RIdEstadoReserva, RIdCasilla, ER.Nombre AS 'Estado' FROM Reserva R " +
+                                "INNER JOIN Casilla C ON C.IdCasilla = R.RIdCasilla " +
+                                "INNER JOIN Restaurante Re ON C.RIdRestaurante = Re.IdRestaurante " +
+                                "INNER JOIN Cliente Cl ON Cl.IdCliente = R.RIdCliente " +
+                                "INNER JOIN EstadoReserva ER ON R.RIdEstadoReserva = ER.IdEstado " +
+                                "WHERE Re.IdRestaurante = '2'";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -43,6 +43,7 @@ namespace EatNow.DAL
                                 RIdCliente = int.Parse(reader["RIdCliente"].ToString()),
                                 RIdEstadoReserva = int.Parse(reader["RIdEstadoReserva"].ToString()),
                                 RIdCasilla = int.Parse(reader["RIdCasilla"].ToString()),
+                                NumeroMesa = int.Parse(reader["NumeroMesa"].ToString()),
                                 NombreRestaurante = reader["Restaurante"].ToString(),
                                 NombreCliente = reader["Nombre Cliente"].ToString(),
                                 ApellidoCliente = reader["Apellido Cliente"].ToString(),

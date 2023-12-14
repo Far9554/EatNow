@@ -20,6 +20,7 @@ namespace EatNow.Models
 
         [Required]
         public int RIdCasilla { get; set; }
+        public int NumeroMesa { get; set; }
 
         public string NombreCliente { get; set; }
         public string ApellidoCliente { get; set; }
