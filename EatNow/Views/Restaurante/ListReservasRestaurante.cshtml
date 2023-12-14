@@ -1,7 +1,26 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model List<Reserva>
 
-<h1>Listas de Reservas</h1>
+<link rel="stylesheet" type="text/css" href="~/css/mainPage.css">
+
+<div class="container">
+    @foreach (Reserva reserva in Model)
+    {
+            <div class="reserva">
+                <div class="cont-img">
+                    <img src="../img/waitress-serving-customer-at-the-coffee-shop-photo.jpg">
+                </div>
+                <div class="cont-info">
+                    <div class="info">
+                        <h2>@reserva.NombreRestaurante</h2>
+                        <p>@reserva.Inicio</p>
+                        <p>@reserva.Fin</p>
+                        <p>@reserva.NombreCliente, @reserva.ApellidoCliente</p>
+                        <p>@reserva.EstadoReservaNombre</p>
+                    </div>
+                </div>
+            </div>
+    }
+</div>
+
+
+
