@@ -7,6 +7,13 @@ namespace EatNow.Controllers
 {
     public class EmpleadoController : Controller
     {
+        private readonly EmpleadoDAL empleadoDAL;
+
+        public EmpleadoController()
+        {
+            empleadoDAL = new EmpleadoDAL(Conexion.CadenaBBDD);
+        }
+
         // GET: EmpleadoController
         public IActionResult Index()
         {
@@ -38,22 +45,40 @@ namespace EatNow.Controllers
 
         public IActionResult ListEmpleadosRestaurante()
         {
-            List<Empleado> empleados = new List<Empleado>();
+            int idEmpleado = int.Parse(Request.Cookies["IdEmpleado"]);
+            Empleado empleado = empleadoDAL.GetEmployeeById(idEmpleado);
+            
+            List<Empleado> empleados = empleadoDAL.GetAllEmployeesExcept(empleado.RIdRestaurante, idEmpleado);
+
+            ViewBag.IdRestaurante = empleado.RIdRestaurante;
 
             return View(empleados);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult AddEmpleado()
+        public IActionResult AddEmpleado(string idRestaurante, string dni, string nombre, string apellidos, string email, string password)
         {
+            Empleado empleado = new Empleado
+            {
+                IdEmpleado = int.Parse(idRestaurante),
+                DNI = dni,
+                Nombre = nombre,
+                Apellidos = apellidos,
+                CorreoElectronico = email,
+                Password = password,
+                RIdRestaurante = int.Parse(idRestaurante)
+            };
+            empleadoDAL.InsertEmployee(empleado);
+
             return RedirectToAction("ListEmpleadosRestaurante");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult EliminarEmpleado()
+        public IActionResult EliminarEmpleado(string idEmpleado)
         {
+            empleadoDAL.DeleteEmployee(int.Parse(idEmpleado));
             return RedirectToAction("ListEmpleadosRestaurante");
         }
 
