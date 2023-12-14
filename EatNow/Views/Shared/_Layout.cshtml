@@ -150,34 +150,27 @@
         <nav class="header">
 
             <div class="logo">
-                <form asp-action="Index" asp-controller="Home" method="post" asp-antiforgery="true">
-                <button>
+                @if (ViewBag.IdEmpleado != null)
+                {
+                    <form asp-action="Index" asp-controller="Empleado" method="post" asp-antiforgery="true">
+                        <button>
                             <img src="/images/EAT_NOW_LOGO.png" alt="Logo">
-                        @if (ViewBag.IdEmpleado != null)
-                        {
                             <b>EatNow/Employer</b>
-                        }
-                        else
-                        {
-                            <b>EatNow</b>
-                        }
-                </button>
-                </form>
-            </div>
+                        </button>
+                    </form>
+                }
+                else
+                {
+                    <form asp-action="Index" asp-controller="Home" method="post" asp-antiforgery="true">
+                        <button>
+                            <img src="/images/EAT_NOW_LOGO.png" alt="Logo">
+                            <b>EatNowr</b>
+                        </button>
+                    </form>
+                }
 
-            @if (ViewBag.IdEmpleado != null)
-            {
-                <div id="rest-name">
-                    Nombre del restaurante
-                </div>
-            }
-            else
-            {
                 
-            }
-
-
-
+            </div>
 
             @if (ViewBag.IdCliente != null )
             {
@@ -209,17 +202,9 @@
             else if (ViewBag.IdEmpleado != null)
             {
                 <div class="dropdown">
-                    @if (ViewBag.Images != null)
-                    {
-                        <img class="perfil" src="@ViewBag.Images[0]" alt="">
-                    }
-                    else
-                    {
                         <img class="perfil" src="/images//noImage.jpg" alt="">
-                    }
-
                     <div class="menu">
-                        <form asp-action="Perfil" asp-controller="Home" method="post" asp-antiforgery="true">
+                        <form asp-action="InfoUsuario" asp-controller="Empleado" method="post" asp-antiforgery="true">
                             <button class="opciones"><i class="fa-solid fa-user-pen"></i> Ver/Editar perfil</button><br>
                         </form>
                         <form asp-action="CerrarSesion" asp-controller="Home" method="post" asp-antiforgery="true">
