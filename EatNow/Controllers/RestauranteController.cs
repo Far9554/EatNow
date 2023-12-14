@@ -82,18 +82,21 @@ namespace EatNow.Controllers
             return View();
         }
 
-        public IActionResult ListReservasRestaurante(int id)
+        public IActionResult ListReservasRestaurante()
         {
+            int idRestaurant = 0;
             if (Request.Cookies["IdEmpleado"] != null)
             {
                 ViewBag.IdEmpleado = Request.Cookies["IdEmpleado"];
+                Empleado emp = empleadoDAL.GetEmployeeById(int.Parse(ViewBag.IdEmpleado));
+                idRestaurant = emp.RIdRestaurante;
             }
-            List<Reserva> reservas = reservaRestauranteDAL.GetAllReservasRestauranteId(id);
+            List<Reserva> reservas = reservaRestauranteDAL.GetAllReservasRestauranteId(idRestaurant);
 
             if (reservas == null)
             {
                 List<Reserva> listaReservas = new List<Reserva>();
-                listaReservas = reservaRestauranteDAL.GetAllReservasRestauranteId(id);
+                listaReservas = reservaRestauranteDAL.GetAllReservasRestauranteId(idRestaurant);
 
                 TempData["ErrorLoginClientMessage"] = "No tienes reservas";
                 return View(listaReservas);

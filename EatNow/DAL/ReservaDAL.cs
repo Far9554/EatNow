@@ -14,7 +14,7 @@ namespace EatNow.DAL
             this.connectionString = connectionString;
         }
 
-        public List<Reserva> GetAllReservasRestauranteId(int Id)
+        public List<Reserva> GetAllReservasRestauranteId(int idRestaurant)
         {
             List<Reserva> reservas = new List<Reserva>();
 
@@ -26,10 +26,12 @@ namespace EatNow.DAL
                                 "INNER JOIN Restaurante Re ON C.RIdRestaurante = Re.IdRestaurante " +
                                 "INNER JOIN Cliente Cl ON Cl.IdCliente = R.RIdCliente " +
                                 "INNER JOIN EstadoReserva ER ON R.RIdEstadoReserva = ER.IdEstado " +
-                                "WHERE Re.IdRestaurante = '2'";
+                                "WHERE Re.IdRestaurante = @IdRestaurante";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
+                    command.Parameters.AddWithValue("@IdRestaurante", idRestaurant);
+
                     connection.Open();
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
