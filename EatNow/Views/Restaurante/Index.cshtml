@@ -52,17 +52,21 @@
                 <label class="plato"><img src="@plato.URLImagen"></label>
             }
         </div>
-        <form asp-area="" asp-controller="restaurante" asp-action="mapaRestaurante">
+        
             <div id="reserva">
                 @if (ViewBag.IdCliente != null)
                 {
-                    <button class="btn submit" type="submit">RESERVA YA!</button>
+                <form style="display: flex;" asp-area="" asp-controller="restaurante" asp-action="mapaRestaurante">
+                    <button style="margin: 0 auto;" class="btn submit" type="submit">RESERVA YA!</button>
+                </form>
                 }
                 else
                 {
-                    <button class="btn submit" type="button">Inicia Session Para Reservar</button>
+                <form style="display: flex;" asp-area="" asp-controller="home" asp-action="login">
+                    <button style="margin: 0 auto;" class="btn submit" type="submit">Inicia Sesion Para Reservar</button>
+                </form>
                 }
             </div>
-        </form>
+        
     </div>
 </div>

@@ -151,7 +151,9 @@ namespace EatNow.Controllers
                 ViewBag.IdEmpleado = Request.Cookies["IdEmpleado"];
             }
 
-            return View();
+            Empleado empleado = empleadoDAL.GetEmployeeById(int.Parse(ViewBag.IdEmpleado));
+
+            return View(empleado);
         }
     }
 }
