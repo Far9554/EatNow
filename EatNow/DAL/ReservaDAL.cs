@@ -58,8 +58,7 @@ namespace EatNow.DAL
             return reservas;
         }
 
-
-        public List<Reserva> GetAllReservasClienteId(int Id)
+        public List<Reserva> ListReservasUsuario(int Id)
         {
             List<Reserva> reservas = new List<Reserva>();
 
@@ -102,6 +101,5 @@ namespace EatNow.DAL
 
             return reservas;
         }
-
     }
 }
