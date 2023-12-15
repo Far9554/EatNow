@@ -36,12 +36,10 @@
             <div class="filter-container container">
                 <h2>Ultimas Reservas</h2>
                 <div class="last-reservas">
-                    <div class="reserva"><button class="btn">Nombre Restaurante</button></div>
-                    <div class="reserva"><button class="btn">Nombre Restaurante</button></div>
-                    <div class="reserva"><button class="btn">Nombre Restaurante</button></div>
-                    <div class="reserva"><button class="btn">Nombre Restaurante</button></div>
-                    <div class="reserva"><button class="btn">Nombre Restaurante</button></div>
-                    <div class="reserva"><button class="btn">Nombre Restaurante</button></div>
+                    @foreach(Reserva reservas in ViewBag.Reserva)
+                    {
+                        <div class="reserva"><button class="btn">@reservas.NombreRestaurante</button></div>
+                    }
                 </div>
             </div>
         }

@@ -11,12 +11,14 @@ namespace EatNow.Controllers
         private readonly RestauranteDAL restauranteDAL;
         private readonly ClienteDAL clienteDAL;
         private readonly EmpleadoDAL empleadoDAL;
+        private readonly ReservaDAL reservaClienteDAL;
 
         public HomeController()
         {
             restauranteDAL = new RestauranteDAL(Conexion.CadenaBBDD);
             clienteDAL = new ClienteDAL(Conexion.CadenaBBDD);
             empleadoDAL = new EmpleadoDAL(Conexion.CadenaBBDD);
+            reservaClienteDAL = new ReservaDAL(Conexion.CadenaBBDD);
         }
 
         public IActionResult Login()
@@ -105,8 +107,10 @@ namespace EatNow.Controllers
             {
                 ViewBag.IdCliente = Request.Cookies["IdCliente"];
                 ViewBag.ImageCliente = clienteDAL.GetClientImage(int.Parse(Request.Cookies["IdCliente"]));
-            }
 
+                List<Reserva> reservas = reservaClienteDAL.LastFiveReservation(int.Parse(Request.Cookies["IdCliente"]));
+                ViewBag.Reserva = reservas;
+            }
             return View(listRestaurants);
         }
 

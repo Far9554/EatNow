@@ -103,5 +103,39 @@ namespace EatNow.DAL
 
             return reservas;
         }
+
+
+        public List<Reserva> LastFiveReservation(int Id)
+        {
+            List<Reserva> reservas = new List<Reserva>();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+
+                string query = "SELECT TOP 5 Re.Nombre AS NombreRestaurante FROM Reserva R " +
+                               "INNER JOIN Casilla C ON C.IdCasilla = R.RIdCasilla " +
+                               "INNER JOIN Restaurante Re ON C.RIdRestaurante = Re.IdRestaurante " +
+                               "WHERE R.RIdCliente = '1' " +
+                               "ORDER BY R.Inicio DESC; ";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Reserva reserva = new Reserva
+                            {
+                                NombreRestaurante = reader["NombreRestaurante"].ToString()
+                            };
+                            reservas.Add(reserva);
+                        }
+                    }
+                }
+            }
+
+            return reservas;
+        }
     }
 }
