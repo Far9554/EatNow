@@ -24,9 +24,12 @@ namespace EatNow.Controllers
             if (Request.Cookies["IdEmpleado"] != null)
             {
                 ViewBag.IdEmpleado = Request.Cookies["IdEmpleado"];
+                return View();
             }
-
-            return View();
+            else
+            {
+                return RedirectToAction("Index","Home");
+            }
         }
 
         public IActionResult ListaReservasRestaurante()
@@ -52,16 +55,23 @@ namespace EatNow.Controllers
             if (Request.Cookies["IdEmpleado"] != null)
             {
                 ViewBag.IdEmpleado = Request.Cookies["IdEmpleado"];
+
+                int idEmpleado = int.Parse(Request.Cookies["IdEmpleado"]);
+                Empleado empleado = empleadoDAL.GetEmployeeById(idEmpleado);
+                Restaurante restaurante = restauranteDAL.GetRestaurantById(empleado.RIdRestaurante);
+                List<Plato> platos = platoDAL.GetAllDishesFromRestaurant(restaurante.IdRestaurante);
+
+                ViewBag.IdRestaurante = restaurante.IdRestaurante;
+
+                return View(platos);
             }
 
-            int idEmpleado = int.Parse(Request.Cookies["IdEmpleado"]);
-            Empleado empleado = empleadoDAL.GetEmployeeById(idEmpleado);
-            Restaurante restaurante = restauranteDAL.GetRestaurantById(empleado.RIdRestaurante);
-            List<Plato> platos = platoDAL.GetAllDishesFromRestaurant(restaurante.IdRestaurante);
+            else
+            {
+                return RedirectToAction("Index");
+            }
 
-            ViewBag.IdRestaurante = restaurante.IdRestaurante;
 
-            return View(platos);
         }
 
         [HttpPost]
@@ -89,15 +99,22 @@ namespace EatNow.Controllers
             if (Request.Cookies["IdEmpleado"] != null)
             {
                 ViewBag.IdEmpleado = Request.Cookies["IdEmpleado"];
+
+                int idEmpleado = int.Parse(Request.Cookies["IdEmpleado"]);
+                Empleado empleado = empleadoDAL.GetEmployeeById(idEmpleado);
+
+                List<Empleado> empleados = empleadoDAL.GetAllEmployeesExcept(empleado.RIdRestaurante, idEmpleado);
+
+                ViewBag.IdRestaurante = empleado.RIdRestaurante;
+
+                return View(empleados);
             }
-            int idEmpleado = int.Parse(Request.Cookies["IdEmpleado"]);
-            Empleado empleado = empleadoDAL.GetEmployeeById(idEmpleado);
-            
-            List<Empleado> empleados = empleadoDAL.GetAllEmployeesExcept(empleado.RIdRestaurante, idEmpleado);
 
-            ViewBag.IdRestaurante = empleado.RIdRestaurante;
+            else
+            {
+                return RedirectToAction("Index");
+            }
 
-            return View(empleados);
         }
 
         [HttpPost]
@@ -141,6 +158,10 @@ namespace EatNow.Controllers
             {
                 ViewBag.IdEmpleado = Request.Cookies["IdEmpleado"];
             }
+            else
+            {
+                return RedirectToAction("Index");
+            }
             return View();
         }
 
@@ -149,11 +170,14 @@ namespace EatNow.Controllers
             if (Request.Cookies["IdEmpleado"] != null)
             {
                 ViewBag.IdEmpleado = Request.Cookies["IdEmpleado"];
+                Empleado empleado = empleadoDAL.GetEmployeeById(int.Parse(ViewBag.IdEmpleado));
+
+                return View(empleado);
             }
-
-            Empleado empleado = empleadoDAL.GetEmployeeById(int.Parse(ViewBag.IdEmpleado));
-
-            return View(empleado);
+            else
+            {
+                return RedirectToAction("Index");
+            }
         }
     }
 }

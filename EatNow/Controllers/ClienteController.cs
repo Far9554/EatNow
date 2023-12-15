@@ -17,16 +17,21 @@ namespace EatNow.Controllers
 
         public IActionResult InfoUsuario()
         {
-            int idCliente = int.Parse(Request.Cookies["IdCliente"]);
-            Cliente cliente = clienteDAL.GetClientById(idCliente);
+
 
             if (Request.Cookies["IdCliente"] != null)
             {
+                int idCliente = int.Parse(Request.Cookies["IdCliente"]);
+                Cliente cliente = clienteDAL.GetClientById(idCliente);
+
                 ViewBag.IdCliente = Request.Cookies["IdCliente"];
                 ViewBag.ImageCliente = clienteDAL.GetClientImage(int.Parse(Request.Cookies["IdCliente"]));
+                return View(cliente);
             }
-
-            return View(cliente);
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
 
         [HttpPost]
@@ -48,18 +53,31 @@ namespace EatNow.Controllers
 
         public IActionResult ListReservasUsuario(int id)
         {
-            List<Reserva> reservas = reservaClienteDAL.ListReservasUsuario(id);
-
-            if (reservas == null)
+            if (Request.Cookies["IdCliente"] != null)
             {
-                TempData["ErrorLoginClientMessage"] = "No tienes reservas";
-                return View(reservas);
+                List<Reserva> reservas = reservaClienteDAL.ListReservasUsuario(id);
+
+                int idCliente = int.Parse(Request.Cookies["IdCliente"]);
+                Cliente cliente = clienteDAL.GetClientById(idCliente);
+
+                ViewBag.IdCliente = Request.Cookies["IdCliente"];
+                ViewBag.ImageCliente = clienteDAL.GetClientImage(int.Parse(Request.Cookies["IdCliente"]));
+
+                if (reservas == null)
+                {
+                    TempData["ErrorLoginClientMessage"] = "No tienes reservas";
+                    return View(reservas);
+                }
+                else
+                {
+                    // Guardamos el objeto cliente en el ViewBag
+                    //ViewBag.ReservasRestauranteById = reservas;
+                    return View(reservas);
+                }
             }
             else
             {
-                // Guardamos el objeto cliente en el ViewBag
-                //ViewBag.ReservasRestauranteById = reservas;
-                return View(reservas);
+                return RedirectToAction("Index", "Home");
             }
         }
     }
