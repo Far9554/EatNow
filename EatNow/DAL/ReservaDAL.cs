@@ -1,4 +1,5 @@
 ﻿using EatNow.Models;
+using System;
 using System.Data.SqlClient;
 using System.Text.RegularExpressions;
 
@@ -102,6 +103,77 @@ namespace EatNow.DAL
             }
 
             return reservas;
+        }
+
+        public bool? IsMesaReservedAt(int idCasilla, string hour) {
+            DateTime currentTime = DateTime.Now;
+            string dateTime = currentTime.ToString("yyyy-MM-dd");
+            dateTime += " " + hour;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string query = "SELECT COUNT(IdReserva) AS NumReservas " +
+                               "FROM Reserva WHERE Inicio BETWEEN CAST(@DateTime AS DATETIME) AND " +
+                               "DATEADD(HOUR, 2, CAST(@DateTime AS DATETIME)) AND " + 
+                               "RIdCasilla = @IdCasilla AND RIdEstadoReserva = 1";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@IdCasilla", idCasilla);
+                    command.Parameters.AddWithValue("@DateTime", dateTime);
+
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            int numReservas = int.Parse(reader["NumReservas"].ToString());
+
+                            if (numReservas > 0)
+                                return true;
+                            else
+                                return false;
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        public int GetNumberOfBookingsFromRestaurantAt(int idRestaurante, string hour)
+        {
+            int numReservas = -1;
+
+            DateTime currentTime = DateTime.Now;
+            string dateTime = currentTime.ToString("yyyy-MM-dd");
+            dateTime += " " + hour;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string query = "SELECT COUNT(IdReserva) AS NumReservas " +
+                               "FROM Reserva INNER JOIN Casilla ON IdCasilla = RIdCasilla " + 
+                               "WHERE Inicio = CAST(@DateTime AS DATETIME) AND " +
+                               "RIdRestaurante = @IdRestaurante AND RIdEstadoReserva = 1";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@IdRestaurante", idRestaurante);
+                    command.Parameters.AddWithValue("@DateTime", dateTime);
+
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            numReservas = int.Parse(reader["NumReservas"].ToString());
+                            return numReservas;
+                        }
+                    }
+                }
+            }
+
+            return numReservas;
         }
     }
 }
