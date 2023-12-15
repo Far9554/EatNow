@@ -7,9 +7,12 @@ namespace EatNow.Controllers
     public class ClienteController : Controller
     {
         private readonly ClienteDAL clienteDAL;
+        private readonly ReservaDAL reservaClienteDAL;
+
         public ClienteController()
         {
-            clienteDAL = new ClienteDAL(Conexion.CadenaBBDD);            
+            clienteDAL = new ClienteDAL(Conexion.CadenaBBDD);
+            reservaClienteDAL = new ReservaDAL(Conexion.CadenaBBDD);
         }
 
         public IActionResult InfoUsuario()
@@ -39,6 +42,25 @@ namespace EatNow.Controllers
                 TempData["ErrorUpdatingMessage"] = "Ha habido un error al actualizar los datos";
 
             return RedirectToAction("InfoUsuario");
+        }
+
+
+
+        public IActionResult ListReservasUsuario(int id)
+        {
+            List<Reserva> reservas = reservaClienteDAL.ListReservasUsuario(id);
+
+            if (reservas == null)
+            {
+                TempData["ErrorLoginClientMessage"] = "No tienes reservas";
+                return View(reservas);
+            }
+            else
+            {
+                // Guardamos el objeto cliente en el ViewBag
+                //ViewBag.ReservasRestauranteById = reservas;
+                return View(reservas);
+            }
         }
     }
 }
