@@ -43,6 +43,11 @@
     padding-right: 0;
 }
 
+.cont-info > .info > p > a[data-bs-toggle="tooltip"] {
+    margin-left: 5px;
+    cursor: pointer
+}
+
 .restaurante > p {
     color: #25293A;
 }
