@@ -13,6 +13,7 @@ namespace EatNow.Controllers
         private readonly EmpleadoDAL empleadoDAL;
         private readonly ImagenRestauranteDAL imagenRestauranteDAL;
         private readonly ReservaDAL reservaRestauranteDAL;
+        private readonly PlatoDAL platoDAL;
 
         public RestauranteController()
         {
@@ -21,6 +22,7 @@ namespace EatNow.Controllers
             empleadoDAL = new EmpleadoDAL(Conexion.CadenaBBDD);
             imagenRestauranteDAL = new ImagenRestauranteDAL(Conexion.CadenaBBDD);
             reservaRestauranteDAL = new ReservaDAL(Conexion.CadenaBBDD);
+            platoDAL = new PlatoDAL(Conexion.CadenaBBDD);
         }
 
         // GET: RestauranteController
@@ -62,6 +64,9 @@ namespace EatNow.Controllers
                 List<Imagen> images = imagenRestauranteDAL.GetAllRestaurantImages(restaurante.IdRestaurante);
                 ViewBag.Images = images;
 
+                List<Plato> platos = platoDAL.GetAllDishesFromRestaurant(restaurante.IdRestaurante);
+                ViewBag.Platos = platos;
+
                 return View(restaurante);
             }
         }
@@ -77,14 +82,21 @@ namespace EatNow.Controllers
             return View();
         }
 
-        public IActionResult ListReservasRestaurante(int id)
+        public IActionResult ListReservasRestaurante()
         {
-            List<Reserva> reservas = reservaRestauranteDAL.GetAllReservasRestauranteId(id);
+            int idRestaurant = 0;
+            if (Request.Cookies["IdEmpleado"] != null)
+            {
+                ViewBag.IdEmpleado = Request.Cookies["IdEmpleado"];
+                Empleado emp = empleadoDAL.GetEmployeeById(int.Parse(ViewBag.IdEmpleado));
+                idRestaurant = emp.RIdRestaurante;
+            }
+            List<Reserva> reservas = reservaRestauranteDAL.GetAllReservasRestauranteId(idRestaurant);
 
             if (reservas == null)
             {
                 List<Reserva> listaReservas = new List<Reserva>();
-                listaReservas = reservaRestauranteDAL.GetAllReservasRestauranteId(id);
+                listaReservas = reservaRestauranteDAL.GetAllReservasRestauranteId(idRestaurant);
 
                 TempData["ErrorLoginClientMessage"] = "No tienes reservas";
                 return View(listaReservas);
@@ -110,8 +122,14 @@ namespace EatNow.Controllers
 
         public IActionResult InfoRestaurante()
         {
-            int idEmpleado = int.Parse(Request.Cookies["IdEmpleado"]);
+            int idEmpleado = int.Parse(Request.Cookies["IdEmpleado"]);            
             Empleado empleado = empleadoDAL.GetEmployeeById(idEmpleado);
+
+            if (Request.Cookies["IdEmpleado"] != null)
+            {
+                ViewBag.IdEmpleado = Request.Cookies["IdEmpleado"];
+            }
+
             Restaurante restaurante = restauranteDAL.GetRestaurantById(empleado.RIdRestaurante);
 
             List<Imagen> images = imagenRestauranteDAL.GetAllRestaurantImages(restaurante.IdRestaurante);
