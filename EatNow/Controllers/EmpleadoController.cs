@@ -2,6 +2,7 @@
 using EatNow.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace EatNow.Controllers
 {
@@ -142,6 +143,29 @@ namespace EatNow.Controllers
                 ViewBag.IdEmpleado = Request.Cookies["IdEmpleado"];
             }
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult GetCasillas()
+        {
+            Casilla[] casillas = { new Casilla { X=0, Y=0 }, new Casilla { X = 1, Y = 0 }, new Casilla { X = 2, Y = 0 } };
+
+            string casillasJson = JsonConvert.SerializeObject(casillas);
+
+            return Json(casillasJson);
+        }
+
+        [HttpPost]
+        public IActionResult SaveCasillas(string casillasJson)
+        {
+            Casilla[] casillasArray = JsonConvert.DeserializeObject<Casilla[]>(casillasJson);
+
+            foreach (Casilla c in casillasArray)
+            {
+                Console.WriteLine($"X:{c.X} Y:{c.Y} EsMesa:{c.EsMesa}");
+            }
+
+            return Json(new { success = true });
         }
 
         public IActionResult InfoUsuario()
