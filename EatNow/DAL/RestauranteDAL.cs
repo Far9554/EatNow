@@ -128,7 +128,9 @@ namespace EatNow.DAL
             {
                 string query = "SELECT IdRestaurante, Nombre, Direccion, Telefono, Web, Descripcion, " +
                                "CONVERT(VARCHAR(5), HoraApertura, 108) AS HoraApertura, " +
-                               "CONVERT(VARCHAR(5), HoraCierre, 108) AS HoraCierre FROM Restaurante WHERE";
+                               "CONVERT(VARCHAR(5), HoraCierre, 108) AS HoraCierre, " +
+                               "URLImagen = (SELECT TOP 1 URL FROM Imagen WHERE RIdRestaurante = IdRestaurante) " +
+                               "FROM Restaurante WHERE";
 
                 query += $" Nombre LIKE '{nombre}%' AND";
                 query += $" Direccion LIKE '%{direccion}%' AND";
@@ -151,7 +153,8 @@ namespace EatNow.DAL
                                 Web = (reader["Web"] != DBNull.Value) ? reader["Web"].ToString() : null,
                                 Descripcion = (reader["Descripcion"] != DBNull.Value) ? reader["Descripcion"].ToString() : null,
                                 HoraApertura = reader["HoraApertura"].ToString(),
-                                HoraCierre = reader["HoraCierre"].ToString()
+                                HoraCierre = reader["HoraCierre"].ToString(),
+                                URLImagen = (reader["URLImagen"] != DBNull.Value) ? reader["URLImagen"].ToString() : null
                             };
                             restaurants.Add(restaurant);
                         }

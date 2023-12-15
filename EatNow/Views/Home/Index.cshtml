@@ -3,7 +3,7 @@
 }
 @model List<Restaurante>
 
-
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
 <link rel="stylesheet" type="text/css" href="~/css/mainPage.css">
 
 
@@ -57,13 +57,13 @@
                     <div class="cont-info">
                         <div class="info">
                             <h2>@restaurante.Nombre</h2>
-                            <p>@restaurante.Direccion</p>
+                            <p>@restaurante.Direccion<a href="http://maps.google.com/?q=@restaurante.Direccion" class="bi bi-geo-alt-fill" style="margin-left: 5px; cursor: pointer"></a></p>
                             <p>(@restaurante.Telefono) <a href="@restaurante.Web">@restaurante.Web</a></p>
                             <p class="desc">@restaurante.Descripcion</p>
                             <div class="horario">
                                 <label>@restaurante.HoraApertura</label>
                                 <label>@restaurante.HoraCierre</label>
-                                <input type="number" name="IdRestaurante" style="visibility: hidden;" value="@restaurante.IdRestaurante">
+                                <input type="number" name="IdRestaurante" style="display: none;" value="@restaurante.IdRestaurante">
                             </div>
                         </div>
                         <div class="reservar">

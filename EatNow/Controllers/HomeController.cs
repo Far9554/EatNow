@@ -143,6 +143,13 @@ namespace EatNow.Controllers
             return View(listRestaurants);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult BotonHome()
+        {
+            return RedirectToAction("Index");
+        }
+
         public IActionResult Privacy()
         {
             return View();
