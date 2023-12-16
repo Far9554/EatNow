@@ -175,5 +175,26 @@ namespace EatNow.DAL
 
             return numReservas;
         }
+
+        public int InsertBooking(Reserva reserva)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                // Por defecto, todas las reservas tendrán el estado "Reservado" (id = 1)
+                string query = "INSERT INTO Reserva (Inicio, Fin, RIdCliente, RIdEstadoReserva, RIdCasilla) " +
+                               "VALUES (@Inicio, @Fin, @RIdCliente, 1, @RIdCasilla)";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Inicio", reserva.Inicio);
+                    command.Parameters.AddWithValue("@Fin", reserva.Fin);
+                    command.Parameters.AddWithValue("@RIdCliente", reserva.RIdCliente);
+                    command.Parameters.AddWithValue("@RIdCasilla", reserva.RIdCasilla);
+
+                    connection.Open();
+                    return command.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }
