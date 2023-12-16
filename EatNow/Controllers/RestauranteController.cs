@@ -2,6 +2,7 @@
 using EatNow.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Linq;
 
 namespace EatNow.Controllers
@@ -14,6 +15,7 @@ namespace EatNow.Controllers
         private readonly ImagenRestauranteDAL imagenRestauranteDAL;
         private readonly ReservaDAL reservaRestauranteDAL;
         private readonly PlatoDAL platoDAL;
+        private readonly CasillaDAL casillaDAL;
 
         public RestauranteController()
         {
@@ -23,6 +25,7 @@ namespace EatNow.Controllers
             imagenRestauranteDAL = new ImagenRestauranteDAL(Conexion.CadenaBBDD);
             reservaRestauranteDAL = new ReservaDAL(Conexion.CadenaBBDD);
             platoDAL = new PlatoDAL(Conexion.CadenaBBDD);
+            casillaDAL = new CasillaDAL(Conexion.CadenaBBDD);
         }
 
         // GET: RestauranteController
@@ -71,15 +74,28 @@ namespace EatNow.Controllers
             }
         }
 
-        public IActionResult MapaRestaurante()
+        public IActionResult MapaRestaurante(int idRestaurante)
         {
+            Restaurante restaurante = restauranteDAL.GetRestaurantById(idRestaurante);
+            ViewBag.IdRestaurante = idRestaurante;
+
             if (Request.Cookies["IdCliente"] != null)
             {
                 ViewBag.IdCliente = Request.Cookies["IdCliente"];
                 ViewBag.ImageCliente = clienteDAL.GetClientImage(int.Parse(Request.Cookies["IdCliente"]));
             }
 
-            return View();
+            return View(idRestaurante);
+        }
+
+        [HttpGet]
+        public IActionResult GetCasillas(int idRestaurante)
+        {
+            Casilla[] casillas = casillaDAL.GetCasillasByRestaurantId(idRestaurante).ToArray();
+
+            string casillasJson = JsonConvert.SerializeObject(casillas);
+
+            return Json(casillasJson);
         }
 
         public IActionResult ListReservasRestaurante()

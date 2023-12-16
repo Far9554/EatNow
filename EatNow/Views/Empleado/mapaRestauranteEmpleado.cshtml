@@ -48,9 +48,9 @@
         const tbl = document.createElement('table');
         tbl.id = "mapa";
 
-        for (let i = 0; i < GridSizeX; i++) {
+        for (let i = 0; i < GridSizeY; i++) {
             const tr = tbl.insertRow();
-            for (let j = 0; j < GridSizeY; j++) {
+            for (let j = 0; j < GridSizeX; j++) {
                 const td = tr.insertCell();
                 td.id = i + "-" + j;
                 td.width = 630 / GridSizeY;
@@ -77,7 +77,6 @@
 
         casillasRestaurante.forEach(function (cR) {
             let cords = cR.Y + '-' + cR.X;
-            console.log(cords);
 
             if (cR.EsMesa == false)
                 SetState(1);
@@ -116,7 +115,7 @@
     function ChangeState(IdCasilla) {
         let Casilla = document.getElementById(IdCasilla);
         let cords = Casilla.id.split("-");
-        let c = casillas.find(x => x.x == cords[1], y => y.y == cords[0]);
+        let c = casillas.find(x => x.x == cords[1] && x.y == cords[0]);
 
         if (PrimerCasilla != null) {
             PrimerCasilla.classList.remove("Selec");
@@ -202,6 +201,7 @@
     function PushCasillas() {
         // Convertir el array a una cadena JSON
         let casillasG = casillas.filter(c => c.esAire == true);
+        console.log(casillasG);
         var jsonMiArray = JSON.stringify(casillasG);
 
         console.log(jsonMiArray);

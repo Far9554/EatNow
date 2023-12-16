@@ -1,7 +1,142 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@{
-}
+@model int
 
-<h1>Mapa mesas</h1>
+<link rel="stylesheet" type="text/css" href="~/css/map.css">
+
+<div id="MainContainer">
+    <div id="MapContainer">
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    let GridSizeX = 15;
+    let GridSizeY = 15;
+
+    let container = document.getElementById('MapContainer');
+
+    class CasillaJS {
+        constructor(x, y, numeroMesa, esAire, esMesa, estaOcupada, idRestaurante) {
+            this.x = x;
+            this.y = y;
+            this.numeroMesa = numeroMesa;
+            this.esAire = esAire;
+            this.esMesa = esMesa;
+            this.estaOcupada = estaOcupada;
+            this.idRestaurante = idRestaurante;
+        }
+    }
+
+    const casillas = [];
+
+    window.onload = CreateNewTable();
+    //window.onload = GetCasillas();
+
+    function CreateNewTable() {
+        const body = document.body;
+
+        const tbl = document.createElement('table');
+        tbl.id = "mapa";
+
+        for (let i = 0; i < GridSizeY; i++) {
+            const tr = tbl.insertRow();
+            for (let j = 0; j < GridSizeX; j++) {
+                const td = tr.insertCell();
+                td.id = i + "-" + j;
+                td.width = 630 / GridSizeY;
+                td.height = 630 / GridSizeX;
+            }
+        }
+        container.appendChild(tbl);
+        GetCasillas();
+    }
+
+    function SetTable(casillasRestaurante) {
+        casillasRestaurante.forEach(function (cR) {
+            let cords = cR.Y + '-' + cR.X;
+
+            if (cR.EsMesa == false)
+                SetState(1);
+            else {
+                SetState(2);
+
+                cas = document.getElementById(cords); 
+                cas.addEventListener('click', (event) => {
+                    if (event.button == 0)
+                        ChangeState(cords);
+                });
+            }
+
+            ChangeState(cords);
+        });
+    }
+
+    let PencilDraw = 0;
+
+    function SetState(type) {
+        PencilDraw = type;
+    }
+
+    function ChangeState(IdCasilla) {
+        let Casilla = document.getElementById(IdCasilla);
+        let cords = Casilla.id.split("-");
+
+        if (PencilDraw == 0) {
+            Casilla.classList.remove("Aire");
+            Casilla.classList.remove("Mesa");
+        }
+        else if (PencilDraw == 1) {
+            Casilla.classList.add("Aire");
+            Casilla.classList.remove("Mesa");
+        }
+        else if (PencilDraw == 2) {
+            Casilla.classList.remove("Aire");
+            Casilla.classList.add("Mesa");
+        }
+    }
+
+    function GetCasillas() {
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("GetCasillas", "Restaurante")",
+            data: { idRestaurante: @Model },
+            dataType: "json",
+            success: function (casillasJson) {
+                // Convertir el JSON a una array de objetos CasillasJS
+                var casillasArray = JSON.parse(casillasJson);
+                if (casillasArray != null) {
+                    console.log(casillasArray);
+                    SetTable(casillasArray);
+                }
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
+
+    function PushCasillas() {
+        // Convertir el array a una cadena JSON
+        let casillasG = casillas.filter(c => c.esAire == true);
+        console.log(casillasG);
+        var jsonMiArray = JSON.stringify(casillasG);
+
+        console.log(jsonMiArray);
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("SaveCasillas", "Empleado")",
+            data: { casillasJson: jsonMiArray },
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
+
+</script>

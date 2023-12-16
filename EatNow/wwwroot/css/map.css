@@ -41,7 +41,13 @@ td {
 
 td.Mesa {
     background-color: #7a9a51;
+    cursor: pointer;
 }
+
+    td.Mesa:hover {
+        background-color: #a7dd61;
+        cursor: pointer;
+    }
 
 td.Aire {
     background-color: #F7F9F7;

@@ -11,12 +11,14 @@ namespace EatNow.Controllers
         private readonly RestauranteDAL restauranteDAL;
         private readonly EmpleadoDAL empleadoDAL;
         private readonly PlatoDAL platoDAL;
+        private readonly CasillaDAL casillaDAL;
 
         public EmpleadoController()
         {
             restauranteDAL = new RestauranteDAL(Conexion.CadenaBBDD);
             empleadoDAL = new EmpleadoDAL(Conexion.CadenaBBDD);
             platoDAL = new PlatoDAL(Conexion.CadenaBBDD);
+            casillaDAL = new CasillaDAL(Conexion.CadenaBBDD);
         }
 
         // GET: EmpleadoController
@@ -148,7 +150,10 @@ namespace EatNow.Controllers
         [HttpGet]
         public IActionResult GetCasillas()
         {
-            Casilla[] casillas = { new Casilla { X=0, Y=0 }, new Casilla { X = 1, Y = 0 }, new Casilla { X = 2, Y = 0 } };
+            int idEmpleado = int.Parse(Request.Cookies["IdEmpleado"]);
+            Empleado empleado = empleadoDAL.GetEmployeeById(idEmpleado);
+
+            Casilla[] casillas = casillaDAL.GetCasillasByRestaurantId(empleado.RIdRestaurante).ToArray();
 
             string casillasJson = JsonConvert.SerializeObject(casillas);
 
@@ -160,9 +165,22 @@ namespace EatNow.Controllers
         {
             Casilla[] casillasArray = JsonConvert.DeserializeObject<Casilla[]>(casillasJson);
 
+            int idEmpleado = int.Parse(Request.Cookies["IdEmpleado"]);
+            Empleado empleado = empleadoDAL.GetEmployeeById(idEmpleado);
+
             foreach (Casilla c in casillasArray)
             {
-                Console.WriteLine($"X:{c.X} Y:{c.Y} EsMesa:{c.EsMesa}");
+                //Console.WriteLine($"X:{c.X} Y:{c.Y} EsMesa:{c.EsMesa}");
+                c.RIdRestaurante = empleado.RIdRestaurante;
+            }
+
+            if (casillaDAL.GetCasillasByRestaurantId(empleado.RIdRestaurante).Count == 0)
+            {
+                casillaDAL.TransactionInsertCasillas(casillasArray.ToList());
+            }
+            else
+            {
+                casillaDAL.TransaccionUpdateCasillas(casillasArray.ToList(), casillaDAL.GetCasillasByRestaurantId(empleado.RIdRestaurante));
             }
 
             return Json(new { success = true });

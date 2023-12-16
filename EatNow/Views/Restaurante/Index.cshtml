@@ -57,6 +57,7 @@
                 @if (ViewBag.IdCliente != null)
                 {
                 <form style="display: flex;" asp-area="" asp-controller="restaurante" asp-action="mapaRestaurante">
+                    <input type="number" name="IdRestaurante" style="display: none;" value="@Model.IdRestaurante">
                     <button style="margin: 0 auto;" class="btn submit" type="submit">RESERVA YA!</button>
                 </form>
                 }
