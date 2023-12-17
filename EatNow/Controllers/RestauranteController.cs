@@ -147,7 +147,9 @@ namespace EatNow.Controllers
             DateTime fechaInicio = fecha.Add(hora);
             DateTime fechaFin = fechaInicio.AddHours(3);
 
-            Reserva reserva = new Reserva { Inicio = fechaInicio, Fin = fechaFin, RIdCasilla = IdCasilla, RIdCliente = IdCliente, RIdEstadoReserva = 1 };
+            Cliente cliente = clienteDAL.GetClientById(IdCliente);
+            Reserva reserva = new Reserva { Inicio = fechaInicio, Fin = fechaFin, RIdCasilla = IdCasilla, RIdCliente = IdCliente, 
+                NombreCliente = cliente.Nombre, ApellidoCliente = cliente.Apellidos };
 
             if (Request.Cookies["IdCliente"] != null)
             {
@@ -156,6 +158,15 @@ namespace EatNow.Controllers
             }
 
             return View(reserva);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CrearReserva(Reserva reserva)
+        {
+            reservaRestauranteDAL.InsertBooking(reserva);
+
+            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult InfoRestaurante()
