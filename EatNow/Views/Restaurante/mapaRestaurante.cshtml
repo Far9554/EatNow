@@ -1,7 +1,7 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@model int
+@model Restaurante
 
 <link rel="stylesheet" type="text/css" href="~/css/map.css">
 
@@ -10,29 +10,81 @@
     </div>
 </div>
 
+<!--== MODAL ==-->
+<div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Reserva</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-area="" asp-controller="restaurante" asp-action="ConfirmacionReserva">
+                <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="Hora" class="col-form-label">Hora:</label>
+                            <select id="Hora" class="form-control form-select" name="Hora" onchange="UpdateHoursSelec()">
+                                @for (int i = int.Parse(Model.HoraApertura.Substring(0, 2)); i <= int.Parse(Model.HoraCierre.Substring(0, 2)); i++)
+                                {
+                                    if (i <= DateTime.Now.Hour)
+                                    {
+                                        <option disabled value="@i:00">@i:00</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@i:00">@i:00</option>
+                                    }
+                                }
+                            </select>
+                            <label for="Fecha" class="col-form-label">Fecha:</label>
+                            <input type="date" class="form-control" name="Fecha" id="Fecha">
+                        </div>
+                        <div class="mb-3">
+                            <input type="number" class="form-control" name="IdCliente" id="RIdCliente" value="1" style="display:none">
+                            <input type="number" class="form-control" name="IdCasilla" id="RIdCasilla" value="1" style="display:none">
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Hacer Reserva</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
+    var Modal = document.getElementById('Modal')
+    Modal.addEventListener('show.bs.modal', function (event) {
+        // Button that triggered the modal
+        var button = event.relatedTarget
+        // Extract info from data-bs-* attributes
+        var recipient = button.getAttribute('data-bs-whatever')
+        // If necessary, you could initiate an AJAX request here
+        // and then do the updating in a callback.
+        //
+        // Update the modal's content.
+        var modalTitle = Modal.querySelector('.modal-title')
+        var modalIdCasilla = Modal.querySelector('#RIdCasilla')
+        var modalCords = Modal.querySelector('#Coordenadas')
+
+        modalTitle.textContent = 'Reserva Mesa ' + recipient
+        modalIdCasilla.value = recipient;
+    })
+
     let GridSizeX = 15;
     let GridSizeY = 15;
 
     let container = document.getElementById('MapContainer');
-
-    class CasillaJS {
-        constructor(x, y, numeroMesa, esAire, esMesa, estaOcupada, idRestaurante) {
-            this.x = x;
-            this.y = y;
-            this.numeroMesa = numeroMesa;
-            this.esAire = esAire;
-            this.esMesa = esMesa;
-            this.estaOcupada = estaOcupada;
-            this.idRestaurante = idRestaurante;
-        }
-    }
-
-    const casillas = [];
+    let HoraInput = document.getElementById('Hora');
+    let FechaInput = document.getElementById('Fecha');
 
     window.onload = CreateNewTable();
     //window.onload = GetCasillas();
+
+    function UpdateHoursSelec() {
+
+    }
 
     function CreateNewTable() {
         const body = document.body;
@@ -51,6 +103,9 @@
         }
         container.appendChild(tbl);
         GetCasillas();
+
+        FechaInput.valueAsDate = new Date();
+        FechaInput.min = new Date().toISOString().split("T")[0];
     }
 
     function SetTable(casillasRestaurante) {
@@ -63,10 +118,20 @@
                 SetState(2);
 
                 cas = document.getElementById(cords); 
-                cas.addEventListener('click', (event) => {
-                    if (event.button == 0)
-                        ChangeState(cords);
-                });
+
+                const btn = document.createElement('button');
+                btn.type = "button";
+                btn.style.width = "100%";
+                btn.style.height = "100%";
+                btn.style.borderRadius = "0 !important";
+                btn.style.backgroundColor = "transparent";
+                btn.style.border = "none";
+
+                btn.setAttribute("data-bs-toggle", "modal"); 
+                btn.setAttribute("data-bs-target", "#Modal");
+                btn.setAttribute("data-bs-whatever", cR.IdCasilla);
+
+                cas.appendChild(btn);
             }
 
             ChangeState(cords);
@@ -101,7 +166,7 @@
         $.ajax({
             type: "GET",
             url: "@Url.Action("GetCasillas", "Restaurante")",
-            data: { idRestaurante: @Model },
+            data: { idRestaurante: @Model.IdRestaurante },
             dataType: "json",
             success: function (casillasJson) {
                 // Convertir el JSON a una array de objetos CasillasJS

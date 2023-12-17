@@ -78,20 +78,17 @@ namespace EatNow.Controllers
         public IActionResult MapaRestaurante(int idRestaurante)
         {
             Restaurante restaurante = restauranteDAL.GetRestaurantById(idRestaurante);
-            ViewBag.IdRestaurante = idRestaurante;
 
             if (Request.Cookies["IdCliente"] != null)
             {
                 ViewBag.IdCliente = Request.Cookies["IdCliente"];
                 ViewBag.ImageCliente = clienteDAL.GetClientImage(int.Parse(Request.Cookies["IdCliente"]));
-                return View();
+                return View(restaurante);
             }
             else
             {
                 return RedirectToAction("Index", "Home");
             }
-
-            return View(idRestaurante);
         }
 
         [HttpGet]
@@ -138,21 +135,31 @@ namespace EatNow.Controllers
             }
         }
 
-        public IActionResult ConfirmacionReserva()
+        public IActionResult ConfirmacionReserva(string Hora, string Fecha, int IdCliente, int IdCasilla)
         {
+            // Convertir la cadena de hora a TimeSpan
+            TimeSpan hora = TimeSpan.Parse(Hora);
+
+            // Convertir la cadena de fecha a DateTime
+            DateTime fecha = DateTime.ParseExact(Fecha, "yyyy-MM-dd", null);
+
+            // Combinar fecha y hora en un solo DateTime
+            DateTime fechaInicio = fecha.Add(hora);
+            DateTime fechaFin = fechaInicio.AddHours(3);
+
+            Reserva reserva = new Reserva { Inicio = fechaInicio, Fin = fechaFin, RIdCasilla = IdCasilla, RIdCliente = IdCliente, RIdEstadoReserva = 1 };
+
             if (Request.Cookies["IdCliente"] != null)
             {
                 ViewBag.IdCliente = Request.Cookies["IdCliente"];
                 ViewBag.ImageCliente = clienteDAL.GetClientImage(int.Parse(Request.Cookies["IdCliente"]));
             }
 
-            return View();
+            return View(reserva);
         }
 
         public IActionResult InfoRestaurante()
         {
-
-
             if (Request.Cookies["IdEmpleado"] != null)
             {
                 int idEmpleado = int.Parse(Request.Cookies["IdEmpleado"]);
@@ -170,8 +177,6 @@ namespace EatNow.Controllers
             {
                 return RedirectToAction("Index","Home");
             }
-
-
         }
 
         [HttpPost]
