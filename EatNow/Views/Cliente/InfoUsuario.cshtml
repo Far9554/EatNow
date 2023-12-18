@@ -29,7 +29,7 @@
     <!-- INFORMACION DEL USUARIO -->
     <div id="informacion-user" class="Selected">
         <div id="cont-img">
-            <img src="@Model.URLFoto">
+            <img src="@(Model.URLFoto != null ? Model.URLFoto : "/images/noImage.jpg")" />
         </div>
         <div id="info-cont">
             <div id="info">
