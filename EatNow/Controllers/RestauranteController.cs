@@ -91,6 +91,34 @@ namespace EatNow.Controllers
             }
         }
 
+        
+        public IActionResult EstablecerHoraMapa(int idRestaurante, int Hora)
+        {
+            
+            MapaRestaurante(idRestaurante, Hora);
+
+            return Json(new { success = true });
+        }
+
+        [HttpPost]
+        public IActionResult MapaRestaurante(int idRestaurante, int Hora)
+        {
+            Restaurante restaurante = restauranteDAL.GetRestaurantById(idRestaurante);
+            Console.WriteLine($"{idRestaurante}-{Hora}");
+
+            if (Request.Cookies["IdCliente"] != null)
+            {
+                ViewBag.IdCliente = Request.Cookies["IdCliente"];
+                ViewBag.ImageCliente = clienteDAL.GetClientImage(int.Parse(Request.Cookies["IdCliente"]));
+                ViewBag.HoraInicio = Hora;
+                return View(restaurante);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+        }
+
         [HttpGet]
         public IActionResult GetCasillas(int idRestaurante)
         {
@@ -151,10 +179,11 @@ namespace EatNow.Controllers
             Reserva reserva = new Reserva { Inicio = fechaInicio, Fin = fechaFin, RIdCasilla = IdCasilla, RIdCliente = IdCliente, 
                 NombreCliente = cliente.Nombre, ApellidoCliente = cliente.Apellidos };
 
+            Casilla casilla = casillaDAL.GetCasillaByID(IdCasilla);
+            Restaurante restaurante = restauranteDAL.GetRestaurantById(casilla.RIdRestaurante);
 
-
-            //List<Plato> platos = platoDAL.GetAllDishesFromRestaurant(restaurante.IdRestaurante);
-            //ViewBag.Platos = platos;
+            List<Plato> platos = platoDAL.GetAllDishesFromRestaurant(restaurante.IdRestaurante);
+            ViewBag.Platos = platos;
 
             if (Request.Cookies["IdCliente"] != null)
             {

@@ -4,7 +4,55 @@
 *@
 @model Reserva
 
-@* <p>Nombre Reserva: @Html.Raw(ObtenerNombreCliente())</p> *@
+<style>
+    #cont-menu {
+        background-color: #BD4760;
+        border-radius: 10px;
+        width: 100%;
+        max-height: 100%;
+        margin: 0px 10px;
+        box-shadow: 0 19px 38px #25293A, 0 15px 12px #25293A38 !important;
+    }
+
+    #menu {
+        background-color: #25293A;
+        border-radius: 20px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        margin: 20px;
+        max-width: 100%;
+        height: 80%;
+        max-height: 80%;
+        display: flex;
+        flex-wrap: wrap;
+        align-content: flex-start;
+        justify-content: center;
+    }
+
+    .plato {
+        aspect-ratio: 1/1;
+        background-color: #F7F9F7;
+        max-width: 20%;
+        border-radius: 5px;
+        margin: 5px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+        .plato.Selected {
+            background-color: #EC992E;
+            max-width: 22%;
+        }
+
+        .plato img {
+            max-width: 80%;
+            margin: auto;
+            display: block;
+            transition: all 0.5s ease-out;
+        }
+</style>
+
 <p>Nombre Reserva: @Model.NombreCliente @Model.ApellidoCliente</p>
 <p>@Model.RIdCliente</p>
 <p>@Model.RIdCasilla</p>
@@ -12,14 +60,14 @@
 <p>Hora Reserva: @Model.Inicio.TimeOfDay</p>
 <p>Hora Maxima para assistir: @Model.Inicio.AddMinutes(30).TimeOfDay</p>
 
-@* <div id="cont-menu">
+<div id="cont-menu">
     <div id="menu">
         @foreach (Plato plato in ViewBag.Platos)
         {
-            <label class="plato"><img src="@plato.URLImagen"></label>
+            <label id="@plato.IdPlato" class="plato" onclick="ChangeOnClick(@plato.IdPlato)"><img onclick="" src="@plato.URLImagen"><p>@plato.Precio€</p></label>
         }
     </div>
-</div> *@
+</div>
 
 <form asp-area="" asp-controller="restaurante" asp-action="CrearReserva" method="post" asp-antiforgery="true">
     <input type="text" class="form-control" name="NombreCliente" id="NombreCliente" value="@Model.NombreCliente" style="display: none">
@@ -31,12 +79,10 @@
     <button type="submit" class="btn submit">Confirmar Reserva</button>
 </form>
 
-@functions {
-    public string ObtenerNombreCliente()
-    {
-        var clienteDAL = new ClienteDAL(Conexion.CadenaBBDD);
-        Cliente cliente = clienteDAL.GetClientById(Model.RIdCliente);
+<script>
+    function ChangeOnClick(id) {
+        var label = document.getElementById(id);
 
-        return cliente.Nombre;
+        label.classList.toggle("Selected");
     }
-}
+</script>

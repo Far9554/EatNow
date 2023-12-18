@@ -12,6 +12,41 @@ namespace EatNow.DAL
             this.connectionString = connectionString;
         }
 
+        public Casilla GetCasillaByID(int id)
+        {
+            Casilla casilla = new Casilla();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string query = "SELECT IdCasilla, X, Y, NumeroMesa, EsMesa, RIdRestaurante " +
+                               "FROM Casilla WHERE IdCasilla = @id;";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@id", id);
+
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            casilla = new Casilla
+                            {
+                                IdCasilla = Convert.ToInt32(reader["IdCasilla"]),
+                                X = Convert.ToInt32(reader["X"]),
+                                Y = Convert.ToInt32(reader["Y"]),
+                                NumeroMesa = (reader["NumeroMesa"] != DBNull.Value) ? Convert.ToInt32(reader["NumeroMesa"]) : 0,
+                                EsMesa = Convert.ToBoolean(reader["EsMesa"]),
+                                RIdRestaurante = Convert.ToInt32(reader["RIdRestaurante"])
+                            };
+                        }
+                    }
+                }
+            }
+
+            return casilla;
+        }
+
         public int TransactionInsertCasillas(List<Casilla> casillas)
         {
             int affectedRows = 0;
