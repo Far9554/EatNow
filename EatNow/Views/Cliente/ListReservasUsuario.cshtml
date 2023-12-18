@@ -8,6 +8,11 @@
         <h2 style="display: flex; margin: 0 auto;">Tus Reservas</h2>
     </div>
 
+    @if (TempData["NoBookingsMessage"] != null)
+    {
+        <p>@TempData["NoBookingsMessage"]</p>
+    }
+
     @foreach (Reserva reserva in Model)
     {
         <div class="reserva m-5">

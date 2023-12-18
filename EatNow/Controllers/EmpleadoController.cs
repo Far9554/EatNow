@@ -31,7 +31,7 @@ namespace EatNow.Controllers
             }
             else
             {
-                return RedirectToAction("Index","Home");
+                return RedirectToAction("Login","Home");
             }
         }
 
@@ -71,7 +71,7 @@ namespace EatNow.Controllers
 
             else
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("Login", "Home");
             }
 
 
@@ -115,7 +115,7 @@ namespace EatNow.Controllers
 
             else
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("Login", "Home");
             }
 
         }
@@ -163,7 +163,7 @@ namespace EatNow.Controllers
             }
             else
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("Login", "Home");
             }
             return View();
         }
@@ -218,7 +218,7 @@ namespace EatNow.Controllers
             }
             else
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("Login", "Home");
             }
         }
     }

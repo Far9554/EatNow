@@ -54,7 +54,7 @@ namespace EatNow.Controllers
                 listRestaurants = restauranteDAL.GetAllRestaurants();
 
                 TempData["ErrorLoginClientMessage"] = "El restaurante no existe";
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Login", "Home");
             }
             else
             {
@@ -131,7 +131,7 @@ namespace EatNow.Controllers
 
 
             else{
-                return RedirectToAction("Index","home");
+                return RedirectToAction("Login", "Home");
             }
         }
 
@@ -191,7 +191,7 @@ namespace EatNow.Controllers
             }
             else
             {
-                return RedirectToAction("Index","Home");
+                return RedirectToAction("Login", "Home");
             }
         }
 

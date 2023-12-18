@@ -11,12 +11,14 @@ namespace EatNow.Controllers
         private readonly RestauranteDAL restauranteDAL;
         private readonly ClienteDAL clienteDAL;
         private readonly EmpleadoDAL empleadoDAL;
+        private readonly ReservaDAL reservaClienteDAL;
 
         public HomeController()
         {
             restauranteDAL = new RestauranteDAL(Conexion.CadenaBBDD);
             clienteDAL = new ClienteDAL(Conexion.CadenaBBDD);
             empleadoDAL = new EmpleadoDAL(Conexion.CadenaBBDD);
+            reservaClienteDAL = new ReservaDAL(Conexion.CadenaBBDD);
         }
 
         public IActionResult Login()
@@ -101,12 +103,19 @@ namespace EatNow.Controllers
             List<Restaurante> listRestaurants = new List<Restaurante>();
             listRestaurants = restauranteDAL.GetAllRestaurants();
 
-            if (Request.Cookies["IdCliente"] != null)
+            if (Request.Cookies["IdEmpleado"] != null)
+            {
+                return RedirectToAction("Index", "Empleado");
+            }
+
+            else if (Request.Cookies["IdCliente"] != null)
             {
                 ViewBag.IdCliente = Request.Cookies["IdCliente"];
                 ViewBag.ImageCliente = clienteDAL.GetClientImage(int.Parse(Request.Cookies["IdCliente"]));
-            }
 
+                List<Reserva> reservas = reservaClienteDAL.LastFiveReservation(int.Parse(Request.Cookies["IdCliente"]));
+                ViewBag.Reserva = reservas;
+            }
             return View(listRestaurants);
         }
 
@@ -124,23 +133,32 @@ namespace EatNow.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CerrarSesion()
         {
-            Response.Cookies.Delete("IdCliente");
-            Response.Cookies.Delete("IdEmpleado");
+            if (Request.Cookies["IdCliente"] != null)
+            {
+                Response.Cookies.Delete("IdCliente");
+                Response.Cookies.Delete("IdEmpleado");
+                return Redirect("Index");
+            }
+            else if (Request.Cookies["IdEmpleado"] != null)
+            {
+                Response.Cookies.Delete("IdEmpleado");
+                Response.Cookies.Delete("IdCliente");
+                return RedirectToAction("Index","Empleado");
+                
+            }
+            else
+            {
+                return Redirect("Index");
+            }
 
-            return Redirect("Index");
+
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Index(string time, string date, string direccion, string nombre)
         {
-            List<Restaurante> listRestaurants = new List<Restaurante>();
-            listRestaurants = restauranteDAL.GetRestaurantsByFilter(time, direccion, nombre);
-
-            if (Request.Cookies["IdCliente"] != null)
-                ViewBag.IdCliente = Request.Cookies["IdCliente"];
-
-            return View(listRestaurants);
+            return RedirectToAction("Index");
         }
 
         [HttpPost]

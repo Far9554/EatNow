@@ -51,29 +51,22 @@ namespace EatNow.Controllers
 
 
 
-        public IActionResult ListReservasUsuario(int id)
+        public IActionResult ListReservasUsuario()
         {
             if (Request.Cookies["IdCliente"] != null)
             {
-                List<Reserva> reservas = reservaClienteDAL.ListReservasUsuario(id);
-
                 int idCliente = int.Parse(Request.Cookies["IdCliente"]);
                 Cliente cliente = clienteDAL.GetClientById(idCliente);
+
+                List<Reserva> reservas = reservaClienteDAL.ListReservasUsuario(idCliente);
+
+                if (reservas.Count == 0)
+                    TempData["NoBookingsMessage"] = "No tienes reservas";
 
                 ViewBag.IdCliente = Request.Cookies["IdCliente"];
                 ViewBag.ImageCliente = clienteDAL.GetClientImage(int.Parse(Request.Cookies["IdCliente"]));
 
-                if (reservas == null)
-                {
-                    TempData["ErrorLoginClientMessage"] = "No tienes reservas";
-                    return View(reservas);
-                }
-                else
-                {
-                    // Guardamos el objeto cliente en el ViewBag
-                    //ViewBag.ReservasRestauranteById = reservas;
-                    return View(reservas);
-                }
+                return View(reservas);
             }
             else
             {
