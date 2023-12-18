@@ -169,7 +169,13 @@
                 btn.setAttribute("data-bs-target", "#Modal");
                 btn.setAttribute("data-bs-whatever", cR.IdCasilla);
 
+                const i = document.createElement('i');
+                i.classList.add("fa");
+                i.classList.add("fa-solid");
+                i.classList.add("fa-utensils");
+
                 cas.appendChild(btn);
+                btn.appendChild(i);
             }
 
             ChangeState(cords);
