@@ -158,7 +158,19 @@ namespace EatNow.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Index(string time, string date, string direccion, string nombre)
         {
-            return RedirectToAction("Index");
+            List<Restaurante> listRestaurants = new List<Restaurante>();
+            listRestaurants = restauranteDAL.GetRestaurantsByFilter(time, direccion, nombre);
+
+            if (Request.Cookies["IdCliente"] != null)
+            {
+                ViewBag.IdCliente = Request.Cookies["IdCliente"];
+                List<Reserva> reservas = reservaClienteDAL.LastFiveReservation(int.Parse(Request.Cookies["IdCliente"]));
+                ViewBag.Reserva = reservas;
+            }
+            else
+                RedirectToAction("Index");
+
+            return View(listRestaurants);
         }
 
         [HttpPost]

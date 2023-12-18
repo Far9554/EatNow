@@ -20,9 +20,12 @@ namespace EatNow.Models
 
         [Required]
         public int RIdCasilla { get; set; }
+        
+        // Atributos propios de esta clase, no están en la BD
         public int NumeroMesa { get; set; }
 
         public string NombreCliente { get; set; }
+
         public string ApellidoCliente { get; set; }
 
         public string NombreRestaurante { get; set; }
