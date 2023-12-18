@@ -22,21 +22,10 @@
                 <div class="modal-body">
                         <div class="mb-3">
                             <label for="Hora" class="col-form-label">Hora:</label>
-                            <select id="Hora" class="form-control form-select" name="Hora" onchange="UpdateHoursSelec()">
-                                @for (int i = int.Parse(Model.HoraApertura.Substring(0, 2)); i <= int.Parse(Model.HoraCierre.Substring(0, 2)); i++)
-                                {
-                                    if (i <= DateTime.Now.Hour)
-                                    {
-                                        <option disabled value="@i:00">@i:00</option>
-                                    }
-                                    else
-                                    {
-                                        <option value="@i:00">@i:00</option>
-                                    }
-                                }
+                            <select id="Hora" class="form-control form-select" name="Hora">
                             </select>
                             <label for="Fecha" class="col-form-label">Fecha:</label>
-                            <input type="date" class="form-control" name="Fecha" id="Fecha">
+                        <input type="date" class="form-control" name="Fecha" id="Fecha" onchange="UpdateHoursSelec()">
                         </div>
                         <div class="mb-3">
                             <input type="number" class="form-control" name="IdCliente" id="RIdCliente" value="@ViewBag.IdCliente" style="display:none">
@@ -83,7 +72,55 @@
     //window.onload = GetCasillas();
 
     function UpdateHoursSelec() {
+        // Obtener las horas de apertura y cierre desde el modelo como cadenas
+        var horaAperturaStr = "@Model.HoraApertura";
+        var horaCierreStr = "@Model.HoraCierre";
 
+        // Obtener la fecha y hora actual como referencia
+        var fechaActual = new Date();
+
+        var fechaReserva = FechaInput.valueAsDate;
+        fechaReserva.setHours(new Date().getHours());
+        fechaReserva.setMinutes(new Date().getMinutes());
+
+        // Convertir las cadenas a objetos Date
+        var horaApertura = new Date(fechaReserva)
+        horaApertura.setHours(horaAperturaStr.split(":")[0], horaAperturaStr.split(":")[1])
+        var horaCierre = new Date(fechaReserva)
+        horaCierre.setHours(horaCierreStr.split(":")[0], horaCierreStr.split(":")[1])
+
+        // Ajustar la hora de cierre si es anterior a la hora de apertura
+        if (horaCierre < horaApertura) {
+            horaCierre.setDate(horaCierre.getDate() + 1);
+        }
+
+        // console.log("Hora de apertura:", horaApertura);
+        // console.log("Hora de cierre:", horaCierre);
+        // console.log("Fecha Reserva:", fechaReserva);
+
+        // Limpiar opciones actuales
+        HoraInput.innerHTML = '';
+
+        // Intervalo de tiempo (en minutos) entre opciones
+        var intervalo = 60;
+
+        // Generar opciones
+        for (var tiempo = new Date(horaApertura); tiempo < horaCierre; tiempo.setMinutes(tiempo.getMinutes() + intervalo)) {
+            var horaStr = ('0' + tiempo.getHours()).slice(-2);
+            var minutoStr = ('0' + tiempo.getMinutes()).slice(-2);
+            var optionText = horaStr + ":" + minutoStr;
+
+            var option = document.createElement("option");
+            option.value = optionText;
+            option.text = optionText;
+
+            // Desactivar la opción si la hora ya ha pasado
+            if (tiempo.getTime() < fechaActual.getTime()) {
+                option.disabled = true;
+            }
+
+            HoraInput.add(option);
+        }
     }
 
     function CreateNewTable() {
@@ -106,6 +143,7 @@
 
         FechaInput.valueAsDate = new Date();
         FechaInput.min = new Date().toISOString().split("T")[0];
+        UpdateHoursSelec();
     }
 
     function SetTable(casillasRestaurante) {
@@ -175,28 +213,6 @@
                     console.log(casillasArray);
                     SetTable(casillasArray);
                 }
-            },
-            error: function (error) {
-                console.log(error);
-            }
-        });
-    }
-
-    function PushCasillas() {
-        // Convertir el array a una cadena JSON
-        let casillasG = casillas.filter(c => c.esAire == true);
-        console.log(casillasG);
-        var jsonMiArray = JSON.stringify(casillasG);
-
-        console.log(jsonMiArray);
-
-        $.ajax({
-            type: "POST",
-            url: "@Url.Action("SaveCasillas", "Empleado")",
-            data: { casillasJson: jsonMiArray },
-            dataType: "json",
-            success: function (data) {
-                console.log(data);
             },
             error: function (error) {
                 console.log(error);

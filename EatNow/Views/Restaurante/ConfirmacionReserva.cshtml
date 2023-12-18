@@ -12,6 +12,15 @@
 <p>Hora Reserva: @Model.Inicio.TimeOfDay</p>
 <p>Hora Maxima para assistir: @Model.Inicio.AddMinutes(30).TimeOfDay</p>
 
+@* <div id="cont-menu">
+    <div id="menu">
+        @foreach (Plato plato in ViewBag.Platos)
+        {
+            <label class="plato"><img src="@plato.URLImagen"></label>
+        }
+    </div>
+</div> *@
+
 <form asp-area="" asp-controller="restaurante" asp-action="CrearReserva" method="post" asp-antiforgery="true">
     <input type="text" class="form-control" name="NombreCliente" id="NombreCliente" value="@Model.NombreCliente" style="display: none">
     <input type="text" class="form-control" name="ApellidoCliente" id="ApellidoCliente" value="@Model.ApellidoCliente" style="display: none">

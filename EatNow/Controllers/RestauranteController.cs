@@ -151,6 +151,11 @@ namespace EatNow.Controllers
             Reserva reserva = new Reserva { Inicio = fechaInicio, Fin = fechaFin, RIdCasilla = IdCasilla, RIdCliente = IdCliente, 
                 NombreCliente = cliente.Nombre, ApellidoCliente = cliente.Apellidos };
 
+
+
+            //List<Plato> platos = platoDAL.GetAllDishesFromRestaurant(restaurante.IdRestaurante);
+            //ViewBag.Platos = platos;
+
             if (Request.Cookies["IdCliente"] != null)
             {
                 ViewBag.IdCliente = Request.Cookies["IdCliente"];
