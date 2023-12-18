@@ -63,9 +63,9 @@
                             <p>@restaurante.Direccion<a href="http://maps.google.com/?q=@restaurante.Direccion" target="_blank" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Ver en Maps" class="bi bi-geo-alt-fill"></a></p>
                             <p>(@restaurante.Telefono) <a href="@restaurante.Web" target="_blank">@restaurante.Web</a></p>
                             <p class="desc">@restaurante.Descripcion</p>
+                            <p style="margin-bottom: 5px;">Horario:</p>
                             <div class="horario">
-                                <label>@restaurante.HoraApertura</label>
-                                <label>@restaurante.HoraCierre</label>
+                                <label>@restaurante.HoraApertura - @restaurante.HoraCierre</label>
                                 <input type="number" name="IdRestaurante" style="display: none;" value="@restaurante.IdRestaurante">
                             </div>
                         </div>
