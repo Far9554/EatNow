@@ -29,5 +29,7 @@ namespace EatNow.Models
 
         public string EstadoReservaNombre { get; set; }
 
+        public int RIdRestaurante { get; set; }
+
     }
 }

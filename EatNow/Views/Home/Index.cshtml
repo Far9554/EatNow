@@ -36,12 +36,15 @@
             <div class="filter-container container">
                 <h2>Ultimas Reservas</h2>
                 <div class="last-reservas">
-                    <div class="reserva"><button class="btn">Nombre Restaurante</button></div>
-                    <div class="reserva"><button class="btn">Nombre Restaurante</button></div>
-                    <div class="reserva"><button class="btn">Nombre Restaurante</button></div>
-                    <div class="reserva"><button class="btn">Nombre Restaurante</button></div>
-                    <div class="reserva"><button class="btn">Nombre Restaurante</button></div>
-                    <div class="reserva"><button class="btn">Nombre Restaurante</button></div>
+                    @foreach(Reserva reservas in ViewBag.Reserva)
+                    {
+                        <div class="reserva">
+                            <form asp-action="Index" asp-controller="restaurante" method="post" asp-antiforgery="true">
+                                <button class="btn">@reservas.NombreRestaurante</button>
+                                <input type="number" name="IdRestaurante" style="display: none;" value="@reservas.RIdRestaurante">
+                            </form>
+                        </div>
+                    }
                 </div>
             </div>
         }
@@ -57,8 +60,8 @@
                     <div class="cont-info">
                         <div class="info">
                             <h2>@restaurante.Nombre</h2>
-                            <p>@restaurante.Direccion<a href="http://maps.google.com/?q=@restaurante.Direccion" class="bi bi-geo-alt-fill" style="margin-left: 5px; cursor: pointer"></a></p>
-                            <p>(@restaurante.Telefono) <a href="@restaurante.Web">@restaurante.Web</a></p>
+                            <p>@restaurante.Direccion<a href="http://maps.google.com/?q=@restaurante.Direccion" target="_blank" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Ver en Maps" class="bi bi-geo-alt-fill"></a></p>
+                            <p>(@restaurante.Telefono) <a href="@restaurante.Web" target="_blank">@restaurante.Web</a></p>
                             <p class="desc">@restaurante.Descripcion</p>
                             <div class="horario">
                                 <label>@restaurante.HoraApertura</label>
@@ -77,3 +80,22 @@
 </div>
 
 <script src="~/js/mainPage.js" asp-append-version="true"></script>
+<script type="text/javascript">
+    // Cuando el documento está listo...
+    document.addEventListener("DOMContentLoaded", function (event) {
+        // Inicializamos los tooltips
+        let tooltipTriggerList = document.querySelectorAll("[data-bs-toggle='tooltip']");
+        let tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+
+        // Función onClick para ocultar el tooltip cuando se abre la nueva página
+        $("a[data-bs-toggle='tooltip']").on("click", function () {
+            // Ocultamos y volvemos a mostrar en 1ms el icono de localización para evitar el bug de que no se oculta el tooltip
+            // Referencia: https://stackoverflow.com/a/44074975
+            let anchor = $(this);
+            anchor.hide();
+            setTimeout(function () {
+                anchor.show();
+            }, 1);
+        });
+    });
+</script>

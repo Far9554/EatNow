@@ -11,12 +11,14 @@ namespace EatNow.Controllers
         private readonly RestauranteDAL restauranteDAL;
         private readonly ClienteDAL clienteDAL;
         private readonly EmpleadoDAL empleadoDAL;
+        private readonly ReservaDAL reservaClienteDAL;
 
         public HomeController()
         {
             restauranteDAL = new RestauranteDAL(Conexion.CadenaBBDD);
             clienteDAL = new ClienteDAL(Conexion.CadenaBBDD);
             empleadoDAL = new EmpleadoDAL(Conexion.CadenaBBDD);
+            reservaClienteDAL = new ReservaDAL(Conexion.CadenaBBDD);
         }
 
         public IActionResult Login()
@@ -110,10 +112,12 @@ namespace EatNow.Controllers
             {
                 ViewBag.IdCliente = Request.Cookies["IdCliente"];
                 ViewBag.ImageCliente = clienteDAL.GetClientImage(int.Parse(Request.Cookies["IdCliente"]));
-                
+            }
+
+                List<Reserva> reservas = reservaClienteDAL.LastFiveReservation(int.Parse(Request.Cookies["IdCliente"]));
+                ViewBag.Reserva = reservas;
             }
             return View(listRestaurants);
-
         }
 
         public IActionResult ReservasUsuario()
@@ -155,13 +159,7 @@ namespace EatNow.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Index(string time, string date, string direccion, string nombre)
         {
-            List<Restaurante> listRestaurants = new List<Restaurante>();
-            listRestaurants = restauranteDAL.GetRestaurantsByFilter(time, direccion, nombre);
-
-            if (Request.Cookies["IdCliente"] != null)
-                ViewBag.IdCliente = Request.Cookies["IdCliente"];
-
-            return View(listRestaurants);
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
