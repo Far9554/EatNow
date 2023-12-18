@@ -38,7 +38,12 @@
                 <div class="last-reservas">
                     @foreach(Reserva reservas in ViewBag.Reserva)
                     {
-                        <div class="reserva"><button class="btn">@reservas.NombreRestaurante</button></div>
+                        <div class="reserva">
+                            <form asp-action="Index" asp-controller="restaurante" method="post" asp-antiforgery="true">
+                                <button class="btn">@reservas.NombreRestaurante</button>
+                                <input type="number" name="IdRestaurante" style="display: none;" value="@reservas.RIdRestaurante">
+                            </form>
+                        </div>
                     }
                 </div>
             </div>
@@ -61,7 +66,7 @@
                             <div class="horario">
                                 <label>@restaurante.HoraApertura</label>
                                 <label>@restaurante.HoraCierre</label>
-                                <input type="number" name="IdRestaurante" style="visibility: hidden;" value="@restaurante.IdRestaurante">
+                                <input type="number" name="IdRestaurante" style="display: none;" value="@restaurante.IdRestaurante">
                             </div>
                         </div>
                         <div class="reservar">

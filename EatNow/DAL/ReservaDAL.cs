@@ -67,7 +67,7 @@ namespace EatNow.DAL
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
 
-                string query = "SELECT IdReserva, Re.Nombre AS 'Restaurante', C.NumeroMesa AS 'NumeroMesa', Cl.Nombre AS 'Nombre Cliente', Cl.Apellidos AS 'Apellido Cliente', R.Inicio, R.Fin, RIdCliente, RIdEstadoReserva, RIdCasilla, ER.Nombre AS 'Estado' FROM Reserva R " +
+                string query = "SELECT IdReserva, Re.Nombre AS 'Restaurante', C.NumeroMesa AS 'NumeroMesa', Cl.Nombre AS 'Nombre Cliente', Cl.Apellidos AS 'Apellido Cliente', R.Inicio, R.Fin, RIdCliente, RIdEstadoReserva, RIdCasilla, ER.Nombre AS 'Estado', C.RIdRestaurante FROM Reserva R " +
                                 "INNER JOIN Casilla C ON C.IdCasilla = R.RIdCasilla " +
                                 "INNER JOIN Restaurante Re ON C.RIdRestaurante = Re.IdRestaurante " +
                                 "INNER JOIN Cliente Cl ON Cl.IdCliente = R.RIdCliente " +
@@ -105,21 +105,23 @@ namespace EatNow.DAL
         }
 
 
-        public List<Reserva> LastFiveReservation(int Id)
+        public List<Reserva> LastFiveReservation(int idCliente)
         {
             List<Reserva> reservas = new List<Reserva>();
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
 
-                string query = "SELECT TOP 5 Re.Nombre AS NombreRestaurante FROM Reserva R " +
+                string query = "SELECT TOP 5 Re.Nombre AS NombreRestaurante, C.RIdRestaurante AS RIdRestaurante FROM Reserva R " +
                                "INNER JOIN Casilla C ON C.IdCasilla = R.RIdCasilla " +
                                "INNER JOIN Restaurante Re ON C.RIdRestaurante = Re.IdRestaurante " +
-                               "WHERE R.RIdCliente = '1' " +
+                               "WHERE R.RIdCliente = @IdCliente " +
                                "ORDER BY R.Inicio DESC; ";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
+                    command.Parameters.AddWithValue("@IdCliente", idCliente);
+
                     connection.Open();
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
@@ -127,7 +129,8 @@ namespace EatNow.DAL
                         {
                             Reserva reserva = new Reserva
                             {
-                                NombreRestaurante = reader["NombreRestaurante"].ToString()
+                                NombreRestaurante = reader["NombreRestaurante"].ToString(),
+                                RIdRestaurante = int.Parse(reader["RIdRestaurante"].ToString())
                             };
                             reservas.Add(reserva);
                         }
