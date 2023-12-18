@@ -188,7 +188,7 @@ namespace EatNow.DAL
                                "INNER JOIN Casilla C ON C.IdCasilla = R.RIdCasilla " +
                                "INNER JOIN Restaurante Re ON C.RIdRestaurante = Re.IdRestaurante " +
                                "WHERE R.RIdCliente = @IdCliente " +
-                               "ORDER BY R.Inicio DESC; ";
+                               "ORDER BY R.IdReserva DESC;";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
