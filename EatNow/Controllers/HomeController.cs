@@ -101,13 +101,19 @@ namespace EatNow.Controllers
             List<Restaurante> listRestaurants = new List<Restaurante>();
             listRestaurants = restauranteDAL.GetAllRestaurants();
 
-            if (Request.Cookies["IdCliente"] != null)
+            if (Request.Cookies["IdEmpleado"] != null)
+            {
+                return RedirectToAction("Index", "Empleado");
+            }
+
+            else if (Request.Cookies["IdCliente"] != null)
             {
                 ViewBag.IdCliente = Request.Cookies["IdCliente"];
                 ViewBag.ImageCliente = clienteDAL.GetClientImage(int.Parse(Request.Cookies["IdCliente"]));
+                
             }
-
             return View(listRestaurants);
+
         }
 
         public IActionResult ReservasUsuario()
@@ -124,10 +130,25 @@ namespace EatNow.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CerrarSesion()
         {
-            Response.Cookies.Delete("IdCliente");
-            Response.Cookies.Delete("IdEmpleado");
+            if (Request.Cookies["IdCliente"] != null)
+            {
+                Response.Cookies.Delete("IdCliente");
+                Response.Cookies.Delete("IdEmpleado");
+                return Redirect("Index");
+            }
+            else if (Request.Cookies["IdEmpleado"] != null)
+            {
+                Response.Cookies.Delete("IdEmpleado");
+                Response.Cookies.Delete("IdCliente");
+                return RedirectToAction("Index","Empleado");
+                
+            }
+            else
+            {
+                return Redirect("Index");
+            }
 
-            return Redirect("Index");
+
         }
 
         [HttpPost]
