@@ -1,7 +1,21 @@
 ﻿@model List<Reserva>
 
 <link rel="stylesheet" type="text/css" href="~/css/mainPage.css">
+<style>
+    table {
+        width: 70%;
+    }
 
+    .Hora {
+        font-weight: 700;
+        font-size: 40px;
+    }
+
+    .Mesa {
+        font-weight: 500;
+        font-size: 30px;
+    }
+</style>
 <div class="container">
     @foreach (Reserva reserva in Model)
     {
@@ -16,6 +30,33 @@
                     <p>Estado: @reserva.EstadoReservaNombre</p>
                 </div>
             </div>
+        </div>
+
+        <div class="reserva m-5">
+            <div style="display: flex;">
+                <table>
+                    <tr>
+                        <td rowspan="4" width="230px"><img src="../img/noImage.png" width="230px"></td>
+                        <td class="Hora">14:00</td>
+                        <td class="Mesa">Mesa: 13</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">Nombre: Mario Leon Carrizo</td>
+                        <td>Hora Reserva: @reserva.Inicio.TimeOfDay</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">Telf.: 622210770</td>
+                        <td>Hora Maxima Asistencia: @reserva.Inicio.AddMinutes(30).TimeOfDay</td>
+                    </tr>
+                    <tr>
+                        <td>Fecha: @reserva.Inicio.Date</td>
+                    </tr>
+                </table>
+                <div style="display: flex; width: 30%; align-items: flex-start; justify-content: flex-end;">
+                    <button class="btn danger" style="width: 50px; height: 50px;">X</button>
+                </div>
+            </div>
+            <div></div>
         </div>
     }
 </div>

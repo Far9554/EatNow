@@ -132,7 +132,7 @@ namespace EatNow.DAL
                                "URLImagen = (SELECT TOP 1 URL FROM Imagen WHERE RIdRestaurante = IdRestaurante) " +
                                "FROM Restaurante WHERE";
 
-                query += $" Nombre LIKE '{nombre}%' AND";
+                query += $" Nombre LIKE '%{nombre}%' AND";
                 query += $" Direccion LIKE '%{direccion}%' AND";
                 query += $" HoraApertura >= '{time}'";
 

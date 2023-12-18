@@ -46,7 +46,7 @@ namespace EatNow.DAL
                                 RIdCliente = int.Parse(reader["RIdCliente"].ToString()),
                                 RIdEstadoReserva = int.Parse(reader["RIdEstadoReserva"].ToString()),
                                 RIdCasilla = int.Parse(reader["RIdCasilla"].ToString()),
-                                NumeroMesa = int.Parse(reader["NumeroMesa"].ToString()),
+                                NumeroMesa = (reader["NumeroMesa"] != DBNull.Value) ? int.Parse(reader["NumeroMesa"].ToString()) : -1,
                                 NombreRestaurante = reader["Restaurante"].ToString(),
                                 NombreCliente = reader["Nombre Cliente"].ToString(),
                                 ApellidoCliente = reader["Apellido Cliente"].ToString(),
