@@ -1,7 +1,22 @@
-﻿@model List<Reserva>
+﻿@using EatNow.DAL
+@model List<Reserva>
 
 <link rel="stylesheet" type="text/css" href="~/css/mainPage.css">
+<style>
+    table {
+        width: 70%;
+    }
 
+    .Hora {
+        font-weight: 700;
+        font-size: 40px;
+    }
+
+    .Mesa {
+        font-weight: 500;
+        font-size: 30px;
+    }
+</style>
 
 <div class="container">
     <div class="d-flex mt-2">
@@ -16,15 +31,58 @@
     @foreach (Reserva reserva in Model)
     {
         <div class="reserva m-5">
-            <div class="cont-info">
-                <div class="info">
-                    <h4>@reserva.NombreRestaurante</h4>
-                    <p>Inicio: @reserva.Inicio</p>
-                    <p>Fin: @reserva.Fin</p>
-                    <p>Mesa: @reserva.NumeroMesa</p>
-                    <p>Estado: @reserva.EstadoReservaNombre</p>
-                </div>
+            <div style="display: flex;">
+                <table>
+                    <tr>
+                        <td rowspan="4" width="150px"><img src="@Html.Raw(ObtenerImagenRestaurante(reserva.RIdRestaurante))" width="150px"></td>
+                        <td class="Hora">@reserva.NombreRestaurante</td>
+                        <td class="Mesa">Mesa: @reserva.NumeroMesa</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">Web: @Html.Raw(ObtenerWebRestaurante(reserva.RIdRestaurante))</td>
+                        <td>Hora Reserva: @reserva.Inicio.TimeOfDay</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">Telf.: @Html.Raw(ObtenerTelfRestaurante(reserva.RIdRestaurante))</td>
+                        <td>Hora Maxima Asistencia: @reserva.Inicio.AddMinutes(30).TimeOfDay</td>
+                    </tr>
+                    <tr>
+                        <td>Fecha: @reserva.Inicio.Date.ToString().Split(" ")[0]</td>
+                    </tr>
+                </table>
+                <form style="display: flex;width: 30%;align-items: flex-end;justify-content: space-between;flex-direction: column;">
+                    <div>
+                        <button type="button" class="btn success" style="width: 200px; height: 50px;">@reserva.EstadoReservaNombre</button>
+                    </div>
+                    <div>
+                        <button type="submit" class="btn danger" style="width: 100px; height: 50px;">Cancelar</button>
+                    </div>
+                </form>
             </div>
+            <div></div>
         </div>
     }
 </div>
+
+@functions {
+    public string ObtenerImagenRestaurante(int IdRestaurante)
+    {
+        var imagenDAl = new ImagenRestauranteDAL(Conexion.CadenaBBDD);
+
+        return imagenDAl.GetAllRestaurantImages(IdRestaurante).Count() != 0 ? imagenDAl.GetAllRestaurantImages(IdRestaurante).First().URL : "";
+    }
+
+    public string ObtenerTelfRestaurante(int IdRestaurante)
+    {
+        var restuaranteDAL = new RestauranteDAL(Conexion.CadenaBBDD);
+
+        return restuaranteDAL.GetRestaurantById(IdRestaurante) != null ? restuaranteDAL.GetRestaurantById(IdRestaurante).Telefono : "";
+    }
+
+    public string ObtenerWebRestaurante(int IdRestaurante)
+    {
+        var restuaranteDAL = new RestauranteDAL(Conexion.CadenaBBDD);
+
+        return restuaranteDAL.GetRestaurantById(IdRestaurante) != null ? restuaranteDAL.GetRestaurantById(IdRestaurante).Web : "";
+    }
+}
