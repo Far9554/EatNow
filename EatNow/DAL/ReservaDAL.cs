@@ -95,7 +95,8 @@ namespace EatNow.DAL
                                 NombreRestaurante = reader["Restaurante"].ToString(),
                                 NombreCliente = reader["Nombre Cliente"].ToString(),
                                 ApellidoCliente = reader["Apellido Cliente"].ToString(),
-                                EstadoReservaNombre = reader["Estado"].ToString()
+                                EstadoReservaNombre = reader["Estado"].ToString(),
+                                RIdRestaurante = int.Parse(reader["RIdRestaurante"].ToString())
                             };
                             reservas.Add(reserva);
                         }
