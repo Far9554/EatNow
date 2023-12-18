@@ -3,6 +3,7 @@ using EatNow.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics.Eventing.Reader;
+using Newtonsoft.Json;
 using System.Linq;
 
 namespace EatNow.Controllers
@@ -15,6 +16,7 @@ namespace EatNow.Controllers
         private readonly ImagenRestauranteDAL imagenRestauranteDAL;
         private readonly ReservaDAL reservaRestauranteDAL;
         private readonly PlatoDAL platoDAL;
+        private readonly CasillaDAL casillaDAL;
 
         public RestauranteController()
         {
@@ -24,6 +26,7 @@ namespace EatNow.Controllers
             imagenRestauranteDAL = new ImagenRestauranteDAL(Conexion.CadenaBBDD);
             reservaRestauranteDAL = new ReservaDAL(Conexion.CadenaBBDD);
             platoDAL = new PlatoDAL(Conexion.CadenaBBDD);
+            casillaDAL = new CasillaDAL(Conexion.CadenaBBDD);
         }
 
         // GET: RestauranteController
@@ -51,7 +54,7 @@ namespace EatNow.Controllers
                 listRestaurants = restauranteDAL.GetAllRestaurants();
 
                 TempData["ErrorLoginClientMessage"] = "El restaurante no existe";
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Login", "Home");
             }
             else
             {
@@ -72,19 +75,30 @@ namespace EatNow.Controllers
             }
         }
 
-        public IActionResult MapaRestaurante()
+        public IActionResult MapaRestaurante(int idRestaurante)
         {
+            Restaurante restaurante = restauranteDAL.GetRestaurantById(idRestaurante);
+
             if (Request.Cookies["IdCliente"] != null)
             {
                 ViewBag.IdCliente = Request.Cookies["IdCliente"];
                 ViewBag.ImageCliente = clienteDAL.GetClientImage(int.Parse(Request.Cookies["IdCliente"]));
-                return View();
+                return View(restaurante);
             }
             else
             {
                 return RedirectToAction("Index", "Home");
             }
+        }
 
+        [HttpGet]
+        public IActionResult GetCasillas(int idRestaurante)
+        {
+            Casilla[] casillas = casillaDAL.GetCasillasByRestaurantId(idRestaurante).ToArray();
+
+            string casillasJson = JsonConvert.SerializeObject(casillas);
+
+            return Json(casillasJson);
         }
 
         public IActionResult ListReservasRestaurante()
@@ -117,25 +131,51 @@ namespace EatNow.Controllers
 
 
             else{
-                return RedirectToAction("Index","home");
+                return RedirectToAction("Login", "Home");
             }
         }
 
-        public IActionResult ConfirmacionReserva()
+        public IActionResult ConfirmacionReserva(string Hora, string Fecha, int IdCliente, int IdCasilla)
         {
+            // Convertir la cadena de hora a TimeSpan
+            TimeSpan hora = TimeSpan.Parse(Hora);
+
+            // Convertir la cadena de fecha a DateTime
+            DateTime fecha = DateTime.ParseExact(Fecha, "yyyy-MM-dd", null);
+
+            // Combinar fecha y hora en un solo DateTime
+            DateTime fechaInicio = fecha.Add(hora);
+            DateTime fechaFin = fechaInicio.AddHours(3);
+
+            Cliente cliente = clienteDAL.GetClientById(IdCliente);
+            Reserva reserva = new Reserva { Inicio = fechaInicio, Fin = fechaFin, RIdCasilla = IdCasilla, RIdCliente = IdCliente, 
+                NombreCliente = cliente.Nombre, ApellidoCliente = cliente.Apellidos };
+
+
+
+            //List<Plato> platos = platoDAL.GetAllDishesFromRestaurant(restaurante.IdRestaurante);
+            //ViewBag.Platos = platos;
+
             if (Request.Cookies["IdCliente"] != null)
             {
                 ViewBag.IdCliente = Request.Cookies["IdCliente"];
                 ViewBag.ImageCliente = clienteDAL.GetClientImage(int.Parse(Request.Cookies["IdCliente"]));
             }
 
-            return View();
+            return View(reserva);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CrearReserva(Reserva reserva)
+        {
+            reservaRestauranteDAL.InsertBooking(reserva);
+
+            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult InfoRestaurante()
         {
-
-
             if (Request.Cookies["IdEmpleado"] != null)
             {
                 int idEmpleado = int.Parse(Request.Cookies["IdEmpleado"]);
@@ -151,10 +191,8 @@ namespace EatNow.Controllers
             }
             else
             {
-                return RedirectToAction("Index","Home");
+                return RedirectToAction("Login", "Home");
             }
-
-
         }
 
         [HttpPost]

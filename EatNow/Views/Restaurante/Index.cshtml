@@ -35,12 +35,12 @@
             </div>
         </div>
         <div id="cont-info">
-            <div class="horario">
-                @for(int i = int.Parse(Model.HoraApertura.Substring(0 ,2)); i <= int.Parse(Model.HoraCierre.Substring(0, 2)); i++)
+            <div id="Horarios" class="horario">
+                @* @for(int i = int.Parse(Model.HoraApertura.Substring(0 ,2)); i <= int.Parse(Model.HoraCierre.Substring(0, 2)); i++)
                 {
                     if (i <= DateTime.Now.Hour) { <button class="past">@i:00</button> }
                     else { <button class="clean">@i:00</button> }
-                }
+                } *@
                 <button class="mid">12:00</button>
                 <button class="full">13:00</button>
             </div>
@@ -63,6 +63,7 @@
                 @if (ViewBag.IdCliente != null)
                 {
                 <form style="display: flex;" asp-area="" asp-controller="restaurante" asp-action="mapaRestaurante">
+                    <input type="number" name="IdRestaurante" style="display: none;" value="@Model.IdRestaurante">
                     <button style="margin: 0 auto;" class="btn submit" type="submit">RESERVA YA!</button>
                 </form>
                 }
@@ -93,5 +94,49 @@
                 anchor.show();
             }, 1);
         });
+
+        var divHorarios = document.getElementById("Horarios");
+
+        // Obtener las horas de apertura y cierre desde el modelo como cadenas
+        var horaAperturaStr = "@Model.HoraApertura";
+        var horaCierreStr = "@Model.HoraCierre";
+
+        // Obtener la fecha y hora actual como referencia
+        var fechaActual = new Date();
+
+        // Convertir las cadenas a objetos Date
+        var horaApertura = new Date()
+        horaApertura.setHours(horaAperturaStr.split(":")[0], horaAperturaStr.split(":")[1])
+        var horaCierre = new Date()
+        horaCierre.setHours(horaCierreStr.split(":")[0], horaCierreStr.split(":")[1])
+
+        // Ajustar la hora de cierre si es anterior a la hora de apertura
+        if (horaCierre < horaApertura) {
+            horaCierre.setDate(horaCierre.getDate() + 1);
+        }
+
+        // Intervalo de tiempo (en minutos) entre opciones
+        var intervalo = 60;
+
+        // Generar opciones
+        for (var tiempo = new Date(horaApertura); tiempo < horaCierre; tiempo.setMinutes(tiempo.getMinutes() + intervalo)) {
+            var horaStr = ('0' + tiempo.getHours()).slice(-2);
+            var minutoStr = ('0' + tiempo.getMinutes()).slice(-2);
+            var optionText = horaStr + ":" + minutoStr;
+
+            var button = document.createElement("button");
+            button.value = optionText;
+            button.innerHTML = optionText;
+
+            // Desactivar la opción si la hora ya ha pasado
+            if (tiempo.getTime() < fechaActual.getTime()) {
+                button.classList.add("past");
+            }
+            else {
+                button.classList.add("clean");
+            }
+
+            divHorarios.appendChild(button);
+        }
     });
 </script>

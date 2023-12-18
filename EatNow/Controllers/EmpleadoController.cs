@@ -2,6 +2,7 @@
 using EatNow.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace EatNow.Controllers
 {
@@ -10,12 +11,14 @@ namespace EatNow.Controllers
         private readonly RestauranteDAL restauranteDAL;
         private readonly EmpleadoDAL empleadoDAL;
         private readonly PlatoDAL platoDAL;
+        private readonly CasillaDAL casillaDAL;
 
         public EmpleadoController()
         {
             restauranteDAL = new RestauranteDAL(Conexion.CadenaBBDD);
             empleadoDAL = new EmpleadoDAL(Conexion.CadenaBBDD);
             platoDAL = new PlatoDAL(Conexion.CadenaBBDD);
+            casillaDAL = new CasillaDAL(Conexion.CadenaBBDD);
         }
 
         // GET: EmpleadoController
@@ -28,7 +31,7 @@ namespace EatNow.Controllers
             }
             else
             {
-                return RedirectToAction("Index","Home");
+                return RedirectToAction("Login","Home");
             }
         }
 
@@ -68,7 +71,7 @@ namespace EatNow.Controllers
 
             else
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("Login", "Home");
             }
 
 
@@ -112,7 +115,7 @@ namespace EatNow.Controllers
 
             else
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("Login", "Home");
             }
 
         }
@@ -160,9 +163,48 @@ namespace EatNow.Controllers
             }
             else
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("Login", "Home");
             }
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult GetCasillas()
+        {
+            int idEmpleado = int.Parse(Request.Cookies["IdEmpleado"]);
+            Empleado empleado = empleadoDAL.GetEmployeeById(idEmpleado);
+
+            Casilla[] casillas = casillaDAL.GetCasillasByRestaurantId(empleado.RIdRestaurante).ToArray();
+
+            string casillasJson = JsonConvert.SerializeObject(casillas);
+
+            return Json(casillasJson);
+        }
+
+        [HttpPost]
+        public IActionResult SaveCasillas(string casillasJson)
+        {
+            Casilla[] casillasArray = JsonConvert.DeserializeObject<Casilla[]>(casillasJson);
+
+            int idEmpleado = int.Parse(Request.Cookies["IdEmpleado"]);
+            Empleado empleado = empleadoDAL.GetEmployeeById(idEmpleado);
+
+            foreach (Casilla c in casillasArray)
+            {
+                //Console.WriteLine($"X:{c.X} Y:{c.Y} EsMesa:{c.EsMesa}");
+                c.RIdRestaurante = empleado.RIdRestaurante;
+            }
+
+            if (casillaDAL.GetCasillasByRestaurantId(empleado.RIdRestaurante).Count == 0)
+            {
+                casillaDAL.TransactionInsertCasillas(casillasArray.ToList());
+            }
+            else
+            {
+                casillaDAL.TransaccionUpdateCasillas(casillasArray.ToList(), casillaDAL.GetCasillasByRestaurantId(empleado.RIdRestaurante));
+            }
+
+            return Json(new { success = true });
         }
 
         public IActionResult InfoUsuario()
@@ -176,7 +218,7 @@ namespace EatNow.Controllers
             }
             else
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("Login", "Home");
             }
         }
     }
