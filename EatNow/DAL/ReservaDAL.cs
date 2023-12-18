@@ -61,22 +61,23 @@ namespace EatNow.DAL
             return reservas;
         }
 
-        public List<Reserva> ListReservasUsuario(int Id)
+        public List<Reserva> ListReservasUsuario(int idCliente)
         {
             List<Reserva> reservas = new List<Reserva>();
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-
                 string query = "SELECT IdReserva, Re.Nombre AS 'Restaurante', C.NumeroMesa AS 'NumeroMesa', Cl.Nombre AS 'Nombre Cliente', Cl.Apellidos AS 'Apellido Cliente', R.Inicio, R.Fin, RIdCliente, RIdEstadoReserva, RIdCasilla, ER.Nombre AS 'Estado', C.RIdRestaurante FROM Reserva R " +
                                 "INNER JOIN Casilla C ON C.IdCasilla = R.RIdCasilla " +
                                 "INNER JOIN Restaurante Re ON C.RIdRestaurante = Re.IdRestaurante " +
                                 "INNER JOIN Cliente Cl ON Cl.IdCliente = R.RIdCliente " +
                                 "INNER JOIN EstadoReserva ER ON R.RIdEstadoReserva = ER.IdEstado " +
-                                "WHERE Cl.IdCliente = '1'";
+                                "WHERE Cl.IdCliente = @IdCliente";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
+                    command.Parameters.AddWithValue("@IdCliente", idCliente);
+
                     connection.Open();
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
@@ -90,7 +91,7 @@ namespace EatNow.DAL
                                 RIdCliente = int.Parse(reader["RIdCliente"].ToString()),
                                 RIdEstadoReserva = int.Parse(reader["RIdEstadoReserva"].ToString()),
                                 RIdCasilla = int.Parse(reader["RIdCasilla"].ToString()),
-                                NumeroMesa = int.Parse(reader["NumeroMesa"].ToString()),
+                                NumeroMesa = (reader["NumeroMesa"] != DBNull.Value) ? int.Parse(reader["NumeroMesa"].ToString()) : -1,
                                 NombreRestaurante = reader["Restaurante"].ToString(),
                                 NombreCliente = reader["Nombre Cliente"].ToString(),
                                 ApellidoCliente = reader["Apellido Cliente"].ToString(),
