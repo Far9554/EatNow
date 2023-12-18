@@ -40,6 +40,12 @@
     width: 66%;
     max-height: 100%;
     padding: 10px;
+    padding-right: 0;
+}
+
+.cont-info > .info > p > a[data-bs-toggle="tooltip"] {
+    margin-left: 5px;
+    cursor: pointer
 }
 
 .restaurante > p {
@@ -57,6 +63,7 @@
     padding: 0;
     display: flex;
     justify-content: right;
+    align-items: end;
     transition: all 0.5s ease-out;
 }
 
@@ -76,6 +83,7 @@
 
 .reservar button {
     padding: 0;
+    height: 80%;
 }
 
 .desc {

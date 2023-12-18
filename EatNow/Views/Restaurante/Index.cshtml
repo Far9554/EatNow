@@ -1,8 +1,9 @@
 ﻿@{
-    ViewData["Title"] = "Informacion Restaurante Restaurante";
+    ViewData["Title"] = "Información Restaurante - " + Model.Nombre;
 }
 @model Restaurante
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
 <link rel="stylesheet" type="text/css" href="~/css/infoRestaurante.css">
 
 <div id="main-container">
@@ -11,11 +12,16 @@
             <h1>@Model.Nombre</h1>
             <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel" style="height: 100%;">
                 <div class="carousel-inner">
+                    @{ Boolean first = true; }
                     @foreach (Imagen image in ViewBag.Images)
                     {
-                        <div class="carousel-item active">
+                        // Solo se debe añadir la clase active al primer elemento
+                        <div class="carousel-item @(first ? "active" : "" )">
                             <img src="@image.URL" class="d-block w-100" alt="...">
                         </div>
+                        
+                        // Variable para comprobar si es el primer elemento
+                        first = false;
                     }
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
@@ -39,8 +45,8 @@
                 <button class="full">13:00</button>
             </div>
             <div class="block">
-                <p>@Model.Direccion</p>
-                <p>(@Model.Telefono) <a href="@Model.Web">@Model.Web</a></p>
+                <p>@Model.Direccion<a href="http://maps.google.com/?q=@Model.Direccion" target="_blank" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Ver en Maps" class="bi bi-geo-alt-fill"></a></p>
+                <p>(@Model.Telefono) <a href="@Model.Web" target="_blank">@Model.Web</a></p>
                 <p class="desc">@Model.Descripcion</p>
             </div>
         </div>
@@ -52,17 +58,40 @@
                 <label class="plato"><img src="@plato.URLImagen"></label>
             }
         </div>
-        <form asp-area="" asp-controller="restaurante" asp-action="mapaRestaurante">
+        
             <div id="reserva">
                 @if (ViewBag.IdCliente != null)
                 {
-                    <button class="btn submit" type="submit">RESERVA YA!</button>
+                <form style="display: flex;" asp-area="" asp-controller="restaurante" asp-action="mapaRestaurante">
+                    <button style="margin: 0 auto;" class="btn submit" type="submit">RESERVA YA!</button>
+                </form>
                 }
                 else
                 {
-                    <button class="btn submit" type="button">Inicia Session Para Reservar</button>
+                <form style="display: flex;" asp-area="" asp-controller="home" asp-action="login">
+                    <button style="margin: 0 auto;" class="btn submit" type="submit">Inicia Sesion Para Reservar</button>
+                </form>
                 }
             </div>
-        </form>
+        
     </div>
 </div>
+<script type="text/javascript">
+    // Cuando el documento está listo...
+    document.addEventListener("DOMContentLoaded", function (event) {
+        // Inicializamos los tooltips
+        let tooltipTriggerList = document.querySelectorAll("[data-bs-toggle='tooltip']");
+        let tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+
+        // Función onClick para ocultar el tooltip cuando se abre la nueva página
+        $("a[data-bs-toggle='tooltip']").on("click", function () {
+            // Ocultamos y volvemos a mostrar en 1ms el icono de localización para evitar el bug de que no se oculta el tooltip
+            // Referencia: https://stackoverflow.com/a/44074975
+            let anchor = $(this);
+            anchor.hide();
+            setTimeout(function () {
+                anchor.show();
+            }, 1);
+        });
+    });
+</script>

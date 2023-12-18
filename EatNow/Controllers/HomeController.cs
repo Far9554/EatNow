@@ -141,6 +141,13 @@ namespace EatNow.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult BotonHome()
+        {
+            return RedirectToAction("Index");
+        }
+
         public IActionResult Privacy()
         {
             return View();

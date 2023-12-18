@@ -20,8 +20,7 @@
 
 
 
-        <style>
-
+    <style>
         .header {
             background-color: #252a39;
             display: flex;
@@ -30,6 +29,7 @@
             height: 60px;
             width: 100%;
             padding: 5px 50px;
+            padding-right: 0;
         }
 
         .header nav {
@@ -45,11 +45,11 @@
             display:inline;
         }
 
-            .header .logo button {
-                    background-color: transparent !important;
-                    border-radius: 0 !important;
-                    border:none;
-            }
+        .header .logo button {
+            background-color: transparent !important;
+            border-radius: 0 !important;
+            border:none;
+        }
 
         .header .logo:hover {
             cursor: pointer;
@@ -70,7 +70,6 @@
         .header .logo b {
             color: #f88a19;
             font-size: 20px;
-
         }
 
         .header #btn-iniciar-sesion {
@@ -79,53 +78,53 @@
             padding: 10px;
             border-radius:8px;
             transition: all 0.3s;
+            margin-right: 10px;
         }
 
         .header #btn-iniciar-sesion:hover {
-                transform: scale(1.05);
-                background: -webkit-linear-gradient(left, #EC992E, #E76954);
+            transform: scale(1.05);
+            background: -webkit-linear-gradient(left, #EC992E, #E76954);
         }
-        .header .dropdown{
-            
+        .header .dropdown {
             display:inline-block;
-            width:12%;
+            width: 180px;
 
             justify-content: center;
             align-items:center;
             text-align:center;
         }
 
-        .header .menu{
-                display: none;
-                position:absolute;
-                width:100%;
-                background-color: #252a39;
-                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-                z-index: 1;
+        .header .menu {
+            display: none;
+            position:absolute;
+            width:100%;
+            background-color: #252a39;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
         }
 
-        .header .menu .opciones{
-                    border: solid 2px #E76954;
-                    background-color: #252a39;
-                    border-radius: 0;
-                    width:100%;
-                    
+        .header .menu .opciones {
+            border: none;
+            background-color: transparent;
+            border-radius: 0;
+            width:100%;
         }
 
-        .header .menu .opciones:hover {
-                    border: 2px solid #ffbc0e;
+        .header .menu form:hover {
+            background: #004A77;
         }
 
         .header .dropdown:hover .menu {
             display: block;
+            padding-top: 5px;
         }
+
         .header .perfil {
             position:center;
             width: 50px;
             height: 50px;
             border-radius: 50%;
             border: 2px solid #ffbc0e;
-            margin-right: 10px;
         }
 
         .header .perfil:hover {
@@ -134,15 +133,13 @@
             border: 2px solid #E76954;
         }
 
-        header{
+        header {
             width: 100%;
         }
 
         #rest-name{
            color: #f88a19;
-        }
-
-        
+        }  
     </style>
 </head>
 <body>
@@ -161,7 +158,7 @@
                 }
                 else
                 {
-                    <form asp-action="Index" asp-controller="Home" method="post" asp-antiforgery="true">
+                    <form asp-action="BotonHome" asp-controller="Home" method="post" asp-antiforgery="true">
                         <button>
                             <img src="/images/EAT_NOW_LOGO.png" alt="Logo">
                             <b>EatNow</b>
@@ -232,7 +229,7 @@
     </header>
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2023 - EatNow - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2023 - EatNow
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
