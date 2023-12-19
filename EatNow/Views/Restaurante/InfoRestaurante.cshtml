@@ -18,11 +18,11 @@
                     <div style="width: 60%;" class="inf2"><label>@Model.Nombre</label></div>
                 </div>
                 <div style="display: flex; width: 100%;">
-                    <div style="width: 40%;" class="inf2"><label>Direccion:</label></div>
+                    <div style="width: 40%;" class="inf2"><label>Dirección:</label></div>
                     <div style="width: 60%;" class="inf2"><label>@Model.Direccion</label></div>
                 </div>
                 <div style="display: flex; width: 100%;">
-                    <div style="width: 40%;" class="inf2"><label>Telefono:</label></div>
+                    <div style="width: 40%;" class="inf2"><label>Teléfono:</label></div>
                     <div style="width: 60%;" class="inf2"><label>@Model.Telefono</label></div>
                 </div>
                 <div style="display: flex; width: 100%;">
@@ -30,7 +30,7 @@
                     <div style="width: 60%;" class="inf2"><label>@Model.Web</label></div>
                 </div>
                 <div style="display: flex; width: 100%;">
-                    <div style="width: 40%;" class="inf2"><label>Descripcion:</label></div>
+                    <div style="width: 40%;" class="inf2"><label>Descripción:</label></div>
                     <div style="width: 60%;" class="inf2"><label>@Model.Descripcion</label></div>
                 </div>
                 <div style="display: flex; width: 100%;">
@@ -50,7 +50,7 @@
     <div id="editar-user" class="full">
         <form style="margin: 15px;" asp-action="UpdateRestaurante" asp-controller="restaurante" method="post" asp-antiforgery="true">
             <div id="titulo">
-                <span>Editar Informacion Restaurante</span>
+                <span>Editar Información Restaurante</span>
             </div>
             <input asp-for="IdRestaurante" type="text" name="IdRestaurante" value=@Model.IdRestaurante style="display:none">
             <div class="input-box">
@@ -59,11 +59,11 @@
             </div>
             <div class="input-box">
                 <input asp-for="Direccion" type="text" name="Direccion" value=@Model.Direccion>
-                <span>Direccion</span>
+                <span>Dirección</span>
             </div>
             <div class="input-box">
                 <input asp-for="Telefono" type="text" name="Telefono" value=@Model.Telefono>
-                <span>Telefono</span>
+                <span>Teléfono</span>
             </div>
             <div class="input-box">
                 <input asp-for="Web" type="text" name="Web" value=@Model.Web>
@@ -71,7 +71,7 @@
             </div>
             <div class="input-box">
                 <input asp-for="Descripcion" type="text" name="Descripcion" value=@Model.Descripcion>
-                <span>Descripcion</span>
+                <span>Descripción</span>
             </div>
             <div class="input-box">
                 <input type="time" asp-for="HoraApertura" name="HoraApertura" value=@Model.HoraApertura>

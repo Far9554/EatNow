@@ -35,9 +35,9 @@
             <div id="info">
                 <div style="width: 40%;">
                     <div class="inf"><label>Nombre:</label></div>
-                    <div class="inf"><label>Apellido:</label></div>
-                    <div class="inf"><label>Telefono:</label></div>
-                    <div class="inf"><label>Correo Electronico:</label></div>
+                    <div class="inf"><label>Apellidos:</label></div>
+                    <div class="inf"><label>Teléfono:</label></div>
+                    <div class="inf"><label>Correo Electrónico:</label></div>
                 </div>
                 <div style="width: 60%;">
                     <div class="inf"><label>@Model.Nombre</label></div>
@@ -62,15 +62,15 @@
             </div>
             <div class="input-box">
                 <input asp-for="Apellidos" type="text" name="Apellidos" value=@Model.Apellidos>
-                <span>Apellido</span>
+                <span>Apellidos</span>
             </div>
             <div class="input-box">
                 <input asp-for="Telefono" type="text" name="Telefono" value=@Model.Telefono>
-                <span>Telefono</span>
+                <span>Teléfono</span>
             </div>
             <div class="input-box">
                 <input asp-for="CorreoElectronico" type="email" name="CorreoElectronico" value=@Model.CorreoElectronico>
-                <span>Correo electronico</span>
+                <span>Correo Electrónico</span>
             </div>
             <div class="input-box">
                 <input asp-for="URLFoto" type="text" name="URLFoto" value=@Model.URLFoto>

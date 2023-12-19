@@ -40,9 +40,9 @@
     <div id="cont1" class="cont row">
         <form asp-action="GetCliente" asp-controller="home" method="post" asp-antiforgery="true">
             <div class="form sign-in">
-                <h2>Iniciar Sesion Como Cliente</h2>
+                <h2>Iniciar Sesión Como Cliente</h2>
                 <label>
-                    <span>Correo Electronico</span>
+                    <span>Correo Electrónico</span>
                     <input asp-for="CorreoElectronico" type="email" name="CorreoElectronico">
                 </label>
                 <label>
@@ -50,7 +50,7 @@
                     <input asp-for="Password" type="password" name="password" id="password">
                     <i class="bi bi-eye-slash" id="togglePassword"></i>
                 </label>
-                <button class="submit" type="submit">Iniciar Sesion</button>
+                <button class="submit" type="submit">Iniciar Sesión</button>
                 <p class="forgot-pass">Has olvidado tu contraseña?</p>
                 <p class="Question">No tienes cuenta?</p>
                 <button class="submit btn-Register" type="button">Registrarse</button>
@@ -61,11 +61,11 @@
         <div class="img">
           <div class="img-text m-up">
             <h2>¿Eres un Restaurante?</h2>
-            <p>Inicia sesion desde este lado para poder entrar!</p>
+            <p>Inicia sesión desde este lado para poder entrar!</p>
           </div>
           <div class="img-text m-in">
             <h2>¿Eres un cliente?</h2>
-            <p>Si solo quieres reservar en un restaurante vente a este lado para iniciar sesion!</p>
+            <p>Si solo quieres reservar en un restaurante vente a este lado para iniciar sesión!</p>
           </div>
           <div class="img-btn">
             <span class="m-up">Restaurante</span>
@@ -75,9 +75,9 @@
 
         <div class="form sign-up">
             <form asp-action="GetEmpleado" asp-controller="home" method="post" asp-antiforgery="true">
-                <h2>Iniciar Sesion Como Restaurante</h2>
+                <h2>Iniciar Sesión Como Restaurante</h2>
                 <label>
-                    <span>Correo Electronico</span>
+                    <span>Correo Electrónico</span>
                     <input type="email" name="email">
                 </label>
                 <label>
@@ -85,7 +85,7 @@
                     <input type="password" name="password" id="passwordEmp">
                     <i class="bi bi-eye-slash" id="togglePasswordEmp"></i>
                 </label>
-                <button class="submit" type="submit">Iniciar Sesion</button>
+                <button class="submit" type="submit">Iniciar Sesión</button>
             </form>
         </div>
       </div>
@@ -102,11 +102,11 @@
                     <input asp-for="Nombre" type="text" name="Nombre">
                 </label>
                 <label>
-                    <span>Correo Electronico</span>
+                    <span>Correo Electrónico</span>
                     <input asp-for="CorreoElectronico" type="email" name="CorreoElectronico">
                 </label>
                 <label>
-                    <span>Telefono</span>
+                    <span>Teléfono</span>
                     <input asp-for="Telefono" type="tel" name="Telefono">
                 </label>
                 <label>
@@ -116,7 +116,7 @@
                 </label>
                 <button type="submit" class="submit register">Registrarse</button>
                 <p class="Question">Tienes cuenta?</p>
-                <button class="submit register btn-Login" type="button">Iniciar Sesion</button>
+                <button class="submit register btn-Login" type="button">Iniciar Sesión</button>
             </form>
         </div>
     </div>

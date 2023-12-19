@@ -45,17 +45,17 @@
                 <button class="full">13:00</button> *@
             </div>
             <div class="block">
-                <h3>Informacion Restaurante:</h3>
+                <h3>Información Restaurante:</h3>
                 <hr style="margin: 4px">
-                <p>Direccion: @Model.Direccion <a href="http://maps.google.com/?q=@Model.Direccion" target="_blank" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Ver en Maps" class="bi bi-geo-alt-fill"></a></p>
+                <p>Dirección: @Model.Direccion <a href="http://maps.google.com/?q=@Model.Direccion" target="_blank" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Ver en Maps" class="bi bi-geo-alt-fill"></a></p>
                 <p>Telf.: (@Model.Telefono) Web:<a href="@Model.Web" target="_blank">@Model.Web</a></p>
-                <h5>Descripcion:</h5>
+                <h5>Descripción:</h5>
                 <p class="desc">@Model.Descripcion</p>
             </div>
         </div>
     </div>
     <div id="cont-menu" style="margin-top: 5px">
-        <h2 style="text-align:center; margin-top: 5px;">Menu Del Restaurante</h2>
+        <h2 style="text-align:center; margin-top: 5px;">Menú Del Restaurante</h2>
         <div id="menu">
             @foreach(Plato plato in ViewBag.Platos)
             {
@@ -73,7 +73,7 @@
                 else
                 {
                 <form style="display: flex;" asp-area="" asp-controller="home" asp-action="login">
-                    <button style="margin: 0 auto;" class="btn submit" type="submit">Inicia Sesion Para Reservar</button>
+                    <button style="margin: 0 auto;" class="btn submit" type="submit">Inicia Sesión Para Reservar</button>
                 </form>
                 }
             </div>
