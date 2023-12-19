@@ -40,25 +40,28 @@
                 {
                     if (i <= DateTime.Now.Hour) { <button class="past">@i:00</button> }
                     else { <button class="clean">@i:00</button> }
-                } *@
+                }
                 <button class="mid">12:00</button>
-                <button class="full">13:00</button>
+                <button class="full">13:00</button> *@
             </div>
             <div class="block">
-                <p>@Model.Direccion<a href="http://maps.google.com/?q=@Model.Direccion" target="_blank" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Ver en Maps" class="bi bi-geo-alt-fill"></a></p>
-                <p>(@Model.Telefono) <a href="@Model.Web" target="_blank">@Model.Web</a></p>
+                <h3>Informacion Restaurante:</h3>
+                <hr style="margin: 4px">
+                <p>Direccion: @Model.Direccion <a href="http://maps.google.com/?q=@Model.Direccion" target="_blank" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Ver en Maps" class="bi bi-geo-alt-fill"></a></p>
+                <p>Telf.: (@Model.Telefono) Web:<a href="@Model.Web" target="_blank">@Model.Web</a></p>
+                <h5>Descripcion:</h5>
                 <p class="desc">@Model.Descripcion</p>
             </div>
         </div>
     </div>
-    <div id="cont-menu">
+    <div id="cont-menu" style="margin-top: 5px">
+        <h2 style="text-align:center; margin-top: 5px;">Menu Del Restaurante</h2>
         <div id="menu">
             @foreach(Plato plato in ViewBag.Platos)
             {
                 <label class="plato"><img src="@plato.URLImagen"></label>
             }
         </div>
-        
             <div id="reserva">
                 @if (ViewBag.IdCliente != null)
                 {
@@ -74,7 +77,6 @@
                 </form>
                 }
             </div>
-        
     </div>
 </div>
 

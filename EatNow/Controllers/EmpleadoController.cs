@@ -197,13 +197,20 @@ namespace EatNow.Controllers
 
             if (casillaDAL.GetCasillasByRestaurantId(empleado.RIdRestaurante).Count == 0)
             {
-                casillaDAL.TransactionInsertCasillas(casillasArray.ToList());
+                int affected = casillaDAL.TransactionInsertCasillas(casillasArray.ToList());
+
+                if(affected == 0)
+                    TempData["ErrorMapMessage"] = "Ha habido un error al intentar insertar las casillas";
+                else
+                    TempData["MapCreatedMessage"] = "Todas las casillas guardadas correctamente";
             }
             else
             {
                 casillaDAL.TransaccionUpdateCasillas(casillasArray.ToList(), casillaDAL.GetCasillasByRestaurantId(empleado.RIdRestaurante));
+                TempData["MapCreatedMessage"] = "Todas las casillas guardadas correctamente";
             }
 
+            //return RedirectToAction("mapaRestauranteEmpleado", "Empleado");
             return Json(new { success = true });
         }
 
