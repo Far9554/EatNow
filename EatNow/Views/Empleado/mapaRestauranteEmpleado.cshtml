@@ -1,21 +1,56 @@
 ﻿@model List<Casilla>
 
 <link rel="stylesheet" type="text/css" href="~/css/map.css">
+<link rel="stylesheet" type="text/css" href="~/css/loanding.css">
 <style>
     td {
         border-color: black;
+    }
+
+    #MainContainer {
+        width: 100%;
+        height: 100%;
+        display:flex;
+    }
+
+    #MapContainer {
+        max-width: 70%;
     }
 </style>
 
 <div id="MainContainer">
     <div id="MapContainer">
     </div>
-    <div id="Options">
-        <button id="Borrar" onclick="SetState(0)" class="pincel">Borrar</button>
-        <button id="Suelo" onclick="SetState(1)" class="pincel">Suelo</button>
-        <button id="Mesa" onclick="SetState(2)" class="pincel">Mesa</button>
-        <button type="reset" class="btn danger">Cancelar</button>
-        <button type="submit" onclick="PushCasillas()" class="btn success">Guardar</button>
+    <div id="Options" style="margin-left: 20px">
+        <div>
+            <h2>Herramientas de Edicion</h2>
+            <h5>Utiliza estas herramientas para editar el mapa del restaurante</h5>
+            <button id="Borrar" onclick="SetState(0)" class="pincel">Borrar</button>
+            <button id="Suelo" onclick="SetState(1)" class="pincel">Suelo</button>
+            <button id="Mesa" onclick="SetState(2)" class="pincel">Mesa</button>
+        </div>
+        <div>
+            <hr>
+            <button type="reset" class="btn danger">Cancelar</button>
+            <button id="save" type="submit" onclick="PushCasillas()" class="btn success">Guardar</button>
+            <hr>
+        </div>
+
+        <div id="loanding" class="loadingio-spinner-spinner-2chw594blmn">
+            <div class="ldio-zlnv6488mym">
+                <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+            </div>
+        </div>
+        
+
+        <div class="container">
+            <div class="row" id="correct" style="display: none">
+                <div class="alert success alert-dismissible fade show" role="alert" style="padding: 1rem 1rem !important; margin-bottom: 1rem!important">
+                    <span style="color: white;">Todas las casillas guardadas correctamente</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -27,6 +62,9 @@
     let PincelBorrar = document.getElementById('Borrar');
     let PincelSuelo = document.getElementById('Suelo');
     let PincelMesa = document.getElementById('Mesa');
+
+    let Guardar = document.getElementById('save');
+    let Loanding = document.getElementById('loanding');
 
     let container = document.getElementById('MapContainer');
 
@@ -195,6 +233,7 @@
                 if (casillasArray != null) {
                     console.log(casillasArray);
                     SetTable(casillasArray);
+                    Loanding.style.display = "none";
                 }
             },
             error: function (error) {
@@ -210,6 +249,8 @@
         var jsonMiArray = JSON.stringify(casillasG);
 
         console.log(jsonMiArray);
+        Loanding.style.display = "";
+        Guardar.disabled = true;
 
         $.ajax({
             type: "POST",
@@ -218,9 +259,13 @@
             dataType: "json",
             success: function (data) {
                 console.log(data);
+                Guardar.disabled = false;
+                Loanding.style.display = "none";
+                document.getElementById('correct').style.display = "";
             },
             error: function (error) {
                 console.log(error);
+                Guardar.disabled = false;
             }
         });
     }
