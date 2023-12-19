@@ -136,6 +136,7 @@ namespace EatNow.Controllers
             {
                 ViewBag.IdEmpleado = Request.Cookies["IdEmpleado"];
                 Empleado emp = empleadoDAL.GetEmployeeById(int.Parse(ViewBag.IdEmpleado));
+                ViewBag.NombreRestaurante = restauranteDAL.GetRestaurantById(emp.RIdRestaurante).Nombre;
                 idRestaurant = emp.RIdRestaurante;
 
                 List<Reserva> reservas = reservaDAL.GetAllReservasRestauranteId(idRestaurant);
@@ -224,6 +225,7 @@ namespace EatNow.Controllers
                 int idEmpleado = int.Parse(Request.Cookies["IdEmpleado"]);
                 Empleado empleado = empleadoDAL.GetEmployeeById(idEmpleado);
                 ViewBag.IdEmpleado = Request.Cookies["IdEmpleado"];
+                ViewBag.NombreRestaurante = restauranteDAL.GetRestaurantById(empleado.RIdRestaurante).Nombre;
 
                 Restaurante restaurante = restauranteDAL.GetRestaurantById(empleado.RIdRestaurante);
 

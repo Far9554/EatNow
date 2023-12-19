@@ -27,6 +27,8 @@ namespace EatNow.Controllers
             if (Request.Cookies["IdEmpleado"] != null)
             {
                 ViewBag.IdEmpleado = Request.Cookies["IdEmpleado"];
+                Empleado empleado = empleadoDAL.GetEmployeeById(int.Parse(ViewBag.IdEmpleado));
+                ViewBag.NombreRestaurante = restauranteDAL.GetRestaurantById(empleado.RIdRestaurante).Nombre;
                 return View();
             }
             else
@@ -65,6 +67,7 @@ namespace EatNow.Controllers
                 List<Plato> platos = platoDAL.GetAllDishesFromRestaurant(restaurante.IdRestaurante);
 
                 ViewBag.IdRestaurante = restaurante.IdRestaurante;
+                ViewBag.NombreRestaurante = restauranteDAL.GetRestaurantById(empleado.RIdRestaurante).Nombre;
 
                 return View(platos);
             }
@@ -109,6 +112,7 @@ namespace EatNow.Controllers
                 List<Empleado> empleados = empleadoDAL.GetAllEmployeesExcept(empleado.RIdRestaurante, idEmpleado);
 
                 ViewBag.IdRestaurante = empleado.RIdRestaurante;
+                ViewBag.NombreRestaurante = restauranteDAL.GetRestaurantById(empleado.RIdRestaurante).Nombre;
 
                 return View(empleados);
             }
@@ -160,6 +164,8 @@ namespace EatNow.Controllers
             if (Request.Cookies["IdEmpleado"] != null)
             {
                 ViewBag.IdEmpleado = Request.Cookies["IdEmpleado"];
+                Empleado empleado = empleadoDAL.GetEmployeeById(int.Parse(ViewBag.IdEmpleado));
+                ViewBag.NombreRestaurante = restauranteDAL.GetRestaurantById(empleado.RIdRestaurante).Nombre;
             }
             else
             {
@@ -213,6 +219,8 @@ namespace EatNow.Controllers
             {
                 ViewBag.IdEmpleado = Request.Cookies["IdEmpleado"];
                 Empleado empleado = empleadoDAL.GetEmployeeById(int.Parse(ViewBag.IdEmpleado));
+
+                ViewBag.NombreRestaurante = restauranteDAL.GetRestaurantById(empleado.RIdRestaurante).Nombre;
 
                 return View(empleado);
             }
