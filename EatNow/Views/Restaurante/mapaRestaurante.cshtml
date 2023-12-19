@@ -169,6 +169,11 @@
                 btn.setAttribute("data-bs-target", "#Modal");
                 btn.setAttribute("data-bs-whatever", cR.IdCasilla);
 
+                // Tooltip
+                btn.setAttribute("data-tooltip", "tooltip");
+                btn.setAttribute("data-bs-placement", "top");
+                btn.setAttribute("data-bs-title", "Seleccionar mesa");
+
                 const i = document.createElement('i');
                 i.classList.add("fa");
                 i.classList.add("fa-solid");
@@ -218,6 +223,26 @@
                 if (casillasArray != null) {
                     console.log(casillasArray);
                     SetTable(casillasArray);
+
+                    // Mostrar los tooltips
+                    let tooltipTriggerList = document.querySelectorAll("[data-tooltip='tooltip']");
+                    let tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+
+                    $("[data-tooltip='tooltip']").on("click", function () {
+                        // Ocultamos y volvemos a mostrar en 1ms el icono de localización para evitar el bug de que no se oculta el tooltip
+                        // Referencia: https://stackoverflow.com/a/44074975
+                        let element = $(this);
+                        element.hide();
+                        setTimeout(function () {
+                            element.show();
+                        }, 1);
+                    });
+                    
+                    // Quitar el focus cuando se oculta el modal
+                    // Referencia: https://stackoverflow.com/questions/28410979/how-can-i-prevent-the-focus-on-the-toggle-button-for-a-bootstrap-modal-after-the
+                    $('.modal').on('hidden.bs.modal', function (event) {
+                        event.stopImmediatePropagation();
+                    });
                 }
             },
             error: function (error) {
