@@ -50,12 +50,16 @@
                         <td>Fecha: @reserva.Inicio.Date.ToString().Split(" ")[0]</td>
                     </tr>
                 </table>
-                <form style="display: flex;width: 30%;align-items: flex-end;justify-content: space-between;flex-direction: column;">
+                <form asp-action="CancelBooking" asp-controller="Cliente" method="post" asp-antiforgery="true" style="display: flex;width: 30%;align-items: flex-end;justify-content: space-between;flex-direction: column;">
+                    <input type="text" name="idReserva" value="@reserva.IdReserva" style="display: none;"/>
                     <div>
-                        <button type="button" class="btn success" style="width: 200px; height: 50px;">@reserva.EstadoReservaNombre</button>
+                        <button type="button" class="btn @(reserva.EstadoReservaNombre == "Cancelado" ? "danger" : "success")" style="width: 200px; height: 50px; cursor: default !important;">@reserva.EstadoReservaNombre</button>
                     </div>
                     <div>
-                        <button type="submit" class="btn danger" style="width: 100px; height: 50px;">Cancelar</button>
+                        @if (reserva.EstadoReservaNombre == "Reservado")
+                        {
+                            <button type="submit" class="btn danger" style="width: 100px; height: 50px;">Cancelar</button>
+                        }       
                     </div>
                 </form>
             </div>

@@ -7,12 +7,12 @@ namespace EatNow.Controllers
     public class ClienteController : Controller
     {
         private readonly ClienteDAL clienteDAL;
-        private readonly ReservaDAL reservaClienteDAL;
+        private readonly ReservaDAL reservaDAL;
 
         public ClienteController()
         {
             clienteDAL = new ClienteDAL(Conexion.CadenaBBDD);
-            reservaClienteDAL = new ReservaDAL(Conexion.CadenaBBDD);
+            reservaDAL = new ReservaDAL(Conexion.CadenaBBDD);
         }
 
         public IActionResult InfoUsuario()
@@ -58,7 +58,7 @@ namespace EatNow.Controllers
                 int idCliente = int.Parse(Request.Cookies["IdCliente"]);
                 Cliente cliente = clienteDAL.GetClientById(idCliente);
 
-                List<Reserva> reservas = reservaClienteDAL.ListReservasUsuario(idCliente);
+                List<Reserva> reservas = reservaDAL.ListReservasUsuario(idCliente);
 
                 if (reservas.Count == 0)
                     TempData["NoBookingsMessage"] = "No tienes reservas";
@@ -72,6 +72,14 @@ namespace EatNow.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CancelBooking(int idReserva)
+        {
+            reservaDAL.CancelBooking(idReserva);
+            return RedirectToAction("ListReservasUsuario");
         }
     }
 }

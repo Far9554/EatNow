@@ -14,7 +14,7 @@ namespace EatNow.Controllers
         private readonly ClienteDAL clienteDAL;
         private readonly EmpleadoDAL empleadoDAL;
         private readonly ImagenRestauranteDAL imagenRestauranteDAL;
-        private readonly ReservaDAL reservaRestauranteDAL;
+        private readonly ReservaDAL reservaDAL;
         private readonly PlatoDAL platoDAL;
         private readonly CasillaDAL casillaDAL;
 
@@ -24,7 +24,7 @@ namespace EatNow.Controllers
             clienteDAL = new ClienteDAL(Conexion.CadenaBBDD);
             empleadoDAL = new EmpleadoDAL(Conexion.CadenaBBDD);
             imagenRestauranteDAL = new ImagenRestauranteDAL(Conexion.CadenaBBDD);
-            reservaRestauranteDAL = new ReservaDAL(Conexion.CadenaBBDD);
+            reservaDAL = new ReservaDAL(Conexion.CadenaBBDD);
             platoDAL = new PlatoDAL(Conexion.CadenaBBDD);
             casillaDAL = new CasillaDAL(Conexion.CadenaBBDD);
         }
@@ -138,12 +138,12 @@ namespace EatNow.Controllers
                 Empleado emp = empleadoDAL.GetEmployeeById(int.Parse(ViewBag.IdEmpleado));
                 idRestaurant = emp.RIdRestaurante;
 
-                List<Reserva> reservas = reservaRestauranteDAL.GetAllReservasRestauranteId(idRestaurant);
+                List<Reserva> reservas = reservaDAL.GetAllReservasRestauranteId(idRestaurant);
 
                 if (reservas == null)
                 {
                     List<Reserva> listaReservas = new List<Reserva>();
-                    listaReservas = reservaRestauranteDAL.GetAllReservasRestauranteId(idRestaurant);
+                    listaReservas = reservaDAL.GetAllReservasRestauranteId(idRestaurant);
 
                     TempData["ErrorLoginClientMessage"] = "No tienes reservas";
                     return View(listaReservas);
@@ -161,6 +161,20 @@ namespace EatNow.Controllers
             else{
                 return RedirectToAction("Login", "Home");
             }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CancelBooking(int idReserva)
+        {
+            reservaDAL.CancelBooking(idReserva);
+            return RedirectToAction("ListReservasRestaurante");
+        }
+
+        public IActionResult CompleteBooking(int idReserva)
+        {
+            reservaDAL.CompleteBooking(idReserva);
+            return RedirectToAction("ListReservasRestaurante");
         }
 
         public IActionResult ConfirmacionReserva(string Hora, string Fecha, int IdCliente, int IdCasilla)
@@ -198,7 +212,7 @@ namespace EatNow.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CrearReserva(Reserva reserva)
         {
-            reservaRestauranteDAL.InsertBooking(reserva);
+            reservaDAL.InsertBooking(reserva);
 
             return RedirectToAction("Index", "Home");
         }

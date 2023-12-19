@@ -27,7 +27,8 @@ namespace EatNow.DAL
                                 "INNER JOIN Restaurante Re ON C.RIdRestaurante = Re.IdRestaurante " +
                                 "INNER JOIN Cliente Cl ON Cl.IdCliente = R.RIdCliente " +
                                 "INNER JOIN EstadoReserva ER ON R.RIdEstadoReserva = ER.IdEstado " +
-                                "WHERE Re.IdRestaurante = @IdRestaurante";
+                                "WHERE Re.IdRestaurante = @IdRestaurante " +
+                                "ORDER BY R.IdReserva DESC";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -72,7 +73,8 @@ namespace EatNow.DAL
                                 "INNER JOIN Restaurante Re ON C.RIdRestaurante = Re.IdRestaurante " +
                                 "INNER JOIN Cliente Cl ON Cl.IdCliente = R.RIdCliente " +
                                 "INNER JOIN EstadoReserva ER ON R.RIdEstadoReserva = ER.IdEstado " +
-                                "WHERE Cl.IdCliente = @IdCliente";
+                                "WHERE Cl.IdCliente = @IdCliente " +
+                                "ORDER BY R.IdReserva DESC";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -229,6 +231,42 @@ namespace EatNow.DAL
                     command.Parameters.AddWithValue("@Fin", reserva.Fin);
                     command.Parameters.AddWithValue("@RIdCliente", reserva.RIdCliente);
                     command.Parameters.AddWithValue("@RIdCasilla", reserva.RIdCasilla);
+
+                    connection.Open();
+                    return command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public int CancelBooking(int idReserva)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                // El IdEstadoReserva = 2 es el de "Cancelado"
+                string query = "UPDATE Reserva SET RIdEstadoReserva = 2 " +
+                               "WHERE IdReserva = @IdReserva";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@IdReserva", idReserva);
+
+                    connection.Open();
+                    return command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public int CompleteBooking(int idReserva)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                // El IdEstadoReserva = 2 es el de "Cancelado"
+                string query = "UPDATE Reserva SET RIdEstadoReserva = 3 " +
+                               "WHERE IdReserva = @IdReserva";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@IdReserva", idReserva);
 
                     connection.Open();
                     return command.ExecuteNonQuery();
