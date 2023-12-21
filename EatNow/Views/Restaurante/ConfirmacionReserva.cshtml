@@ -49,18 +49,50 @@
             display: block;
             transition: all 0.5s ease-out;
         }
+
+    #info-cont {
+        width: 50%;
+        margin: 20px;
+    }
+
+    #info {
+        display: flex;
+        background-color: #25293A;
+        overflow: hidden;
+        border-radius: 10px;
+        padding: 10px;
+        width: 50%;
+        margin-bottom: 10px;
+    }
+
+    .inf {
+        background-color: #F7F9F7;
+        border-radius: 5px;
+        width: 100%;
+        height: 25%;
+        margin: 1px 2px;
+        padding: 2px;
+    }
 </style>
 
 <h1>Confirma los datos de tu reserva</h1>
 <div style="display: flex;">
-    <div style="width: 50%;">
-        <p>Nombre Reserva: @Model.NombreCliente @Model.ApellidoCliente</p>
-        <p>Fecha Reserva: @Model.Inicio.Date.ToString().Split(" ")[0]</p>
-        <p>Hora Reserva: @Model.Inicio.TimeOfDay</p>
-        <p>Hora Máxima para asistir: @Model.Inicio.AddMinutes(30).TimeOfDay</p>
+    <div id="info">
+        <div style="width: 40%;">
+            <div class="inf"><label>Nombre:</label></div>
+            <div class="inf"><label>Fecha Reserva:</label></div>
+            <div class="inf"><label>Hora Reserva:</label></div>
+            <div class="inf"><label>Hora Máxima para asistir:</label></div>
+        </div>
+        <div style="width: 60%;">
+            <div class="inf"><label>@Model.NombreCliente</label></div>
+            <div class="inf"><label>@Model.Inicio.Date.ToString().Split(" ")[0]</label></div>
+            <div class="inf"><label>@Model.Inicio.TimeOfDay</label></div>
+            <div class="inf"><label>@Model.Inicio.AddMinutes(30).TimeOfDay</label></div>
+        </div>
     </div>
     <div id="cont-menu" style="width: 50%;">
-        <h2 style="text-align:center;">Elige los platos que vas a comer</h2>
+        <h2 style="text-align:center;">Reserva tus platos por anticipado</h2>
         <div id="menu">
             @foreach (Plato plato in ViewBag.Platos)
             {

@@ -5,7 +5,27 @@
 
 <link rel="stylesheet" type="text/css" href="~/css/map.css">
 
+<style>
+    #info {
+        overflow: hidden;
+        background-color: #E76954;
+        box-shadow: 0 10px 28px #25293A !important;
+        border-radius: 8%;
+        margin: 15px;
+        padding: 15px;
+        width: 40%;
+        height: 100%;
+        transition: all 0.75s ease-out;
+    }
+</style>
+
 <div id="MainContainer">
+    <div id="info">
+        <h1>Elige la mesa que te gustaria reservar</h1>
+        <h3>Clica en el icono <i class="fa fa-solid fa-utensils"></i> para seleccionar la mesa</h3>
+        <hr>
+        <p>Una vez seleccionada la mesa podras elegir fecha y hora en la que quieras hacer la reserva</p>
+    </div>
     <div id="MapContainer">
     </div>
 </div>
