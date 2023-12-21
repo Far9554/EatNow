@@ -3,9 +3,17 @@
 /*COLOR 3: ROJO:    #E76954  */
 /*COLOR 4: MORADO:  #BD4760  */
 /*COLOR 5: NEGRO:   #25293A  */
+/*COLOR EXTRA:      #8592a7  */
+:root {
+    --color-fondo-claro: #F7F9F7;
+    --color-contraste-claro: #EC992E;
+    --color-principal: #E76954;
+    --color-contraste-oscuro: #BD4760;
+    --color-fondo-oscuro: #25293A;
+}
 
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
@@ -21,7 +29,7 @@ html {
 
 body {
     margin-bottom: 60px;
-    background: -webkit-linear-gradient(left, #EC992E, #E76954) !important;
+    background: #F7F9F7 !important;
     font-family: 'Nunito', sans-serif !important;
 }
 

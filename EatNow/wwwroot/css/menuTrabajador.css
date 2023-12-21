@@ -15,7 +15,7 @@
 
 .slot {
     border-radius: 20px;
-    background-color: #E76954;
+    background-color: #25293A;
     border: none;
     box-shadow: 0 10px 28px #25293A;
     padding: 10px;
@@ -31,8 +31,6 @@
     .slot:hover {
         background-color: #BD4760;
         box-shadow: 0 19px 38px #25293A, 0 15px 12px #25293A38;
-        border-bottom: #E76954 solid 10px;
-        margin-bottom: 5px;
         transition: all 0.75s ease-out;
     }
 
